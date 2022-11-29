@@ -46,15 +46,13 @@ if(LoadPrevoiusSeason(1)){
 
     ui->adqtime->setValue(1);//update rate Adq time
 
-
-
-
     ui->adqtime_2->setValue(1);
 
 
-    ui->Max_delay->setValue(500);
-
+    ui->Max_delayd->setValue(500);
+    ui->homscan_timed->setValue(10);
     ui->stepduration->setValue(30);
+
 
 }
 
@@ -160,6 +158,7 @@ createQKDLinesA();
 createQKDLinesB();
 createQKDLinesC();
 createQKDLinesD();
+
 
 //trackFL_A();
 //AddLogicSelectorElement();
@@ -619,7 +618,7 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(this, SIGNAL(main_CreateTableTab1(int ,int ,int ,int )), &dbc, SLOT(CreateTableTab1(int ,int ,int ,int)));
     QObject::connect(this, SIGNAL( main_CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool)), &dbc, SLOT(CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool)),Qt::QueuedConnection);
-    QObject::connect(this, SIGNAL(main_SaveTab2Values(vectorInt32, float, int)), &dbc, SLOT(SaveTab2Values(vectorInt32, float, int)),Qt::QueuedConnection);
+    QObject::connect(this, SIGNAL(main_SaveTab2Values(vectorInt32, float, double)), &dbc, SLOT(SaveTab2Values(vectorInt32, float, double)),Qt::QueuedConnection);
     QObject::connect(this, SIGNAL(main_SaveTab1Values(vectorInt32,vectorInt32,vectorInt32,vectorInt32,float)), &dbc, SLOT(SaveTab1Values(vectorInt32,vectorInt32,vectorInt32,vectorInt32,float)),Qt::QueuedConnection);
     /*void main_CreateTableTab1(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD );
     void main_CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate);
@@ -627,7 +626,7 @@ void MainWindow::setupsignalslot(){
     void main_SaveTab1Values(QVector<int> dataplots, float hist_adqtime);*/
 
 
-    QObject::connect(ui->homscan_time, SIGNAL(valueChanged(int)), this, SLOT(Chang_homscan_time(int)));
+    QObject::connect(ui->homscan_timed, SIGNAL(valueChanged(double)), this, SLOT(Chang_homscan_time(double)));
     QObject::connect(ui->homscan, SIGNAL(valueChanged(int)), this, SLOT(Chang_homscan(int)));
 
     QObject::connect(ui->tab2_xrange, SIGNAL(valueChanged(int)), this, SLOT(chang_tab2range(int)));
@@ -635,7 +634,7 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(ui->reset_delay, SIGNAL(released()), this, SLOT(resetdelay()));
 
-    QObject::connect(ui->Max_delay, SIGNAL(valueChanged(int)), this, SLOT(chang_in_max_del(int)));
+    QObject::connect(ui->Max_delayd, SIGNAL(valueChanged(double)), this, SLOT(chang_in_max_del(double)));
 
     QObject::connect(ui->stepduration, SIGNAL(valueChanged(int)), this, SLOT(chang_in_stepduration(int)));
 
@@ -710,6 +709,10 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(ui->TSON, SIGNAL(valueChanged(int)), &adq, SLOT(TSanl(int)));
     QObject::connect(ui->TSper, SIGNAL(valueChanged(int)), &adq, SLOT(changTSper(int)));
+
+    QObject::connect(this, SIGNAL(setOVDL(float)), &ovdl_1, SLOT(setDelay(float)));
+
+    QObject::connect(ui->VDL_start, SIGNAL(valueChanged(double)), this, SLOT(chang_VDL_start(double)));
 
 
 }
@@ -850,49 +853,22 @@ void MainWindow::plotRates_tab2(const vectorInt32 &counters, double key){
             }
         }
     }
-/*
-   //std::cout<<bsm2<<std::endl;
 
-        if(in_tab2_plot1)ui->PlotTab2->graph(0)->addData(key-lastPointKey_tab2, value1);
-        //ui->PlotTab2->graph(0)->rescaleValueAxis(true);
+    if(dbrunning){
+        if(in_homscan && prev_homscan<=in_Max_delay){
+            del_key = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
 
-        if(in_tab2_plot2)ui->PlotTab2->graph(1)->addData(key-lastPointKey_tab2, value2);
-        //ui->PlotTab2->graph(1)->rescaleValueAxis(true);
+            if(prev_homscan<in_VDL_start)prev_homscan=in_VDL_start;
+            if(del_key-del_previouskey>in_stepduration){
+                prev_homscan+=in_homscan_time;
+                del_previouskey=del_key;
+                setOVDL(float(prev_homscan));
+                ui->current_delay_pos->display(prev_homscan);
+            }
 
-        if(in_tab2_plot3)ui->PlotTab2->graph(2)->addData(key-lastPointKey_tab2, value3);
-        //ui->PlotTab2->graph(2)->rescaleValueAxis(true);
-
-        if(in_tab2_plot4)ui->PlotTab2->graph(3)->addData(key-lastPointKey_tab2, value4);
-        //ui->PlotTab2->graph(2)->rescaleValueAxis(true);
-
-        if(in_tab2_plot5)ui->PlotTab2->graph(4)->addData(key-lastPointKey_tab2, value5);
-        //ui->PlotTab2->graph(2)->rescaleValueAxis(true);
-
-        if(in_tab2_plot6)ui->PlotTab2->graph(5)->addData(key-lastPointKey_tab2, value6);
-
-    if(dbrunning && !in_homscan){
-
-        //std::cout<<"delay : "<<in_delayline<<std::endl;
-        emit main_SaveAndValues(eventA, eventB, eventC, orgate , bsm1, bsm2 , in_adqtime_2, in_delayline);
-         ui->current_delay_pos->display(in_delayline);
-    }
-    if(dbrunning && in_homscan && prev_homscan<=in_Max_delay){
-
-        del_key = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
-
-        if(del_key-del_previouskey>in_stepduration){
-            prev_homscan+=in_homscan_time;
-            del_previouskey=del_key;
         }
-
-        // std::cout<<"delay scan : "<<prev_homscan<<std::endl;
-         emit main_SaveAndValues(eventA, eventB, eventC, orgate , bsm1, bsm2 , in_adqtime_2, prev_homscan);
-         ui->current_delay_pos->display(prev_homscan);
-
-
+        emit main_SaveTab2Values(counters, float(in_adqtime_2), prev_homscan);
     }
-*/
-    if(dbrunning)emit main_SaveTab2Values(counters, in_adqtime_2, in_delayline);
    ui->PlotTab2->xAxis->setRange(key-lastPointKey_tab2, double(xrange), Qt::AlignRight);
   //ui->PlotTab2->yAxis->rescale();
    ui->PlotTab2->replot();
@@ -1254,12 +1230,14 @@ bool MainWindow::LoadPrevoiusSeason(bool a){
 
     if(mapdoubleout.contains("in_adqtime_2"))ui->adqtime_2->setValue(mapdoubleout.value("in_adqtime_2"));
     else ui->adqtime_2->setValue(1);
-    if(mapintout.contains("Max_delay"))ui->Max_delay->setValue(mapintout.value("Max_delay"));
-    else ui->Max_delay->setValue(500);
+    if(mapdoubleout.contains("Max_delay"))ui->Max_delayd->setValue(mapdoubleout.value("Max_delay"));
+    else ui->Max_delayd->setValue(500);
     if(mapintout.contains("stepduration"))ui->stepduration->setValue(mapintout.value("stepduration"));
     else ui->stepduration->setValue(30);
+    if(mapintout.contains("homscan_time"))ui->homscan_timed->setValue(mapintout.value("homscan_time"));
+    else ui->homscan_timed->setValue(1);
 
-    if(mapdoubleout.contains("TSper"))ui->TSper->setValue(mapdoubleout.value("TSper"));
+    if(mapintout.contains("TSper"))ui->TSper->setValue(mapintout.value("TSper"));
     else ui->TSper->setValue(10);
 
 
@@ -1308,8 +1286,6 @@ void MainWindow::SaveSeason(bool a){
     mapdouble.insert("in_adqtime", in_adqtime);
     mapdouble.insert("in_adqtime_2", double(in_adqtime_2));
 
-    mapint.insert("Max_delay",in_Max_delay);
-    mapint.insert("stepduration",in_stepduration);
 
     mapdouble.insert("QKD_time",in_QKD_time);
     mapint.insert("QKD_numb",in_QKD_numb);
@@ -1335,6 +1311,13 @@ void MainWindow::SaveSeason(bool a){
     mapint.insert("QKD_zeroD",in_QKD_zeroD);
 
     mapint.insert("TSper",adq.TSpercentage);
+
+
+
+    mapdouble.insert("Max_delay",in_Max_delay);
+    mapdouble.insert("homscan_time",in_homscan_time);
+    mapint.insert("stepduration",in_stepduration);
+
 
     out<<mapint;
     out<<mapdouble;
@@ -1836,6 +1819,7 @@ void MainWindow::AddLogicSelectorElement(){
 
     numberOfLogicPlots++;
     anl.numberOfLogicPlots=this->numberOfLogicPlots;
+    dbc.numberOfLogicPlots=this->numberOfLogicPlots;
 }
 
 void MainWindow::AddLogicSelectorWindowsL(QString t, int index){

@@ -1,6 +1,6 @@
 
 
-QT       += core gui multimedia sql widgets
+QT       += core gui multimedia sql widgets serialport
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
@@ -27,7 +27,8 @@ SOURCES += main.cpp\
            mainwindow.cpp \
            qcustomplot.cpp \
            qutag_adq.cpp \
-           qutag_anl.cpp
+           qutag_anl.cpp \
+    ovdl.cpp
           
 
 HEADERS  += mainwindow.h \
@@ -38,7 +39,8 @@ HEADERS  += mainwindow.h \
             qutag_anl.h \
             tdcbase.h \
             tdcdecl.h \
-            tdcstartstop.h
+            tdcstartstop.h \
+    ovdl.h
 	   
 
 FORMS    += mainwindow.ui \

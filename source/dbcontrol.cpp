@@ -32,13 +32,13 @@ DBControl::~DBControl(){
 
 void DBControl::run(){
 
-    //this->DBConnect("localhost", 3306, "INQNET_GUI", "GUI2", "Teleport1536!");
+    this->DBConnect("localhost", 3306, "INQNET_GUI", "GUI3", "Teleport1536!");
 
 }
 
 void DBControl::DBConnect(QString server, int port, QString database, QString login, QString password){
 
-    this->DBConnect(server, port, database, user, passwd);
+    //this->DBConnect(server, port, database, user, passwd);
     std::cout<<"server:"<<server.toStdString()<<"  port:"<<port<<std::endl;
 
     db = QSqlDatabase();
@@ -51,9 +51,7 @@ void DBControl::DBConnect(QString server, int port, QString database, QString lo
        /* QStringList tables_names = db.tables();
         for (int i = 0; i < tables_names.size(); ++i)
                  //std::cout << tables_names.at(i).toLocal8Bit().constData() << std::endl;
-       QSqlQuery query("create table if not exists inqnet_gui_tab2gates_V3(id int not null auto_increment primary key, and1 int,and2 int, and3 int, orgate int, bsm1 int, bsm2 int, and_adqtime float(7,2), delayline int,currentdelay double, attenuation double, datetime datetime);",db);
-       QSqlQuery query2("create table if not exists inqnet_gui_NEWhistorates(id int not null auto_increment primary key, Ra1 int,Ra2 int, Ra3 int, Ra4 int, Rb1 int,Rb2 int, Rb3 int, Rb4 int, Rc1 int,Rc2 int, Rc3 int, Rc4 int, Rd1 int,Rd2 int, Rd3 int, Rd4 int ,hist_adqtime float(7,2), datetime datetime);",db);
-       usleep(1000);
+
        */
     }
     else std::cout<<"database connection failed "<<std::endl;
@@ -74,14 +72,15 @@ bool DBControl::connectToServerMySQL(QString server, int port, QString database,
     return ret;
 }
 
-void DBControl::SaveTab2Values(QVector<int> datatab2, float andTime, int delayline){
+void DBControl::SaveTab2Values(QVector<int> datatab2, float andTime, double delayline){
     //QString s= "insert into inqnet_gui_tab2gates_V3(and1,and2, and3, orgate, bsm1, bsm2, and_adqtime, delayline, datetime) values("+QString::number(and1)+","+QString::number(and2)+","+QString::number(and3)+","+QString::number(orgate)+","+QString::number(bsm1)+","+QString::number(bsm2)+","+QString::number(andTime)+","+QString::number(delayline)+","+"now());";
     QString s ="insert into "+currentTableTab2+"("+currentColumnstab2+"and_adqtime, delayline, datetime) values(";
-    for (int i=0;i<datatab2.size();i++) {
+    //for (int i=0;i<datatab2.size();i++) {
+    for (int i=0;i<numberOfLogicPlots;i++) {
         s+=QString::number(datatab2[i])+",";
     }
     s+=QString::number(double(andTime))+","+QString::number(delayline)+","+"now());";
-    //std::cout<<s.toStdString()<<std::endl;
+    std::cout<<s.toStdString()<<std::endl;
     if(connection_succesfull){
         QSqlQuery query(s,db);
     }
@@ -106,7 +105,7 @@ void DBControl::SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<i
     }
     s+=QString::number(double(hist_adqtime))+","+"now());";
     if(connection_succesfull){
-       //std::cout<<s.toStdString()<<std::endl;
+       std::cout<<s.toStdString()<<std::endl;
        QSqlQuery query(s,db);
    }
 }
@@ -121,7 +120,10 @@ void DBControl::CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVect
     QString formattedTime = date.toString("dd_MM_yyyy_hh_mm_ss");
     QByteArray formattedTimeMsg = formattedTime.toLocal8Bit();
     currentTableTab2 = "TAB2"+formattedTimeMsg;
-    QSqlQuery query("create table if not exists "+currentTableTab2+"(id int not null auto_increment primary key,"+columnstocreate+" and_adqtime float, delayline int, datetime datetime);",db);
+    QString st = "create table if not exists "+currentTableTab2+"(id int not null auto_increment primary key,"+columnstocreate+" and_adqtime float, delayline double, datetime datetime);";
+
+    std::cout<<st.toStdString()<<std::endl;
+    QSqlQuery query(st, db);
 
     QString filename = "databaseLOG_logic.txt";
     QFile dblog(filename);
@@ -149,6 +151,8 @@ void DBControl::CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVect
         dblog.close();
     }
 }
+
+
 void DBControl::CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD ){
     QString columnstocreate;
     NTA=0;NTB=0;NTC=0;NTD=0;

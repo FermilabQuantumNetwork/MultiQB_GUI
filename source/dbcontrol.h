@@ -20,6 +20,7 @@ public:
     ~DBControl();
     void disconnectFromServer();
     void DBConnect(QString server, int port, QString database, QString login, QString password);
+    int numberOfLogicPlots = 0;
 
 private:
     QSqlDatabase db;
@@ -32,7 +33,7 @@ private:
 signals:
 
 public slots:
-    void SaveTab2Values(QVector<int> datatab2, float andTime, int delayline);
+    void SaveTab2Values(QVector<int> datatab2, float andTime, double delayline);
     void SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD , float hist_adqtime);
     void CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate);
     void CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD );

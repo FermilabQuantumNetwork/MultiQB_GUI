@@ -10,6 +10,7 @@
 #include "qutag_adq.h"
 #include "qutag_anl.h"
 #include "dbcontrol.h"
+#include "ovdl.h"
 #include <math.h>
 #include "gui_param.h"
 
@@ -88,14 +89,14 @@ private slots:
 
   void Chang_delayline(int val){in_delayline=val;}
 
-  void Chang_homscan_time(int val){in_homscan_time=val;}
+  void Chang_homscan_time(double val){in_homscan_time=val;}
   void Chang_homscan(int val);
 
   void chang_tab2range(int val){xrange=val;}
 
 
    void resetdelay(){in_delayline=0;prev_homscan=0;}
-   void chang_in_max_del(int val){in_Max_delay=val;}
+   void chang_in_max_del(double val){in_Max_delay=val;}
 
    void chang_in_stepduration(int val){in_stepduration=val;}
 
@@ -166,12 +167,16 @@ private slots:
    void chang_LogicWinR(QString t, int i);
    void chang_LogicOP(QString s, int i);
 
+   void chang_VDL_start(double v){in_VDL_start=v;}
+
+
 private:
 
   Ui::MainWindow *ui;
   qutagadq adq;
   qutaganl anl;
   DBControl dbc;
+  OVDL ovdl_1;
   QString demoName;
   QTimer dataTimer;
   GUI_param qkdparam;
@@ -220,10 +225,10 @@ private:
   int in_delayline=0;
 
   bool in_homscan=false;
-  int in_homscan_time;
- int prev_homscan=0;
+ double in_homscan_time=1;
+ double prev_homscan=0;
  int xrange = 120;
- int in_Max_delay=500;
+ double in_Max_delay=500;
  bool firstscan=false;
  int in_stepduration;
  double del_key, del_previouskey;
@@ -286,15 +291,17 @@ private:
    int LWin[MAX_LOGIC]={0};
    int RWin[MAX_LOGIC]={0};
    int logicOP[MAX_LOGIC]={0};
+   double in_VDL_start = 0;
 
 signals:
 
     //void main_CreateTableTab1(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD );
    void main_CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD  );
     void main_CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate);
-    void main_SaveTab2Values(QVector<int> datatab2, float andTime, int delayline);
+    void main_SaveTab2Values(QVector<int> datatab2, float andTime, double delayline);
     void main_SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD, float hist_adqtime);
     //QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD
+    void setOVDL(float timeps);
 };
 
 

@@ -2,6 +2,6 @@
     "server":"localhost",
     "port":3306,
     "DBName":"INQNET_GUI",
-    "user":"GUI2",
+    "user":"GUI3",
     "pass":"Teleport1536!"
 }
