@@ -23,111 +23,7 @@ qutagadq::qutagadq(){
     HIST_BINWIDTH=10;
     HIST_BINCOUNT=100;
 
-    printf( ">>> tdcbase version: %f\n", TDC_getVersion() );
-    rc = TDC_init( -1 );                                 /* Accept every device */
-    checkRc( "TDC_init", rc );
 
-    rc = TDC_getTimebase( &timeBase );
-    checkRc( "TDC_getTimebase", rc );
-    //qWarning(">>> timebase:");qWarning(QString::number(timeBase*1.e12).toUtf8());qWarning("ps");
-    std::cout<<" >>> timebase: "<<timeBase*1.e12<<"ps"<<std::endl;
-    //printf( ">>> timebase: %g ps\n", timeBase * 1.e12 );
-    //fflush(stdout);
-
-   // rc=TDC_setFiveChannelMode(1);
-   // checkRc( "TDC_setFiveChannelMode", rc );
-
-    rc = TDC_enableChannels( 0xff );                     /* Use all channels */
-    checkRc( "TDC_enableChannels", rc );
-
-    rc = TDC_setTimestampBufferSize( TIMESTAMP_COUNT );
-    checkRc( "TDC_setTimestampBufferSize", rc );
-
-    rc = TDC_setExposureTime( 1000 );
-    checkRc( "TDC_setExposureTime", rc );
-
-    ///////////////initial thresholds and edges/////////////
-    int temp_edge[1];
-    double temp_thresh[1];
-
-    rc = TDC_getSignalConditioning(1, temp_edge,temp_thresh);
-    checkRc( "TDC_getSignalConditioning", rc );
-    std::cout<<" ch1 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
-    thresholds[1] = *temp_thresh;
-    RoF[1] = bool(*temp_edge);
-    rc = TDC_getSignalConditioning(2, temp_edge,temp_thresh);
-    std::cout<<" ch2 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
-    thresholds[2] = *temp_thresh;
-    RoF[2] = bool(*temp_edge);
-    rc = TDC_getSignalConditioning(3, temp_edge,temp_thresh);
-    std::cout<<" ch3 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
-    thresholds[3] = *temp_thresh;
-    RoF[3] = bool(*temp_edge);
-    rc = TDC_getSignalConditioning(4, temp_edge,temp_thresh);
-    std::cout<<" ch4 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
-    thresholds[4] = *temp_thresh;
-    RoF[4] = bool(*temp_edge);
-    rc = TDC_getSignalConditioning(5, temp_edge,temp_thresh);
-    std::cout<<" ch5 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
-    thresholds[0] = *temp_thresh;
-    RoF[0] = bool(*temp_edge);
-
-
-    /////////////filters//////
-
-    TDC_FilterType temp_filtertype[1];
-    Int32 temp_channelmask[1];
-    rc = TDC_getFilter(1, temp_filtertype, temp_channelmask);
-    filtertype[1]= *temp_filtertype;
-    ch_filtermask[1] = *temp_channelmask;
-
-    rc = TDC_getFilter(2, temp_filtertype, temp_channelmask);
-    filtertype[2]= *temp_filtertype;
-    ch_filtermask[2] = *temp_channelmask;
-
-    rc = TDC_getFilter(3, temp_filtertype, temp_channelmask);
-    filtertype[3]= *temp_filtertype;
-    ch_filtermask[3] = *temp_channelmask;
-
-    rc = TDC_getFilter(4, temp_filtertype, temp_channelmask);
-    filtertype[4]= *temp_filtertype;
-    ch_filtermask[4] = *temp_channelmask;
-
-    rc = TDC_getFilter(5, temp_filtertype, temp_channelmask);
-    filtertype[0]= *temp_filtertype;
-    ch_filtermask[0] = *temp_channelmask;
-
-    loadtdcfiltertype();
-
-    /////delays//////
-    rc = TDC_getChannelDelays(delays);
-
-    //std::cout<<"ADQ  rof"<<RoF[1]<<"rof"<<RoF[2]<<"rof"<<RoF[3]<<"rof"<<RoF[4]<<std::endl;
-
-
-    //rc = TDC_enableMarkers(0);        //WHY IS THIS NOT WORKING??
-    //checkRc( "TDC_enableMarkers", rc);
-
-    //rc = TDC_setExposureTime( EXP_TIME );
-    //checkRc( "TDC_setExposureTime", rc );
-
-    rc = TDC_setCoincidenceWindow( 90000 ); /* 30ns */
-    checkRc( "TDC_setCoincidenceWindow", rc );
-
-
-    /*SLEEP( 1e3 );
-    TDC_getCoincCounters( coincCnt, NULL );
-    SLEEP( 1e3 );
-    TDC_getCoincCounters( coincCnt, NULL );
-    SLEEP(1e6);
-    TDC_getCoincCounters( coincCnt, NULL );
-*/
-    fflush(stdout);
-
-    rc = TDC_enableStartStop( 1 );
-    checkRc( "TDC_enableStartStop", rc );
-
-    setHistograms();
 }
 
 void qutagadq::run(){
@@ -191,7 +87,111 @@ int qutagadq::filterset(){
 
  void qutagadq::lautrun(){
 
+     printf( ">>> tdcbase version: %f\n", TDC_getVersion() );
+     rc = TDC_init( -1 );                                 /* Accept every device */
+     checkRc( "TDC_init", rc );
 
+     rc = TDC_getTimebase( &timeBase );
+     checkRc( "TDC_getTimebase", rc );
+     //qWarning(">>> timebase:");qWarning(QString::number(timeBase*1.e12).toUtf8());qWarning("ps");
+     std::cout<<" >>> timebase: "<<timeBase*1.e12<<"ps"<<std::endl;
+     //printf( ">>> timebase: %g ps\n", timeBase * 1.e12 );
+     //fflush(stdout);
+
+    // rc=TDC_setFiveChannelMode(1);
+    // checkRc( "TDC_setFiveChannelMode", rc );
+
+     rc = TDC_enableChannels( 0xff );                     /* Use all channels */
+     checkRc( "TDC_enableChannels", rc );
+
+     rc = TDC_setTimestampBufferSize( TIMESTAMP_COUNT );
+     checkRc( "TDC_setTimestampBufferSize", rc );
+
+     rc = TDC_setExposureTime( 1000 );
+     checkRc( "TDC_setExposureTime", rc );
+
+     ///////////////initial thresholds and edges/////////////
+     int temp_edge[1];
+     double temp_thresh[1];
+
+     rc = TDC_getSignalConditioning(1, temp_edge,temp_thresh);
+     checkRc( "TDC_getSignalConditioning", rc );
+     std::cout<<" ch1 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
+     thresholds[1] = *temp_thresh;
+     RoF[1] = bool(*temp_edge);
+     rc = TDC_getSignalConditioning(2, temp_edge,temp_thresh);
+     std::cout<<" ch2 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
+     thresholds[2] = *temp_thresh;
+     RoF[2] = bool(*temp_edge);
+     rc = TDC_getSignalConditioning(3, temp_edge,temp_thresh);
+     std::cout<<" ch3 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
+     thresholds[3] = *temp_thresh;
+     RoF[3] = bool(*temp_edge);
+     rc = TDC_getSignalConditioning(4, temp_edge,temp_thresh);
+     std::cout<<" ch4 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
+     thresholds[4] = *temp_thresh;
+     RoF[4] = bool(*temp_edge);
+     rc = TDC_getSignalConditioning(5, temp_edge,temp_thresh);
+     std::cout<<" ch5 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
+     thresholds[0] = *temp_thresh;
+     RoF[0] = bool(*temp_edge);
+
+
+     /////////////filters//////
+
+     TDC_FilterType temp_filtertype[1];
+     Int32 temp_channelmask[1];
+     rc = TDC_getFilter(1, temp_filtertype, temp_channelmask);
+     filtertype[1]= *temp_filtertype;
+     ch_filtermask[1] = *temp_channelmask;
+
+     rc = TDC_getFilter(2, temp_filtertype, temp_channelmask);
+     filtertype[2]= *temp_filtertype;
+     ch_filtermask[2] = *temp_channelmask;
+
+     rc = TDC_getFilter(3, temp_filtertype, temp_channelmask);
+     filtertype[3]= *temp_filtertype;
+     ch_filtermask[3] = *temp_channelmask;
+
+     rc = TDC_getFilter(4, temp_filtertype, temp_channelmask);
+     filtertype[4]= *temp_filtertype;
+     ch_filtermask[4] = *temp_channelmask;
+
+     rc = TDC_getFilter(5, temp_filtertype, temp_channelmask);
+     filtertype[0]= *temp_filtertype;
+     ch_filtermask[0] = *temp_channelmask;
+
+     loadtdcfiltertype();
+
+     /////delays//////
+     rc = TDC_getChannelDelays(delays);
+
+     //std::cout<<"ADQ  rof"<<RoF[1]<<"rof"<<RoF[2]<<"rof"<<RoF[3]<<"rof"<<RoF[4]<<std::endl;
+
+
+     //rc = TDC_enableMarkers(0);        //WHY IS THIS NOT WORKING??
+     //checkRc( "TDC_enableMarkers", rc);
+
+     //rc = TDC_setExposureTime( EXP_TIME );
+     //checkRc( "TDC_setExposureTime", rc );
+
+     rc = TDC_setCoincidenceWindow( 90000 ); /* 30ns */
+     checkRc( "TDC_setCoincidenceWindow", rc );
+
+
+     /*SLEEP( 1e3 );
+     TDC_getCoincCounters( coincCnt, NULL );
+     SLEEP( 1e3 );
+     TDC_getCoincCounters( coincCnt, NULL );
+     SLEEP(1e6);
+     TDC_getCoincCounters( coincCnt, NULL );
+ */
+     fflush(stdout);
+
+     rc = TDC_enableStartStop( 1 );
+     checkRc( "TDC_enableStartStop", rc );
+
+     setHistograms();
 
   TDC_clearAllHistograms ();
 
