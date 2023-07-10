@@ -41,8 +41,6 @@ if(LoadPrevoiusSeason(1)){
     std::cout<<"loading hard coded initial values"<<std::endl;
 
     ui->histStart->setValue(0);
-    ui->binWidth->setValue(1);
-    ui->binsinplot->setValue(1000);
 
     ui->adqtime->setValue(1);//update rate Adq time
 
@@ -59,24 +57,18 @@ if(LoadPrevoiusSeason(1)){
 lastPointKey_tab1 = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
 lastPointKey_tab2 = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
 
-setup_comboboxes();
 
 
-dbc.start();
+
+//dbc.start();
 
 //anl.start();
 
 //while(adq.isRunning())usleep(100);
 
-ui->thch1->setValue(adq.thresholds[1]);
-ui->thch2->setValue(adq.thresholds[2]);
-ui->thch3->setValue(adq.thresholds[3]);
-ui->thch4->setValue(adq.thresholds[4]);
-ui->thch5->setValue(adq.thresholds[0]);
-//std::cout<<" MAINWINDOW rof"<<adq.RoF[1]<<"rof"<<adq.RoF[2]<<"rof"<<adq.RoF[3]<<"rof"<<adq.RoF[4]<<std::endl;
-for (int i=0;i<5;i++)this->RoF[i]=adq.RoF[i];
 
-if(RoF[1])ui->rof1->setCurrentText("Rise");
+
+/*if(RoF[1])ui->rof1->setCurrentText("Rise");
 else ui->rof1->setCurrentText("Fall");
 if(RoF[2])ui->rof2->setCurrentText("Rise");
 else ui->rof2->setCurrentText("Fall");
@@ -86,72 +78,22 @@ if(RoF[4])ui->rof4->setCurrentText("Rise");
 else ui->rof4->setCurrentText("Fall");
 if(RoF[0])ui->rof5->setCurrentText("Rise");
 else ui->rof5->setCurrentText("Fall");
-
+*/
 //std::cout<<"filtersss   "<<adq.filtertypeSTR[1].toStdString()<<"  "<<adq.filtertypeSTR[2].toStdString()<<"   "<<adq.filtertypeSTR[3].toStdString()<<std::endl;
-ui->FilterType1->setCurrentText(adq.filtertypeSTR[1]);
-ui->FilterType2->setCurrentText(adq.filtertypeSTR[2]);
-ui->FilterType3->setCurrentText(adq.filtertypeSTR[3]);
-ui->FilterType4->setCurrentText(adq.filtertypeSTR[4]);
-ui->FilterType5->setCurrentText(adq.filtertypeSTR[0]);
 
-ui->delay1->setValue(double(adq.delays[1])/1000);
-ui->delay2->setValue(double(adq.delays[2])/1000);
-ui->delay3->setValue(double(adq.delays[3])/1000);
-ui->delay4->setValue(double(adq.delays[4])/1000);
-ui->delay5->setValue(double(adq.delays[0])/1000);
 
-if(adq.ch_filtermask[1] & 0x01<<1)ui->Filter1_1->setCheckState(Qt::Checked);
-else ui->Filter1_1->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[1] & 0x01<<2)ui->Filter1_2->setCheckState(Qt::Checked);
-else ui->Filter1_2->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[1] & 0x01<<3)ui->Filter1_3->setCheckState(Qt::Checked);
-else ui->Filter1_3->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[1] & 0x01<<4)ui->Filter1_4->setCheckState(Qt::Checked);
-else ui->Filter1_4->setCheckState(Qt::Unchecked);
 
-if(adq.ch_filtermask[2] & 0x01<<1)ui->Filter2_1->setCheckState(Qt::Checked);
-else ui->Filter2_1->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[2] & 0x01<<2)ui->Filter2_2->setCheckState(Qt::Checked);
-else ui->Filter2_2->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[2] & 0x01<<3)ui->Filter2_3->setCheckState(Qt::Checked);
-else ui->Filter2_3->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[2] & 0x01<<4)ui->Filter2_4->setCheckState(Qt::Checked);
-else ui->Filter2_4->setCheckState(Qt::Unchecked);
-
-if(adq.ch_filtermask[3] & 0x01<<1)ui->Filter3_1->setCheckState(Qt::Checked);
-else ui->Filter3_1->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[3] & 0x01<<2)ui->Filter3_2->setCheckState(Qt::Checked);
-else ui->Filter3_2->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[3] & 0x01<<3)ui->Filter3_3->setCheckState(Qt::Checked);
-else ui->Filter3_3->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[3] & 0x01<<4)ui->Filter3_4->setCheckState(Qt::Checked);
-else ui->Filter3_4->setCheckState(Qt::Unchecked);
-
-if(adq.ch_filtermask[4] & 0x01<<1)ui->Filter4_1->setCheckState(Qt::Checked);
-else ui->Filter4_1->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[4] & 0x01<<2)ui->Filter4_2->setCheckState(Qt::Checked);
-else ui->Filter4_2->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[4] & 0x01<<3)ui->Filter4_3->setCheckState(Qt::Checked);
-else ui->Filter4_3->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[4] & 0x01<<4)ui->Filter4_4->setCheckState(Qt::Checked);
-else ui->Filter4_4->setCheckState(Qt::Unchecked);
-
-if(adq.ch_filtermask[0] & 0x01<<1)ui->Filter5_1->setCheckState(Qt::Checked);
-else ui->Filter5_1->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[0] & 0x01<<2)ui->Filter5_2->setCheckState(Qt::Checked);
-else ui->Filter5_2->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[0] & 0x01<<3)ui->Filter5_3->setCheckState(Qt::Checked);
-else ui->Filter5_3->setCheckState(Qt::Unchecked);
-if(adq.ch_filtermask[0] & 0x01<<4)ui->Filter5_4->setCheckState(Qt::Checked);
-else ui->Filter5_4->setCheckState(Qt::Unchecked);
 
 qkdparam.QKD_setDefault();
 
 setupsignalslot2();
 
-adq.start();
+//qutag.start();//the start rutine for the adquisition
 
-adq.initdone = 1;
+
+//std::cout<<" MAINWINDOW rof"<<adq.RoF[1]<<"rof"<<adq.RoF[2]<<"rof"<<adq.RoF[3]<<"rof"<<adq.RoF[4]<<std::endl;
+
+//adq.initdone = 1;
 
 initR=true;
 createQKDLinesA();
@@ -168,6 +110,68 @@ createQKDLinesD();
 //////////////////////////////////////////////////////////
 ///////////////////setups///////////////////////////
 ///////////////////////////////////////////////////////////
+
+void MainWindow::QUTAG_initdone(){
+    for (int i=0;i<5;i++)this->RoF[i]=qutag.RoF[i];
+    QUTAG_setup_comboboxes();
+    qutag_paremetes_setup();
+
+    /*
+    for (int i = 0;i<NQUTAGCHANNELS ;i++ ) {
+        thch[i]->setValue(qutag.thresholds[i]);
+        qutagFilterType[i]->setCurrentText(qutag.filtertypeSTR[i]);
+        delaych[i]->setValue(double(qutag.delays[i])/1000);
+    }*/
+
+
+
+
+  /*  if(adq.ch_filtermask[1] & 0x01<<1)ui->Filter1_1->setCheckState(Qt::Checked);
+    else ui->Filter1_1->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[1] & 0x01<<2)ui->Filter1_2->setCheckState(Qt::Checked);
+    else ui->Filter1_2->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[1] & 0x01<<3)ui->Filter1_3->setCheckState(Qt::Checked);
+    else ui->Filter1_3->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[1] & 0x01<<4)ui->Filter1_4->setCheckState(Qt::Checked);
+    else ui->Filter1_4->setCheckState(Qt::Unchecked);
+
+    if(adq.ch_filtermask[2] & 0x01<<1)ui->Filter2_1->setCheckState(Qt::Checked);
+    else ui->Filter2_1->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[2] & 0x01<<2)ui->Filter2_2->setCheckState(Qt::Checked);
+    else ui->Filter2_2->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[2] & 0x01<<3)ui->Filter2_3->setCheckState(Qt::Checked);
+    else ui->Filter2_3->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[2] & 0x01<<4)ui->Filter2_4->setCheckState(Qt::Checked);
+    else ui->Filter2_4->setCheckState(Qt::Unchecked);
+
+    if(adq.ch_filtermask[3] & 0x01<<1)ui->Filter3_1->setCheckState(Qt::Checked);
+    else ui->Filter3_1->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[3] & 0x01<<2)ui->Filter3_2->setCheckState(Qt::Checked);
+    else ui->Filter3_2->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[3] & 0x01<<3)ui->Filter3_3->setCheckState(Qt::Checked);
+    else ui->Filter3_3->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[3] & 0x01<<4)ui->Filter3_4->setCheckState(Qt::Checked);
+    else ui->Filter3_4->setCheckState(Qt::Unchecked);
+
+    if(adq.ch_filtermask[4] & 0x01<<1)ui->Filter4_1->setCheckState(Qt::Checked);
+    else ui->Filter4_1->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[4] & 0x01<<2)ui->Filter4_2->setCheckState(Qt::Checked);
+    else ui->Filter4_2->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[4] & 0x01<<3)ui->Filter4_3->setCheckState(Qt::Checked);
+    else ui->Filter4_3->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[4] & 0x01<<4)ui->Filter4_4->setCheckState(Qt::Checked);
+    else ui->Filter4_4->setCheckState(Qt::Unchecked);
+
+    if(adq.ch_filtermask[0] & 0x01<<1)ui->Filter5_1->setCheckState(Qt::Checked);
+    else ui->Filter5_1->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[0] & 0x01<<2)ui->Filter5_2->setCheckState(Qt::Checked);
+    else ui->Filter5_2->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[0] & 0x01<<3)ui->Filter5_3->setCheckState(Qt::Checked);
+    else ui->Filter5_3->setCheckState(Qt::Unchecked);
+    if(adq.ch_filtermask[0] & 0x01<<4)ui->Filter5_4->setCheckState(Qt::Checked);
+    else ui->Filter5_4->setCheckState(Qt::Unchecked);
+   */
+}
 void MainWindow::setup_histolines_QKD(){
 
     for (int i = 0 ; i<MAX_QUBITS ; i++) {
@@ -552,57 +556,57 @@ void MainWindow::setupsignalslot(){
     qRegisterMetaType<vectorInt>("vectorInt");
 
     QObject::connect(ui->adqtime, SIGNAL(valueChanged(double)), this, SLOT(Chang_in_adqtime(double)));
-    QObject::connect(ui->adqtime, SIGNAL(valueChanged(double)), &adq, SLOT(Chang_in_adqtime(double)));
+    QObject::connect(ui->adqtime, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_in_adqtime(double)));
 
 
 
     QObject::connect(ui->histStart, SIGNAL(valueChanged(int)), &anl, SLOT(Chang_in_histStart(int)));
     QObject::connect(ui->histStart, SIGNAL(valueChanged(int)), this, SLOT(Chang_in_histStart(int)));
-    QObject::connect(ui->histStart, SIGNAL(valueChanged(int)), &adq, SLOT(Chang_in_histStart(int)));
+    QObject::connect(ui->histStart, SIGNAL(valueChanged(int)), &qutag, SLOT(Chang_in_histStart(int)));
 
 
     QObject::connect(ui->binWidth, SIGNAL(valueChanged(int)), &anl, SLOT(Chang_in_binWidth(int)));
     QObject::connect(ui->binWidth, SIGNAL(valueChanged(int)), this, SLOT(Chang_in_binWidth(int)));
-    QObject::connect(ui->binWidth, SIGNAL(valueChanged(int)), &adq, SLOT(Chang_in_binWidth(int)));
+    QObject::connect(ui->binWidth, SIGNAL(valueChanged(int)), &qutag, SLOT(Chang_in_binWidth(int)));
 
     //QObject::connect(this, SIGNAL(valueChanged(int)), &adq, SLOT(Chang_in_binWidth(int)));
 
     QObject::connect(ui->binsinplot, SIGNAL(valueChanged(int)), &anl, SLOT(Chang_in_binsinplot(int)));
     QObject::connect(ui->binsinplot, SIGNAL(valueChanged(int)), this, SLOT(Chang_in_binsinplot(int)));
-    QObject::connect(ui->binsinplot, SIGNAL(valueChanged(int)), &adq, SLOT(Chang_in_binsinplot(int)));
+    QObject::connect(ui->binsinplot, SIGNAL(valueChanged(int)), &qutag, SLOT(Chang_in_binsinplot(int)));
 
 
 
     QObject::connect(ui->adqtime_2, SIGNAL(valueChanged(double)), &anl, SLOT(Chang_adqtime_2(double)));
     QObject::connect(ui->adqtime_2, SIGNAL(valueChanged(double)), this, SLOT(Chang_adqtime_2(double)));
 
-    QObject::connect(&anl, SIGNAL(Chang_anlAvilable(bool)), &adq, SLOT(Chang_anlAvilable(bool)));
+    QObject::connect(&anl, SIGNAL(Chang_anlAvilable(bool)), &qutag, SLOT(Chang_anlAvilable(bool)));
 
     QObject::connect(&anl, SIGNAL(CombinationChange(bool)), this, SLOT(CombinationChange(bool)));
    // QObject::connect(&anl, SIGNAL(CombinationChange(bool)), this, SLOT(CombinationChange(bool)));
 
-    QObject::connect(&adq, SIGNAL(dataready(vectorInt64, vectorInt, int)), &anl, SLOT(timestampREC(vectorInt64, vectorInt, int)),Qt::QueuedConnection);
+    QObject::connect(&qutag, SIGNAL(dataready(vectorInt64, vectorInt, int)), &anl, SLOT(timestampREC(vectorInt64, vectorInt, int)),Qt::QueuedConnection);
 
 
-    QObject::connect(&anl, SIGNAL(anlongoing(bool)), &adq, SLOT(adqpausechange(bool)));
+    QObject::connect(&anl, SIGNAL(anlongoing(bool)), &qutag, SLOT(adqpausechange(bool)));
 
-    QObject::connect(&adq, SIGNAL(qutaghist(vectorDouble, vectorDouble, vectorDouble, vectorDouble, int, int , int ,int )), this, SLOT(histoplot(vectorDouble, vectorDouble, vectorDouble, vectorDouble, int, int , int ,int )),Qt::QueuedConnection);
+    QObject::connect(&qutag, SIGNAL(qutaghist(vectorDouble, vectorDouble, vectorDouble, vectorDouble, int, int , int ,int )), this, SLOT(histoplot(vectorDouble, vectorDouble, vectorDouble, vectorDouble, int, int , int ,int )),Qt::QueuedConnection);
 
 
     QObject::connect(&anl, SIGNAL(rates_tab2(vectorInt32, double)), this, SLOT(plotRates_tab2(vectorInt32, double)));
 
-    QObject::connect(ui->thch1, SIGNAL(valueChanged(double)), &adq, SLOT(Chang_in_thch1(double)));
-    QObject::connect(ui->thch2, SIGNAL(valueChanged(double)), &adq, SLOT(Chang_in_thch2(double)));
-    QObject::connect(ui->thch3, SIGNAL(valueChanged(double)), &adq, SLOT(Chang_in_thch3(double)));
-    QObject::connect(ui->thch4, SIGNAL(valueChanged(double)), &adq, SLOT(Chang_in_thch4(double)));
+    /*QObject::connect(ui->thch1, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_in_thch1(double)));
+    QObject::connect(ui->thch2, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_in_thch2(double)));
+    QObject::connect(ui->thch3, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_in_thch3(double)));
+    QObject::connect(ui->thch4, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_in_thch4(double)));
 
     QObject::connect(ui->thch1, SIGNAL(valueChanged(double)), this, SLOT(Chang_in_thch1(double)));
     QObject::connect(ui->thch2, SIGNAL(valueChanged(double)), this, SLOT(Chang_in_thch2(double)));
     QObject::connect(ui->thch3, SIGNAL(valueChanged(double)), this, SLOT(Chang_in_thch3(double)));
     QObject::connect(ui->thch4, SIGNAL(valueChanged(double)), this, SLOT(Chang_in_thch4(double)));
 
-    QObject::connect(ui->cw, SIGNAL(valueChanged(int)), &adq, SLOT(Chang_in_cw(int)));
-    QObject::connect(ui->cw, SIGNAL(valueChanged(int)), this, SLOT(Chang_in_cw(int)));
+    QObject::connect(ui->cw, SIGNAL(valueChanged(int)), &qutag, SLOT(Chang_in_cw(int)));
+    QObject::connect(ui->cw, SIGNAL(valueChanged(int)), this, SLOT(Chang_in_cw(int)));*/
 
     QObject::connect(ui->DBON, SIGNAL(valueChanged(int)), this, SLOT(turnONDB(int)));
 
@@ -613,7 +617,7 @@ void MainWindow::setupsignalslot(){
     QObject::connect(ui->BSM, SIGNAL(released()), this, SLOT(setBSMmeas()));
     QObject::connect(ui->HOM, SIGNAL(released()), this, SLOT(setHOMmeas()));
 
-    QObject::connect(ui->delayline, SIGNAL(valueChanged(int)), this, SLOT(Chang_delayline(int)));
+    //QObject::connect(ui->delayline, SIGNAL(valueChanged(int)), this, SLOT(Chang_delayline(int)));
 
 
     QObject::connect(this, SIGNAL(main_CreateTableTab1(int ,int ,int ,int )), &dbc, SLOT(CreateTableTab1(int ,int ,int ,int)));
@@ -646,13 +650,13 @@ void MainWindow::setupsignalslot(){
     QObject::connect(ui->rof4, SIGNAL(currentTextChanged(QString)), this, SLOT(Chang_rof4(QString)));*/
 
 
-    QObject::connect(ui->delay1, SIGNAL(valueChanged(double)), &adq, SLOT(Chang_delay1(double)));
-    QObject::connect(ui->delay2, SIGNAL(valueChanged(double)), &adq, SLOT(Chang_delay2(double)));
-    QObject::connect(ui->delay3, SIGNAL(valueChanged(double)), &adq, SLOT(Chang_delay3(double)));
-    QObject::connect(ui->delay4, SIGNAL(valueChanged(double)), &adq, SLOT(Chang_delay4(double)));
-    QObject::connect(ui->delay5, SIGNAL(valueChanged(double)), &adq, SLOT(Chang_delay5(double)));
+    /*QObject::connect(ui->delay1, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_delay1(double)));
+    QObject::connect(ui->delay2, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_delay2(double)));
+    QObject::connect(ui->delay3, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_delay3(double)));
+    QObject::connect(ui->delay4, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_delay4(double)));
+    QObject::connect(ui->delay5, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_delay5(double)));*/
 
-    QObject::connect(&adq, SIGNAL(TDCerror(QString)), this, SLOT(error1(QString)) );
+    QObject::connect(&qutag, SIGNAL(TDCerror(QString)), this, SLOT(error1(QString)) );
 
     QObject::connect(&qkdparam, SIGNAL(sig_QKD_time(double)), this, SLOT(chang_QKD_time(double)));
 
@@ -707,14 +711,16 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(ui->AddLogic, SIGNAL(released()), this, SLOT(AddLogicSelectorElement()));
 
-    QObject::connect(ui->TSON, SIGNAL(valueChanged(int)), &adq, SLOT(TSanl(int)));
-    QObject::connect(ui->TSper, SIGNAL(valueChanged(int)), &adq, SLOT(changTSper(int)));
+    QObject::connect(ui->TSON, SIGNAL(valueChanged(int)), &qutag, SLOT(TSanl(int)));
+    QObject::connect(ui->TSper, SIGNAL(valueChanged(int)), &qutag, SLOT(changTSper(int)));
 
     QObject::connect(this, SIGNAL(setOVDL(float)), &ovdl_1, SLOT(setDelay(float)));
 
     QObject::connect(ui->VDL_start, SIGNAL(valueChanged(double)), this, SLOT(chang_VDL_start(double)));
 
+    QObject::connect(&qutag, SIGNAL(initdone()), this , SLOT(QUTAG_initdone()));
 
+     QObject::connect(ui->actioninit_Qutag, SIGNAL(triggered(bool)), this, SLOT(runQutag(bool)));
 }
 
 void MainWindow::setupsignalslot2(){
@@ -735,43 +741,43 @@ void MainWindow::setupsignalslot2(){
     QObject::connect(&plotCtrackG, SIGNAL(ididToggled(int, bool)), this, SLOT(Chang_trackC(int, bool)));
     QObject::connect(&plotDtrackG, SIGNAL(ididToggled(int, bool)), this, SLOT(Chang_trackD(int, bool)));*/
 
-    QObject::connect(ui->rof1, SIGNAL(currentTextChanged(QString)), &adq, SLOT(Chang_rof1(QString)));
-    QObject::connect(ui->rof2, SIGNAL(currentTextChanged(QString)), &adq, SLOT(Chang_rof2(QString)));
-    QObject::connect(ui->rof3, SIGNAL(currentTextChanged(QString)), &adq, SLOT(Chang_rof3(QString)));
-    QObject::connect(ui->rof4, SIGNAL(currentTextChanged(QString)), &adq, SLOT(Chang_rof4(QString)));
-    QObject::connect(ui->rof5, SIGNAL(currentTextChanged(QString)), &adq, SLOT(Chang_rof5(QString)));
+    QObject::connect(ui->rof1, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof1(QString)));
+    QObject::connect(ui->rof2, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof2(QString)));
+    QObject::connect(ui->rof3, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof3(QString)));
+    QObject::connect(ui->rof4, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof4(QString)));
+    QObject::connect(ui->rof5, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof5(QString)));
 
-    QObject::connect(ui->FilterType1, SIGNAL(currentTextChanged(QString)), &adq, SLOT(Chang_filtertype1(QString)));
-    QObject::connect(ui->FilterType2, SIGNAL(currentTextChanged(QString)), &adq, SLOT(Chang_filtertype2(QString)));
-    QObject::connect(ui->FilterType3, SIGNAL(currentTextChanged(QString)), &adq, SLOT(Chang_filtertype3(QString)));
-    QObject::connect(ui->FilterType4, SIGNAL(currentTextChanged(QString)), &adq, SLOT(Chang_filtertype4(QString)));
-    QObject::connect(ui->FilterType5, SIGNAL(currentTextChanged(QString)), &adq, SLOT(Chang_filtertype5(QString)));
+  /*  QObject::connect(ui->FilterType1, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype1(QString)));
+    QObject::connect(ui->FilterType2, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype2(QString)));
+    QObject::connect(ui->FilterType3, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype3(QString)));
+    QObject::connect(ui->FilterType4, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype4(QString)));
+    QObject::connect(ui->FilterType5, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype5(QString)));
 
-    QObject::connect(ui->Filter1_1, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask1_1(int)));
-    QObject::connect(ui->Filter1_2, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask1_2(int)));
-    QObject::connect(ui->Filter1_3, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask1_3(int)));
-    QObject::connect(ui->Filter1_4, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask1_4(int)));
+    QObject::connect(ui->Filter1_1, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask1_1(int)));
+    QObject::connect(ui->Filter1_2, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask1_2(int)));
+    QObject::connect(ui->Filter1_3, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask1_3(int)));
+    QObject::connect(ui->Filter1_4, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask1_4(int)));
 
 
-    QObject::connect(ui->Filter2_1, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask2_1(int)));
-    QObject::connect(ui->Filter2_2, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask2_2(int)));
-    QObject::connect(ui->Filter2_3, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask2_3(int)));
-    QObject::connect(ui->Filter2_4, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask2_4(int)));
+    QObject::connect(ui->Filter2_1, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask2_1(int)));
+    QObject::connect(ui->Filter2_2, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask2_2(int)));
+    QObject::connect(ui->Filter2_3, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask2_3(int)));
+    QObject::connect(ui->Filter2_4, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask2_4(int)));
 
-    QObject::connect(ui->Filter3_1, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask3_1(int)));
-    QObject::connect(ui->Filter3_2, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask3_2(int)));
-    QObject::connect(ui->Filter3_3, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask3_3(int)));
-    QObject::connect(ui->Filter3_4, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask3_4(int)));
+    QObject::connect(ui->Filter3_1, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask3_1(int)));
+    QObject::connect(ui->Filter3_2, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask3_2(int)));
+    QObject::connect(ui->Filter3_3, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask3_3(int)));
+    QObject::connect(ui->Filter3_4, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask3_4(int)));
 
-    QObject::connect(ui->Filter4_1, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask4_1(int)));
-    QObject::connect(ui->Filter4_2, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask4_2(int)));
-    QObject::connect(ui->Filter4_3, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask4_3(int)));
-    QObject::connect(ui->Filter4_4, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask4_4(int)));
+    QObject::connect(ui->Filter4_1, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask4_1(int)));
+    QObject::connect(ui->Filter4_2, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask4_2(int)));
+    QObject::connect(ui->Filter4_3, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask4_3(int)));
+    QObject::connect(ui->Filter4_4, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask4_4(int)));
 
-    QObject::connect(ui->Filter5_1, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask5_1(int)));
-    QObject::connect(ui->Filter5_2, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask5_2(int)));
-    QObject::connect(ui->Filter5_3, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask5_3(int)));
-    QObject::connect(ui->Filter5_4, SIGNAL(stateChanged(int)), &adq, SLOT(Chang_filtermask5_4(int)));
+    QObject::connect(ui->Filter5_1, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask5_1(int)));
+    QObject::connect(ui->Filter5_2, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask5_2(int)));
+    QObject::connect(ui->Filter5_3, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask5_3(int)));
+    QObject::connect(ui->Filter5_4, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask5_4(int)));*/
 }
 
 //////////////////////////////////////////////////////////
@@ -1310,7 +1316,7 @@ void MainWindow::SaveSeason(bool a){
     mapint.insert("QKD_pxqD",in_QKD_pxqD);
     mapint.insert("QKD_zeroD",in_QKD_zeroD);
 
-    mapint.insert("TSper",adq.TSpercentage);
+    mapint.insert("TSper",qutag.TSpercentage);
 
 
 
@@ -1439,9 +1445,9 @@ void MainWindow::error1(QString text){
 void MainWindow::closeEvent(QCloseEvent *event){
    SaveSeason(1);
    std::cout<<"going out"<<std::endl;
-   adq.Break();
+   qutag.Break();
    anl.Break();
-   adq.quit();
+   qutag.quit();
    //anl.quit();
    dbc.quit();
    //usleep(100);
@@ -1451,7 +1457,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
    //dbc.~DBControl();
 
 
-   while(adq.isRunning())sleep(1);std::cout<<"adq"<<std::endl;
+   while(qutag.isRunning())sleep(1);std::cout<<"adq"<<std::endl;
    //while(anl.isRunning())sleep(1);std::cout<<"anl"<<std::endl;
    while( dbc.isRunning())sleep(1);std::cout<<"dbc"<<std::endl;
    //usleep(1000);
@@ -1519,7 +1525,7 @@ void MainWindow::setup_log_plot(QCustomPlot *histo){
 
 }
 
-void MainWindow::setup_comboboxes(){
+void MainWindow::QUTAG_setup_comboboxes(){
 
     ui->rof1->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
     ui->rof2->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
@@ -1528,11 +1534,6 @@ void MainWindow::setup_comboboxes(){
     ui->rof5->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
 
 
-    ui->FilterType1->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
-    ui->FilterType2->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
-    ui->FilterType3->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
-    ui->FilterType4->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
-    ui->FilterType5->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
 
     ui->rof1->addItem(tr("Rise"));
     ui->rof1->addItem(tr("Fall"));
@@ -1544,31 +1545,6 @@ void MainWindow::setup_comboboxes(){
     ui->rof4->addItem(tr("Fall"));
     ui->rof5->addItem(tr("Rise"));
     ui->rof5->addItem(tr("Fall"));
-
-    ui->FilterType1->addItem(tr("NONE"));
-    ui->FilterType1->addItem(tr("MUTE"));
-    ui->FilterType1->addItem(tr("COINC"));
-    ui->FilterType1->addItem(tr("SYNC"));
-
-    ui->FilterType2->addItem(tr("NONE"));
-    ui->FilterType2->addItem(tr("MUTE"));
-    ui->FilterType2->addItem(tr("COINC"));
-    ui->FilterType2->addItem(tr("SYNC"));
-
-    ui->FilterType3->addItem(tr("NONE"));
-    ui->FilterType3->addItem(tr("MUTE"));
-    ui->FilterType3->addItem(tr("COINC"));
-    ui->FilterType3->addItem(tr("SYNC"));
-
-    ui->FilterType4->addItem(tr("NONE"));
-    ui->FilterType4->addItem(tr("MUTE"));
-    ui->FilterType4->addItem(tr("COINC"));
-    ui->FilterType4->addItem(tr("SYNC"));
-
-    ui->FilterType5->addItem(tr("NONE"));
-    ui->FilterType5->addItem(tr("MUTE"));
-    ui->FilterType5->addItem(tr("COINC"));
-    ui->FilterType5->addItem(tr("SYNC"));
 
 
     tab2buttongroup.setExclusive(0);
@@ -2111,3 +2087,54 @@ void MainWindow::tracktab2_change(bool c, int i){
 
  timestampREC(const vectorInt64 &inconimg_vectorTimetags, const vectorInt8 &inconimg_vectorChannels, int inconimg_tsvalid);
 }*/
+
+void MainWindow::qutag_paremetes_setup(){
+    QLabel *thchLab[NQUTAGCHANNELS];
+    QHBoxLayout *FiltersHLayout[NQUTAGCHANNELS];
+    QHBoxLayout *FiltersboxesHLayout[NQUTAGCHANNELS];
+    QLabel *filterLab[NQUTAGCHANNELS];
+    for (int i=0;i<NQUTAGCHANNELS ;i++) {
+        thchLab[i] = new QLabel(tr("Threshold Channel ")+QString::number(i));
+        thchLab[i]->setStyleSheet("color: rgb(238, 238, 236)");
+        thch[i] = new QDoubleSpinBox();
+        thch[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+        ui->Parameters_left->addRow(thchLab[i], thch[i]);
+
+    }
+
+    for (int i=0;i<NQUTAGCHANNELS ;i++) {
+        filterLab[i] = new QLabel(tr("Filter Ch ")+QString::number(i));
+        filterLab[i]->setStyleSheet("color: rgb(238, 238, 236)");
+
+        FiltersHLayout[i] = new QHBoxLayout();
+        FiltersboxesHLayout[i] = new QHBoxLayout();
+
+        ui->Parameters_left->addRow(filterLab[i], FiltersHLayout[i]);
+
+        qutagFilterType[i] = new QComboBox();
+
+        qutagFilterType[i]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
+        qutagFilterType[i] ->addItem(tr("NONE"));
+        qutagFilterType[i] ->addItem(tr("MUTE"));
+        qutagFilterType[i] ->addItem(tr("COINC"));
+        qutagFilterType[i] ->addItem(tr("SYNC"));
+        //QObject::connect(qutagFilterType[i], SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype[i](QString)));
+        for (int j=0;j<NQUTAGCHANNELS ;j++) {
+            qutagfilter[i][j] = new QCheckBox(QString::number(j)+tr(" "));
+            qutagfilter[i][j]->setStyleSheet("color: rgb(238, 238, 236);");
+            FiltersboxesHLayout[i]->addWidget(qutagfilter[i][j]);
+
+        }
+
+        FiltersHLayout[i]->addWidget(qutagFilterType[i]);
+        FiltersHLayout[i]->addLayout(FiltersboxesHLayout[i]);
+
+    }
+
+}
+
+void MainWindow::runQutag(bool a){
+    if(!qutag.isRunning()){
+        qutag.start();
+    }
+}

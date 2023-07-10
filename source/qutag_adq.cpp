@@ -27,7 +27,6 @@ qutagadq::qutagadq(){
 }
 
 void qutagadq::run(){
-
 lautrun();
 
 }
@@ -93,10 +92,8 @@ int qutagadq::filterset(){
 
      rc = TDC_getTimebase( &timeBase );
      checkRc( "TDC_getTimebase", rc );
-     //qWarning(">>> timebase:");qWarning(QString::number(timeBase*1.e12).toUtf8());qWarning("ps");
+
      std::cout<<" >>> timebase: "<<timeBase*1.e12<<"ps"<<std::endl;
-     //printf( ">>> timebase: %g ps\n", timeBase * 1.e12 );
-     //fflush(stdout);
 
     // rc=TDC_setFiveChannelMode(1);
     // checkRc( "TDC_setFiveChannelMode", rc );
@@ -111,14 +108,19 @@ int qutagadq::filterset(){
      checkRc( "TDC_setExposureTime", rc );
 
      ///////////////initial thresholds and edges/////////////
-     int temp_edge[1];
-     double temp_thresh[1];
+     //int temp_edge[1];
+     //double temp_thresh[1];
+     int *temp_edge = nullptr;
+     double *temp_thresh = nullptr;
 
-     rc = TDC_getSignalConditioning(1, temp_edge,temp_thresh);
-     checkRc( "TDC_getSignalConditioning", rc );
-     std::cout<<" ch1 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
-     thresholds[1] = *temp_thresh;
-     RoF[1] = bool(*temp_edge);
+     for(int i = 0 ; i<5; i++){
+         if(i==0)rc = TDC_getSignalConditioning(5, RoF,thresholds );
+         else rc = TDC_getSignalConditioning(i, RoF+i,thresholds+i );
+         checkRc( "TDC_getSignalConditioning", rc );
+         std::cout<<" ch "<<i<<" edge : "<<RoF[i]<<"\t thresh"<<thresholds[i] <<std::endl;
+     }
+
+/*
      rc = TDC_getSignalConditioning(2, temp_edge,temp_thresh);
      std::cout<<" ch2 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
      thresholds[2] = *temp_thresh;
@@ -135,11 +137,15 @@ int qutagadq::filterset(){
      std::cout<<" ch5 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
      thresholds[0] = *temp_thresh;
      RoF[0] = bool(*temp_edge);
-
-
+*/
+    //TDC_FilterType temp_filtertype[1];
      /////////////filters//////
+     for(int i = 0 ; i<5; i++){
+         if(i==0) rc = TDC_getFilter(5, filtertype, ch_filtermask);
+         else  rc = TDC_getFilter(i, filtertype+i, ch_filtermask+i);
+     }
+     /*
 
-     TDC_FilterType temp_filtertype[1];
      Int32 temp_channelmask[1];
      rc = TDC_getFilter(1, temp_filtertype, temp_channelmask);
      filtertype[1]= *temp_filtertype;
@@ -160,46 +166,39 @@ int qutagadq::filterset(){
      rc = TDC_getFilter(5, temp_filtertype, temp_channelmask);
      filtertype[0]= *temp_filtertype;
      ch_filtermask[0] = *temp_channelmask;
-
+*/
      loadtdcfiltertype();
 
      /////delays//////
+     ///
      rc = TDC_getChannelDelays(delays);
 
      //std::cout<<"ADQ  rof"<<RoF[1]<<"rof"<<RoF[2]<<"rof"<<RoF[3]<<"rof"<<RoF[4]<<std::endl;
-
-
      //rc = TDC_enableMarkers(0);        //WHY IS THIS NOT WORKING??
      //checkRc( "TDC_enableMarkers", rc);
-
      //rc = TDC_setExposureTime( EXP_TIME );
      //checkRc( "TDC_setExposureTime", rc );
 
-     rc = TDC_setCoincidenceWindow( 90000 ); /* 30ns */
-     checkRc( "TDC_setCoincidenceWindow", rc );
+     //rc = TDC_setCoincidenceWindow( 90000 ); /* 30ns */
+    // checkRc( "TDC_setCoincidenceWindow", rc );
 
 
-     /*SLEEP( 1e3 );
-     TDC_getCoincCounters( coincCnt, NULL );
-     SLEEP( 1e3 );
-     TDC_getCoincCounters( coincCnt, NULL );
-     SLEEP(1e6);
-     TDC_getCoincCounters( coincCnt, NULL );
- */
      fflush(stdout);
 
-     rc = TDC_enableStartStop( 1 );
-     checkRc( "TDC_enableStartStop", rc );
+   /////histograms//////
 
-     setHistograms();
+   rc = TDC_enableStartStop( 1 );
+   checkRc( "TDC_enableStartStop", rc );
+   rc = TDC_getHistogramParams(&in_binWidth, &in_binsinplot);
+   setHistograms();
+
+   emit initdone();
+   initdone_bool =1;
 
   TDC_clearAllHistograms ();
 
-  //Int32 coincWin = in_histEnd-in_histStart;
-  //rc =TDC_setCoincidenceWindow(coincWin);
-  //checkRc( "TDC_enableStartStop", rc );
-    double previous_time = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    double current_time;
+  double previous_time = QDateTime::currentDateTime().toMSecsSinceEpoch();
+  double current_time;
 
      //while(!break_ && !rc){
     while(!break_ ){

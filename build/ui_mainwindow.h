@@ -13,7 +13,6 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QFormLayout>
@@ -42,6 +41,7 @@ public:
     QAction *actionLoad_state;
     QAction *actionQKD;
     QAction *action7;
+    QAction *actioninit_Qutag;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QTabWidget *horizontalTabWidget;
@@ -167,76 +167,8 @@ public:
     QHBoxLayout *horizontalLayout_26;
     QWidget *horizontalWidget1;
     QHBoxLayout *horizontalLayout_25;
-    QFormLayout *formLayout;
-    QLabel *label_16;
-    QDoubleSpinBox *thch1;
-    QLabel *label_71;
-    QDoubleSpinBox *thch2;
-    QLabel *label_72;
-    QDoubleSpinBox *thch3;
-    QLabel *label_96;
-    QDoubleSpinBox *thch4;
-    QLabel *label_76;
-    QSpinBox *cw;
-    QLabel *label_102;
-    QSpinBox *delayline;
-    QLabel *label_113;
-    QDoubleSpinBox *delay1;
-    QLabel *label_135;
-    QDoubleSpinBox *delay2;
-    QLabel *label_136;
-    QDoubleSpinBox *delay3;
-    QLabel *label_137;
-    QDoubleSpinBox *delay4;
-    QLabel *label_144;
-    QLabel *label_143;
-    QLabel *label_139;
-    QLabel *label_145;
-    QLabel *label_138;
-    QHBoxLayout *horizontalLayout_33;
-    QComboBox *FilterType1;
-    QHBoxLayout *horizontalLayout_34;
-    QCheckBox *Filter1_1;
-    QCheckBox *Filter1_2;
-    QCheckBox *Filter1_3;
-    QCheckBox *Filter1_4;
-    QLabel *label_140;
-    QHBoxLayout *horizontalLayout_45;
-    QComboBox *FilterType2;
-    QHBoxLayout *horizontalLayout_48;
-    QCheckBox *Filter2_1;
-    QCheckBox *Filter2_2;
-    QCheckBox *Filter2_3;
-    QCheckBox *Filter2_4;
-    QLabel *label_141;
-    QHBoxLayout *horizontalLayout_46;
-    QComboBox *FilterType3;
-    QHBoxLayout *horizontalLayout_49;
-    QCheckBox *Filter3_1;
-    QCheckBox *Filter3_2;
-    QCheckBox *Filter3_3;
-    QCheckBox *Filter3_4;
-    QLabel *label_142;
-    QHBoxLayout *horizontalLayout_47;
-    QComboBox *FilterType4;
-    QHBoxLayout *horizontalLayout_50;
-    QCheckBox *Filter4_1;
-    QCheckBox *Filter4_2;
-    QCheckBox *Filter4_3;
-    QCheckBox *Filter4_4;
-    QLabel *label;
-    QDoubleSpinBox *delay5;
-    QLabel *label_146;
-    QHBoxLayout *horizontalLayout_51;
-    QComboBox *FilterType5;
-    QHBoxLayout *horizontalLayout_52;
-    QCheckBox *Filter5_1;
-    QCheckBox *Filter5_2;
-    QCheckBox *Filter5_3;
-    QCheckBox *Filter5_4;
-    QLabel *label_99;
-    QDoubleSpinBox *thch5;
-    QFormLayout *formLayout_4;
+    QFormLayout *Parameters_left;
+    QFormLayout *parameters_R;
     QLabel *label_73;
     QLabel *label_74;
     QLabel *label_75;
@@ -269,6 +201,8 @@ public:
         actionQKD->setObjectName(QString::fromUtf8("actionQKD"));
         action7 = new QAction(MainWindow);
         action7->setObjectName(QString::fromUtf8("action7"));
+        actioninit_Qutag = new QAction(MainWindow);
+        actioninit_Qutag->setObjectName(QString::fromUtf8("actioninit_Qutag"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         centralWidget->setLayoutDirection(Qt::LeftToRight);
@@ -597,7 +531,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1476, 1001));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1476, 1019));
         verticalLayout_18 = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout_18->setSpacing(4);
         verticalLayout_18->setContentsMargins(11, 11, 11, 11);
@@ -1166,512 +1100,82 @@ public:
         horizontalLayout_25->setSpacing(6);
         horizontalLayout_25->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_25->setObjectName(QString::fromUtf8("horizontalLayout_25"));
-        formLayout = new QFormLayout();
-        formLayout->setSpacing(6);
-        formLayout->setObjectName(QString::fromUtf8("formLayout"));
-        label_16 = new QLabel(horizontalWidget1);
-        label_16->setObjectName(QString::fromUtf8("label_16"));
-        label_16->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(0, QFormLayout::LabelRole, label_16);
-
-        thch1 = new QDoubleSpinBox(horizontalWidget1);
-        thch1->setObjectName(QString::fromUtf8("thch1"));
-        thch1->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        thch1->setDecimals(3);
-        thch1->setMinimum(-10.000000000000000);
-
-        formLayout->setWidget(0, QFormLayout::FieldRole, thch1);
-
-        label_71 = new QLabel(horizontalWidget1);
-        label_71->setObjectName(QString::fromUtf8("label_71"));
-        label_71->setStyleSheet(QString::fromUtf8("\n"
-"color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(1, QFormLayout::LabelRole, label_71);
-
-        thch2 = new QDoubleSpinBox(horizontalWidget1);
-        thch2->setObjectName(QString::fromUtf8("thch2"));
-        thch2->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        thch2->setDecimals(3);
-        thch2->setMinimum(-10.000000000000000);
-
-        formLayout->setWidget(1, QFormLayout::FieldRole, thch2);
-
-        label_72 = new QLabel(horizontalWidget1);
-        label_72->setObjectName(QString::fromUtf8("label_72"));
-        label_72->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(2, QFormLayout::LabelRole, label_72);
-
-        thch3 = new QDoubleSpinBox(horizontalWidget1);
-        thch3->setObjectName(QString::fromUtf8("thch3"));
-        thch3->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        thch3->setDecimals(3);
-        thch3->setMinimum(-10.000000000000000);
-
-        formLayout->setWidget(2, QFormLayout::FieldRole, thch3);
-
-        label_96 = new QLabel(horizontalWidget1);
-        label_96->setObjectName(QString::fromUtf8("label_96"));
-        label_96->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(3, QFormLayout::LabelRole, label_96);
-
-        thch4 = new QDoubleSpinBox(horizontalWidget1);
-        thch4->setObjectName(QString::fromUtf8("thch4"));
-        thch4->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        thch4->setDecimals(3);
-        thch4->setMinimum(-10.000000000000000);
-
-        formLayout->setWidget(3, QFormLayout::FieldRole, thch4);
-
-        label_76 = new QLabel(horizontalWidget1);
-        label_76->setObjectName(QString::fromUtf8("label_76"));
-        label_76->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(5, QFormLayout::LabelRole, label_76);
-
-        cw = new QSpinBox(horizontalWidget1);
-        cw->setObjectName(QString::fromUtf8("cw"));
-        cw->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        cw->setMaximum(999999);
-
-        formLayout->setWidget(5, QFormLayout::FieldRole, cw);
-
-        label_102 = new QLabel(horizontalWidget1);
-        label_102->setObjectName(QString::fromUtf8("label_102"));
-        label_102->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(6, QFormLayout::LabelRole, label_102);
-
-        delayline = new QSpinBox(horizontalWidget1);
-        delayline->setObjectName(QString::fromUtf8("delayline"));
-        delayline->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        delayline->setMaximum(500);
-
-        formLayout->setWidget(6, QFormLayout::FieldRole, delayline);
-
-        label_113 = new QLabel(horizontalWidget1);
-        label_113->setObjectName(QString::fromUtf8("label_113"));
-        label_113->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(7, QFormLayout::LabelRole, label_113);
-
-        delay1 = new QDoubleSpinBox(horizontalWidget1);
-        delay1->setObjectName(QString::fromUtf8("delay1"));
-        delay1->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        delay1->setDecimals(3);
-        delay1->setMaximum(100.000000000000000);
-        delay1->setSingleStep(0.100000000000000);
-
-        formLayout->setWidget(7, QFormLayout::FieldRole, delay1);
-
-        label_135 = new QLabel(horizontalWidget1);
-        label_135->setObjectName(QString::fromUtf8("label_135"));
-        label_135->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(8, QFormLayout::LabelRole, label_135);
-
-        delay2 = new QDoubleSpinBox(horizontalWidget1);
-        delay2->setObjectName(QString::fromUtf8("delay2"));
-        delay2->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        delay2->setDecimals(3);
-        delay2->setMaximum(100.000000000000000);
-        delay2->setSingleStep(0.100000000000000);
-
-        formLayout->setWidget(8, QFormLayout::FieldRole, delay2);
-
-        label_136 = new QLabel(horizontalWidget1);
-        label_136->setObjectName(QString::fromUtf8("label_136"));
-        label_136->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(9, QFormLayout::LabelRole, label_136);
-
-        delay3 = new QDoubleSpinBox(horizontalWidget1);
-        delay3->setObjectName(QString::fromUtf8("delay3"));
-        delay3->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        delay3->setDecimals(3);
-        delay3->setMaximum(100.000000000000000);
-        delay3->setSingleStep(0.100000000000000);
-
-        formLayout->setWidget(9, QFormLayout::FieldRole, delay3);
-
-        label_137 = new QLabel(horizontalWidget1);
-        label_137->setObjectName(QString::fromUtf8("label_137"));
-        label_137->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(10, QFormLayout::LabelRole, label_137);
-
-        delay4 = new QDoubleSpinBox(horizontalWidget1);
-        delay4->setObjectName(QString::fromUtf8("delay4"));
-        delay4->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        delay4->setDecimals(3);
-        delay4->setMaximum(100.000000000000000);
-        delay4->setSingleStep(0.100000000000000);
-
-        formLayout->setWidget(10, QFormLayout::FieldRole, delay4);
-
-        label_144 = new QLabel(horizontalWidget1);
-        label_144->setObjectName(QString::fromUtf8("label_144"));
-
-        formLayout->setWidget(12, QFormLayout::LabelRole, label_144);
-
-        label_143 = new QLabel(horizontalWidget1);
-        label_143->setObjectName(QString::fromUtf8("label_143"));
-
-        formLayout->setWidget(12, QFormLayout::FieldRole, label_143);
-
-        label_139 = new QLabel(horizontalWidget1);
-        label_139->setObjectName(QString::fromUtf8("label_139"));
-
-        formLayout->setWidget(13, QFormLayout::LabelRole, label_139);
-
-        label_145 = new QLabel(horizontalWidget1);
-        label_145->setObjectName(QString::fromUtf8("label_145"));
-
-        formLayout->setWidget(13, QFormLayout::FieldRole, label_145);
-
-        label_138 = new QLabel(horizontalWidget1);
-        label_138->setObjectName(QString::fromUtf8("label_138"));
-        label_138->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(14, QFormLayout::LabelRole, label_138);
-
-        horizontalLayout_33 = new QHBoxLayout();
-        horizontalLayout_33->setSpacing(6);
-        horizontalLayout_33->setObjectName(QString::fromUtf8("horizontalLayout_33"));
-        FilterType1 = new QComboBox(horizontalWidget1);
-        FilterType1->setObjectName(QString::fromUtf8("FilterType1"));
-        FilterType1->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
-
-        horizontalLayout_33->addWidget(FilterType1);
-
-        horizontalLayout_34 = new QHBoxLayout();
-        horizontalLayout_34->setSpacing(6);
-        horizontalLayout_34->setObjectName(QString::fromUtf8("horizontalLayout_34"));
-        Filter1_1 = new QCheckBox(horizontalWidget1);
-        Filter1_1->setObjectName(QString::fromUtf8("Filter1_1"));
-        Filter1_1->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_34->addWidget(Filter1_1);
-
-        Filter1_2 = new QCheckBox(horizontalWidget1);
-        Filter1_2->setObjectName(QString::fromUtf8("Filter1_2"));
-        Filter1_2->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_34->addWidget(Filter1_2);
-
-        Filter1_3 = new QCheckBox(horizontalWidget1);
-        Filter1_3->setObjectName(QString::fromUtf8("Filter1_3"));
-        Filter1_3->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_34->addWidget(Filter1_3);
-
-        Filter1_4 = new QCheckBox(horizontalWidget1);
-        Filter1_4->setObjectName(QString::fromUtf8("Filter1_4"));
-        Filter1_4->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_34->addWidget(Filter1_4);
-
-
-        horizontalLayout_33->addLayout(horizontalLayout_34);
-
-
-        formLayout->setLayout(14, QFormLayout::FieldRole, horizontalLayout_33);
-
-        label_140 = new QLabel(horizontalWidget1);
-        label_140->setObjectName(QString::fromUtf8("label_140"));
-        label_140->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(15, QFormLayout::LabelRole, label_140);
-
-        horizontalLayout_45 = new QHBoxLayout();
-        horizontalLayout_45->setSpacing(6);
-        horizontalLayout_45->setObjectName(QString::fromUtf8("horizontalLayout_45"));
-        FilterType2 = new QComboBox(horizontalWidget1);
-        FilterType2->setObjectName(QString::fromUtf8("FilterType2"));
-        FilterType2->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
-
-        horizontalLayout_45->addWidget(FilterType2);
-
-        horizontalLayout_48 = new QHBoxLayout();
-        horizontalLayout_48->setSpacing(6);
-        horizontalLayout_48->setObjectName(QString::fromUtf8("horizontalLayout_48"));
-        Filter2_1 = new QCheckBox(horizontalWidget1);
-        Filter2_1->setObjectName(QString::fromUtf8("Filter2_1"));
-        Filter2_1->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_48->addWidget(Filter2_1);
-
-        Filter2_2 = new QCheckBox(horizontalWidget1);
-        Filter2_2->setObjectName(QString::fromUtf8("Filter2_2"));
-        Filter2_2->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_48->addWidget(Filter2_2);
-
-        Filter2_3 = new QCheckBox(horizontalWidget1);
-        Filter2_3->setObjectName(QString::fromUtf8("Filter2_3"));
-        Filter2_3->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_48->addWidget(Filter2_3);
-
-        Filter2_4 = new QCheckBox(horizontalWidget1);
-        Filter2_4->setObjectName(QString::fromUtf8("Filter2_4"));
-        Filter2_4->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_48->addWidget(Filter2_4);
-
-
-        horizontalLayout_45->addLayout(horizontalLayout_48);
-
-
-        formLayout->setLayout(15, QFormLayout::FieldRole, horizontalLayout_45);
-
-        label_141 = new QLabel(horizontalWidget1);
-        label_141->setObjectName(QString::fromUtf8("label_141"));
-        label_141->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(16, QFormLayout::LabelRole, label_141);
-
-        horizontalLayout_46 = new QHBoxLayout();
-        horizontalLayout_46->setSpacing(6);
-        horizontalLayout_46->setObjectName(QString::fromUtf8("horizontalLayout_46"));
-        FilterType3 = new QComboBox(horizontalWidget1);
-        FilterType3->setObjectName(QString::fromUtf8("FilterType3"));
-        FilterType3->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
-
-        horizontalLayout_46->addWidget(FilterType3);
-
-        horizontalLayout_49 = new QHBoxLayout();
-        horizontalLayout_49->setSpacing(6);
-        horizontalLayout_49->setObjectName(QString::fromUtf8("horizontalLayout_49"));
-        Filter3_1 = new QCheckBox(horizontalWidget1);
-        Filter3_1->setObjectName(QString::fromUtf8("Filter3_1"));
-        Filter3_1->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_49->addWidget(Filter3_1);
-
-        Filter3_2 = new QCheckBox(horizontalWidget1);
-        Filter3_2->setObjectName(QString::fromUtf8("Filter3_2"));
-        Filter3_2->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_49->addWidget(Filter3_2);
-
-        Filter3_3 = new QCheckBox(horizontalWidget1);
-        Filter3_3->setObjectName(QString::fromUtf8("Filter3_3"));
-        Filter3_3->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_49->addWidget(Filter3_3);
-
-        Filter3_4 = new QCheckBox(horizontalWidget1);
-        Filter3_4->setObjectName(QString::fromUtf8("Filter3_4"));
-        Filter3_4->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_49->addWidget(Filter3_4);
-
-
-        horizontalLayout_46->addLayout(horizontalLayout_49);
-
-
-        formLayout->setLayout(16, QFormLayout::FieldRole, horizontalLayout_46);
-
-        label_142 = new QLabel(horizontalWidget1);
-        label_142->setObjectName(QString::fromUtf8("label_142"));
-        label_142->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(17, QFormLayout::LabelRole, label_142);
-
-        horizontalLayout_47 = new QHBoxLayout();
-        horizontalLayout_47->setSpacing(6);
-        horizontalLayout_47->setObjectName(QString::fromUtf8("horizontalLayout_47"));
-        FilterType4 = new QComboBox(horizontalWidget1);
-        FilterType4->setObjectName(QString::fromUtf8("FilterType4"));
-        FilterType4->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
-
-        horizontalLayout_47->addWidget(FilterType4);
-
-        horizontalLayout_50 = new QHBoxLayout();
-        horizontalLayout_50->setSpacing(6);
-        horizontalLayout_50->setObjectName(QString::fromUtf8("horizontalLayout_50"));
-        Filter4_1 = new QCheckBox(horizontalWidget1);
-        Filter4_1->setObjectName(QString::fromUtf8("Filter4_1"));
-        Filter4_1->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_50->addWidget(Filter4_1);
-
-        Filter4_2 = new QCheckBox(horizontalWidget1);
-        Filter4_2->setObjectName(QString::fromUtf8("Filter4_2"));
-        Filter4_2->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_50->addWidget(Filter4_2);
-
-        Filter4_3 = new QCheckBox(horizontalWidget1);
-        Filter4_3->setObjectName(QString::fromUtf8("Filter4_3"));
-        Filter4_3->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_50->addWidget(Filter4_3);
-
-        Filter4_4 = new QCheckBox(horizontalWidget1);
-        Filter4_4->setObjectName(QString::fromUtf8("Filter4_4"));
-        Filter4_4->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_50->addWidget(Filter4_4);
-
-
-        horizontalLayout_47->addLayout(horizontalLayout_50);
-
-
-        formLayout->setLayout(17, QFormLayout::FieldRole, horizontalLayout_47);
-
-        label = new QLabel(horizontalWidget1);
-        label->setObjectName(QString::fromUtf8("label"));
-        label->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-
-        formLayout->setWidget(11, QFormLayout::LabelRole, label);
-
-        delay5 = new QDoubleSpinBox(horizontalWidget1);
-        delay5->setObjectName(QString::fromUtf8("delay5"));
-        delay5->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-        delay5->setDecimals(3);
-
-        formLayout->setWidget(11, QFormLayout::FieldRole, delay5);
-
-        label_146 = new QLabel(horizontalWidget1);
-        label_146->setObjectName(QString::fromUtf8("label_146"));
-        label_146->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(18, QFormLayout::LabelRole, label_146);
-
-        horizontalLayout_51 = new QHBoxLayout();
-        horizontalLayout_51->setSpacing(6);
-        horizontalLayout_51->setObjectName(QString::fromUtf8("horizontalLayout_51"));
-        FilterType5 = new QComboBox(horizontalWidget1);
-        FilterType5->setObjectName(QString::fromUtf8("FilterType5"));
-        FilterType5->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
-
-        horizontalLayout_51->addWidget(FilterType5);
-
-        horizontalLayout_52 = new QHBoxLayout();
-        horizontalLayout_52->setSpacing(6);
-        horizontalLayout_52->setObjectName(QString::fromUtf8("horizontalLayout_52"));
-        Filter5_1 = new QCheckBox(horizontalWidget1);
-        Filter5_1->setObjectName(QString::fromUtf8("Filter5_1"));
-        Filter5_1->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_52->addWidget(Filter5_1);
-
-        Filter5_2 = new QCheckBox(horizontalWidget1);
-        Filter5_2->setObjectName(QString::fromUtf8("Filter5_2"));
-        Filter5_2->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_52->addWidget(Filter5_2);
-
-        Filter5_3 = new QCheckBox(horizontalWidget1);
-        Filter5_3->setObjectName(QString::fromUtf8("Filter5_3"));
-        Filter5_3->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_52->addWidget(Filter5_3);
-
-        Filter5_4 = new QCheckBox(horizontalWidget1);
-        Filter5_4->setObjectName(QString::fromUtf8("Filter5_4"));
-        Filter5_4->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        horizontalLayout_52->addWidget(Filter5_4);
-
-
-        horizontalLayout_51->addLayout(horizontalLayout_52);
-
-
-        formLayout->setLayout(18, QFormLayout::FieldRole, horizontalLayout_51);
-
-        label_99 = new QLabel(horizontalWidget1);
-        label_99->setObjectName(QString::fromUtf8("label_99"));
-        label_99->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout->setWidget(4, QFormLayout::LabelRole, label_99);
-
-        thch5 = new QDoubleSpinBox(horizontalWidget1);
-        thch5->setObjectName(QString::fromUtf8("thch5"));
-        thch5->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        thch5->setDecimals(3);
-        thch5->setMinimum(-10.000000000000000);
-
-        formLayout->setWidget(4, QFormLayout::FieldRole, thch5);
-
-
-        horizontalLayout_25->addLayout(formLayout);
-
-        formLayout_4 = new QFormLayout();
-        formLayout_4->setSpacing(6);
-        formLayout_4->setObjectName(QString::fromUtf8("formLayout_4"));
+        Parameters_left = new QFormLayout();
+        Parameters_left->setSpacing(6);
+        Parameters_left->setObjectName(QString::fromUtf8("Parameters_left"));
+
+        horizontalLayout_25->addLayout(Parameters_left);
+
+        parameters_R = new QFormLayout();
+        parameters_R->setSpacing(6);
+        parameters_R->setObjectName(QString::fromUtf8("parameters_R"));
         label_73 = new QLabel(horizontalWidget1);
         label_73->setObjectName(QString::fromUtf8("label_73"));
         label_73->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
 
-        formLayout_4->setWidget(0, QFormLayout::LabelRole, label_73);
+        parameters_R->setWidget(0, QFormLayout::LabelRole, label_73);
 
         label_74 = new QLabel(horizontalWidget1);
         label_74->setObjectName(QString::fromUtf8("label_74"));
         label_74->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
 
-        formLayout_4->setWidget(1, QFormLayout::LabelRole, label_74);
+        parameters_R->setWidget(1, QFormLayout::LabelRole, label_74);
 
         label_75 = new QLabel(horizontalWidget1);
         label_75->setObjectName(QString::fromUtf8("label_75"));
         label_75->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
 
-        formLayout_4->setWidget(2, QFormLayout::LabelRole, label_75);
+        parameters_R->setWidget(2, QFormLayout::LabelRole, label_75);
 
         rof1 = new QComboBox(horizontalWidget1);
         rof1->setObjectName(QString::fromUtf8("rof1"));
         rof1->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
         rof1->setMaxVisibleItems(2);
 
-        formLayout_4->setWidget(0, QFormLayout::FieldRole, rof1);
+        parameters_R->setWidget(0, QFormLayout::FieldRole, rof1);
 
         rof2 = new QComboBox(horizontalWidget1);
         rof2->setObjectName(QString::fromUtf8("rof2"));
         rof2->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
         rof2->setMaxVisibleItems(2);
 
-        formLayout_4->setWidget(1, QFormLayout::FieldRole, rof2);
+        parameters_R->setWidget(1, QFormLayout::FieldRole, rof2);
 
         rof3 = new QComboBox(horizontalWidget1);
         rof3->setObjectName(QString::fromUtf8("rof3"));
         rof3->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
         rof3->setMaxVisibleItems(2);
 
-        formLayout_4->setWidget(2, QFormLayout::FieldRole, rof3);
+        parameters_R->setWidget(2, QFormLayout::FieldRole, rof3);
 
         label_97 = new QLabel(horizontalWidget1);
         label_97->setObjectName(QString::fromUtf8("label_97"));
         label_97->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
 
-        formLayout_4->setWidget(3, QFormLayout::LabelRole, label_97);
+        parameters_R->setWidget(3, QFormLayout::LabelRole, label_97);
 
         rof4 = new QComboBox(horizontalWidget1);
         rof4->setObjectName(QString::fromUtf8("rof4"));
         rof4->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
         rof4->setMaxVisibleItems(2);
 
-        formLayout_4->setWidget(3, QFormLayout::FieldRole, rof4);
+        parameters_R->setWidget(3, QFormLayout::FieldRole, rof4);
 
         label_98 = new QLabel(horizontalWidget1);
         label_98->setObjectName(QString::fromUtf8("label_98"));
         label_98->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
 
-        formLayout_4->setWidget(4, QFormLayout::LabelRole, label_98);
+        parameters_R->setWidget(4, QFormLayout::LabelRole, label_98);
 
         rof5 = new QComboBox(horizontalWidget1);
         rof5->setObjectName(QString::fromUtf8("rof5"));
         rof5->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
         rof5->setMaxVisibleItems(2);
 
-        formLayout_4->setWidget(4, QFormLayout::FieldRole, rof5);
+        parameters_R->setWidget(4, QFormLayout::FieldRole, rof5);
 
 
-        horizontalLayout_25->addLayout(formLayout_4);
+        horizontalLayout_25->addLayout(parameters_R);
 
 
         horizontalLayout_26->addWidget(horizontalWidget1);
@@ -1683,7 +1187,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1500, 25));
+        menuBar->setGeometry(QRect(0, 0, 1500, 22));
         QFont font;
         font.setPointSize(11);
         menuBar->setFont(font);
@@ -1697,14 +1201,16 @@ public:
         menuBar->addAction(menuconfig_n->menuAction());
         menuBar->addAction(menuEdit->menuAction());
         menuconfig_n->addSeparator();
+        menuconfig_n->addAction(actioninit_Qutag);
         menuconfig_n->addSeparator();
-        menuconfig_n->addAction(actionSave_state);
+        menuconfig_n->addSeparator();
         menuconfig_n->addAction(actionLoad_state);
+        menuconfig_n->addAction(actionSave_state);
         menuEdit->addAction(actionQKD);
 
         retranslateUi(MainWindow);
 
-        horizontalTabWidget->setCurrentIndex(1);
+        horizontalTabWidget->setCurrentIndex(2);
         rof1->setCurrentIndex(-1);
 
 
@@ -1718,6 +1224,7 @@ public:
         actionLoad_state->setText(QApplication::translate("MainWindow", "Load state", nullptr));
         actionQKD->setText(QApplication::translate("MainWindow", "Lines", nullptr));
         action7->setText(QApplication::translate("MainWindow", "7", nullptr));
+        actioninit_Qutag->setText(QApplication::translate("MainWindow", "init Qutag", nullptr));
         label_8->setText(QString());
         label_2->setText(QApplication::translate("MainWindow", "Histogram DisplayStart", nullptr));
         histStart->setSuffix(QApplication::translate("MainWindow", "  [ps]", nullptr));
@@ -1766,53 +1273,6 @@ public:
         VDL_start->setSuffix(QApplication::translate("MainWindow", " [ps]", nullptr));
         reset_delay->setText(QApplication::translate("MainWindow", "Reset Del.", nullptr));
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab2), QApplication::translate("MainWindow", "AND gates", nullptr));
-        label_16->setText(QApplication::translate("MainWindow", "Threshold ch1", nullptr));
-        label_71->setText(QApplication::translate("MainWindow", "Threshold ch2", nullptr));
-        label_72->setText(QApplication::translate("MainWindow", "Threshold ch3", nullptr));
-        label_96->setText(QApplication::translate("MainWindow", "Threshold ch4", nullptr));
-        label_76->setText(QApplication::translate("MainWindow", "Coinc Window", nullptr));
-        label_102->setText(QApplication::translate("MainWindow", "Optical delay line time", nullptr));
-        delayline->setSuffix(QApplication::translate("MainWindow", " [ps]", nullptr));
-        label_113->setText(QApplication::translate("MainWindow", "Delay Ch1", nullptr));
-        delay1->setSuffix(QApplication::translate("MainWindow", " [ns]", nullptr));
-        label_135->setText(QApplication::translate("MainWindow", "Delay Ch2", nullptr));
-        delay2->setSuffix(QApplication::translate("MainWindow", " [ns]", nullptr));
-        label_136->setText(QApplication::translate("MainWindow", "Delay Ch3", nullptr));
-        delay3->setSuffix(QApplication::translate("MainWindow", " [ns]", nullptr));
-        label_137->setText(QApplication::translate("MainWindow", "Delay Ch4", nullptr));
-        delay4->setSuffix(QApplication::translate("MainWindow", " [ns]", nullptr));
-        label_144->setText(QString());
-        label_143->setText(QString());
-        label_139->setText(QString());
-        label_145->setText(QString());
-        label_138->setText(QApplication::translate("MainWindow", "Filter Ch1", nullptr));
-        Filter1_1->setText(QApplication::translate("MainWindow", "1", nullptr));
-        Filter1_2->setText(QApplication::translate("MainWindow", "2", nullptr));
-        Filter1_3->setText(QApplication::translate("MainWindow", "3", nullptr));
-        Filter1_4->setText(QApplication::translate("MainWindow", "4", nullptr));
-        label_140->setText(QApplication::translate("MainWindow", "Filter Ch2", nullptr));
-        Filter2_1->setText(QApplication::translate("MainWindow", "1", nullptr));
-        Filter2_2->setText(QApplication::translate("MainWindow", "2", nullptr));
-        Filter2_3->setText(QApplication::translate("MainWindow", "3", nullptr));
-        Filter2_4->setText(QApplication::translate("MainWindow", "4", nullptr));
-        label_141->setText(QApplication::translate("MainWindow", "Filter Ch3", nullptr));
-        Filter3_1->setText(QApplication::translate("MainWindow", "1", nullptr));
-        Filter3_2->setText(QApplication::translate("MainWindow", "2", nullptr));
-        Filter3_3->setText(QApplication::translate("MainWindow", "3", nullptr));
-        Filter3_4->setText(QApplication::translate("MainWindow", "4", nullptr));
-        label_142->setText(QApplication::translate("MainWindow", "Filter Ch4", nullptr));
-        Filter4_1->setText(QApplication::translate("MainWindow", "1", nullptr));
-        Filter4_2->setText(QApplication::translate("MainWindow", "2", nullptr));
-        Filter4_3->setText(QApplication::translate("MainWindow", "3", nullptr));
-        Filter4_4->setText(QApplication::translate("MainWindow", "4", nullptr));
-        label->setText(QApplication::translate("MainWindow", "Delay Ch5", nullptr));
-        delay5->setSuffix(QApplication::translate("MainWindow", " [ns]", nullptr));
-        label_146->setText(QApplication::translate("MainWindow", "Filter Ch5", nullptr));
-        Filter5_1->setText(QApplication::translate("MainWindow", "1", nullptr));
-        Filter5_2->setText(QApplication::translate("MainWindow", "2", nullptr));
-        Filter5_3->setText(QApplication::translate("MainWindow", "3", nullptr));
-        Filter5_4->setText(QApplication::translate("MainWindow", "4", nullptr));
-        label_99->setText(QApplication::translate("MainWindow", "Threshold ch5", nullptr));
         label_73->setText(QApplication::translate("MainWindow", "RoF ch1", nullptr));
         label_74->setText(QApplication::translate("MainWindow", "RoF ch2", nullptr));
         label_75->setText(QApplication::translate("MainWindow", "RoF ch3", nullptr));

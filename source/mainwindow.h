@@ -16,6 +16,7 @@
 
 #define MAX_QUBITS 1000
 #define MAX_WIN 7
+#define NQUTAGCHANNELS 5
 
 
 namespace Ui {
@@ -39,11 +40,11 @@ public:
   void setupsignalslot();
   void setupsignalslot2();
   void setupHistoPlot(QCustomPlot *customPlot);
-  void setup_comboboxes();
+  void QUTAG_setup_comboboxes();
   
 
 private slots:
-
+  void QUTAG_initdone();
   void plotRates(int AoB, int event, double key);
   void plotRates_tab2(const vectorInt32 &dat, double key);
   void changeStartchan(int starchan){this->in_startChan=starchan;}
@@ -169,11 +170,12 @@ private slots:
 
    void chang_VDL_start(double v){in_VDL_start=v;}
 
+   void runQutag(bool a);
 
 private:
 
   Ui::MainWindow *ui;
-  qutagadq adq;
+  qutagadq qutag;
   qutaganl anl;
   DBControl dbc;
   OVDL ovdl_1;
@@ -293,6 +295,13 @@ private:
    int logicOP[MAX_LOGIC]={0};
    double in_VDL_start = 0;
 
+   void qutag_paremetes_setup();
+
+   QDoubleSpinBox *thch[NQUTAGCHANNELS];
+   QDoubleSpinBox *delaych[NQUTAGCHANNELS];
+   QCheckBox *qutagfilter[NQUTAGCHANNELS][NQUTAGCHANNELS];
+   QComboBox *qutagFilterType[NQUTAGCHANNELS];
+
 signals:
 
     //void main_CreateTableTab1(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD );
@@ -304,6 +313,8 @@ signals:
     void setOVDL(float timeps);
 };
 
+class Filtertype: public QWidget{
 
+};
 
 #endif // MAINWINDOW_H

@@ -30,8 +30,6 @@ typedef QVector<int> vectorInt;
 
 #define START_CHANNEL 5
 
-//#define HIST_BINCOUNT        5000  /* Histogram size */
-//#define HIST_BINWIDTH    20  /* Histogram bin width .5us */
 #define TIMESTAMP_COUNT   150000  /* Timestamp buffer size */
 //#define COLLECT_TIME         1000  /* Time [ms] for data acquisition per round */
 #define COLLECT_ROUNDS      100
@@ -137,6 +135,7 @@ signals:
     void dataready(const vectorInt64 &vectorTimetags, const vectorInt &vectorChannels, int tsvalid);
     void qutaghist(const vectorDouble &TTdata1, const vectorDouble &TTdata2, const vectorDouble &TTdata3, const vectorDouble &TTdata4, int count1, int count2, int count3, int count4);
     void TDCerror(QString text);
+    void initdone();
 private:
     QVector<double> dataA;
     QVector<double> dataB;
@@ -203,21 +202,33 @@ private:
 
 public:
    int TSpercentage=10;
-    clock_t begin, end;
-    double cpu_time_used;
-    bool initdone = 0;
-    double thresholds[5];
-    int in_cw;
-    bool RoF[5];
-    int ch_filtermask[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
-    TDC_FilterType filtertype[5];
-    QString filtertypeSTR[5] = {"NONE", "NONE", "NONE", "NONE", "NONE"};
-    int delays[8] = {0};
+   clock_t begin, end;
+   double cpu_time_used;
+   bool initdone_bool = 0;
+   double thresholds[5];
+   int in_cw;
+   int RoF[5];
+   int ch_filtermask[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
+   TDC_FilterType filtertype[5];
+   QString filtertypeSTR[5] = {"NONE", "NONE", "NONE", "NONE", "NONE"};
+   int delays[8] = {0};
+
 private:
 
     //nanosleep(&req, (struct timespec *)NULL);
     //static int32 TSValid;
 
 };
+
+
+
+class QUTAG_Channel : public QObject
+{
+Q_OBJECT
+    public slots:
+
+
+};
+
 
 #endif // ADQUICLASS_H
