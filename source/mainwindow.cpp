@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
-#include <QDesktopWidget>
+//#include <QDesktopWidget>
 #include <QScreen>
 #include <QMessageBox>
 #include <QMetaEnum>
@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
   ui->setupUi(this);
   setGeometry(200, 200, 1500, 800);
+
 
 setupsignalslot();
 
@@ -721,6 +722,8 @@ void MainWindow::setupsignalslot(){
     QObject::connect(&qutag, SIGNAL(initdone()), this , SLOT(QUTAG_initdone()));
 
      QObject::connect(ui->actioninit_Qutag, SIGNAL(triggered(bool)), this, SLOT(runQutag(bool)));
+
+    QObject::connect(this, SIGNAL(MWChang_qutag_filtertype(QString, int)), &qutag, SLOT(Chang_qutag_filtertype(QString, int)));
 }
 
 void MainWindow::setupsignalslot2(){
@@ -2089,6 +2092,13 @@ void MainWindow::tracktab2_change(bool c, int i){
 }*/
 
 void MainWindow::qutag_paremetes_setup(){
+    //filterTypemapper = new QSignalMapper(this);
+    //QObject::connect(filterTypemapper,SIGNAL(mapped(int)),this,SLOT(MWChang_filtertype_MAP(int)));
+    //QObject::connect(this,SIGNAL(MWChang_filtertype(QString, int)),&qutag,SLOT(Chang_filtertype(QString, int)));
+
+    //filterMaskmapper = new QSignalMapper(this);
+    //QObject::connect(filterMaskmapper,SIGNAL(mapped(int, int, int)),&qutag,SLOT(Chang_filtermask(int, int, int)));
+
     QLabel *thchLab[NQUTAGCHANNELS];
     QHBoxLayout *FiltersHLayout[NQUTAGCHANNELS];
     QHBoxLayout *FiltersboxesHLayout[NQUTAGCHANNELS];
@@ -2118,7 +2128,10 @@ void MainWindow::qutag_paremetes_setup(){
         qutagFilterType[i] ->addItem(tr("MUTE"));
         qutagFilterType[i] ->addItem(tr("COINC"));
         qutagFilterType[i] ->addItem(tr("SYNC"));
-        //QObject::connect(qutagFilterType[i], SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype[i](QString)));
+       // filterTypemapper->map(qutagFilterType[i]);
+
+        QObject::connect(qutagFilterType[i], &QComboBox::currentTextChanged,[this, i](const QString text) {emit MWChang_qutag_filtertype(text, i);});
+
         for (int j=0;j<NQUTAGCHANNELS ;j++) {
             qutagfilter[i][j] = new QCheckBox(QString::number(j)+tr(" "));
             qutagfilter[i][j]->setStyleSheet("color: rgb(238, 238, 236);");

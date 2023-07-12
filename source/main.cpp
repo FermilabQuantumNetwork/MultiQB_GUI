@@ -17,10 +17,12 @@ void my_handler(int s){
 
 int main(int argc, char *argv[])
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-  QApplication::setGraphicsSystem("raster");
-#endif
-  QApplication a(argc, argv);
+
+
+QFont font("DejaVuSerif-Bold");
+font.setStyleHint(QFont::Monospace);
+QApplication::setFont(font);
+QApplication a(argc, argv);
 
 
 ///////////ctl+c/////////////////////////////

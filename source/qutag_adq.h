@@ -95,11 +95,11 @@ public slots:
 
   void set_delays();
 
-  void Chang_filtertype1(QString text){filtertypeSTR[1]=text; updatefiltertype(1);}
+  /*void Chang_filtertype1(QString text){filtertypeSTR[1]=text; updatefiltertype(1);}
   void Chang_filtertype2(QString text){filtertypeSTR[2]=text; updatefiltertype(2);}
   void Chang_filtertype3(QString text){filtertypeSTR[3]=text; updatefiltertype(3);}
   void Chang_filtertype4(QString text){filtertypeSTR[4]=text; updatefiltertype(4);}
-  void Chang_filtertype5(QString text){filtertypeSTR[0]=text; updatefiltertype(0);}
+  void Chang_filtertype5(QString text){filtertypeSTR[0]=text; updatefiltertype(0);}*/
 
   void Chang_filtermask1_1(int state){if(state)ch_filtermask[1]|=0x1<<1;else ch_filtermask[1]&=!(0x1<<1);setfilter(1); }
   void Chang_filtermask1_2(int state){if(state)ch_filtermask[1]|=0x1<<2;else ch_filtermask[1]&=!(0x1<<2);setfilter(1); }
@@ -129,6 +129,9 @@ public slots:
   void TSanl(int val){this->in_TSON=val;}
   void changTSper(int val){this->TSpercentage=val;}
 
+  //void Chang_filtertype(QString text, int state);
+  //void Chang_filtermask(int row, int column, int state);
+  void Chang_qutag_filtertype(QString text, int row){filtertypeSTR[row]=text; updatefiltertype(1);}
 
 signals:
    // void dataready(const vectorInt64 &TTdata, const channelsTDCPP &CHdata, int nevent); // sends to inputdata()

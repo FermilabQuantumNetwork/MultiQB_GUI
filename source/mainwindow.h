@@ -302,6 +302,9 @@ private:
    QCheckBox *qutagfilter[NQUTAGCHANNELS][NQUTAGCHANNELS];
    QComboBox *qutagFilterType[NQUTAGCHANNELS];
 
+   QSignalMapper * filterMaskmapper;
+   QSignalMapper * filterTypemapper;
+
 signals:
 
     //void main_CreateTableTab1(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD );
@@ -311,6 +314,7 @@ signals:
     void main_SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD, float hist_adqtime);
     //QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD
     void setOVDL(float timeps);
+    void MWChang_qutag_filtertype(QString, int);
 };
 
 class Filtertype: public QWidget{
