@@ -301,9 +301,8 @@ private:
    QDoubleSpinBox *delaych[NQUTAGCHANNELS];
    QCheckBox *qutagfilter[NQUTAGCHANNELS][NQUTAGCHANNELS];
    QComboBox *qutagFilterType[NQUTAGCHANNELS];
+   QComboBox *qutagEdge[NQUTAGCHANNELS];
 
-   QSignalMapper * filterMaskmapper;
-   QSignalMapper * filterTypemapper;
 
 signals:
 
@@ -315,6 +314,10 @@ signals:
     //QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD
     void setOVDL(float timeps);
     void MWChang_qutag_filtertype(QString, int);
+    void MWChang_qutag_filtermask(int, int, int);
+    void MWChang_qutagThresh(double, int);
+    void MWChang_qutag_edge(QString, int);
+    void MWChang_qutag_delay(double, int);
 };
 
 class Filtertype: public QWidget{

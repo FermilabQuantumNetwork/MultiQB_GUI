@@ -59,7 +59,7 @@ lastPointKey_tab1 = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
 lastPointKey_tab2 = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
 
 
-
+tab2buttongroup.setExclusive(0);
 
 //dbc.start();
 
@@ -113,9 +113,12 @@ createQKDLinesD();
 ///////////////////////////////////////////////////////////
 
 void MainWindow::QUTAG_initdone(){
-    for (int i=0;i<5;i++)this->RoF[i]=qutag.RoF[i];
-    QUTAG_setup_comboboxes();
+
+
+    //QUTAG_setup_comboboxes();
     qutag_paremetes_setup();
+
+    //for (int i=0;i<5;i++)this->RoF[i]=qutag.RoF[i];
 
     /*
     for (int i = 0;i<NQUTAGCHANNELS ;i++ ) {
@@ -724,6 +727,14 @@ void MainWindow::setupsignalslot(){
      QObject::connect(ui->actioninit_Qutag, SIGNAL(triggered(bool)), this, SLOT(runQutag(bool)));
 
     QObject::connect(this, SIGNAL(MWChang_qutag_filtertype(QString, int)), &qutag, SLOT(Chang_qutag_filtertype(QString, int)));
+    QObject::connect(this, SIGNAL(MWChang_qutag_filtermask(int, int, int)), &qutag, SLOT(Chang_qutag_filtermask(int, int, int)));
+
+    QObject::connect(this, SIGNAL( MWChang_qutagThresh(double, int)), &qutag, SLOT(Chang_in_thch(double, int)));
+
+    QObject::connect(this, SIGNAL(MWChang_qutag_edge(QString, int)), &qutag, SLOT(Chang_rof(QString, int)));
+
+    QObject::connect(this, SIGNAL( MWChang_qutag_delay(double, int)), &qutag, SLOT(Chang_delay(double, int)));
+
 }
 
 void MainWindow::setupsignalslot2(){
@@ -744,11 +755,11 @@ void MainWindow::setupsignalslot2(){
     QObject::connect(&plotCtrackG, SIGNAL(ididToggled(int, bool)), this, SLOT(Chang_trackC(int, bool)));
     QObject::connect(&plotDtrackG, SIGNAL(ididToggled(int, bool)), this, SLOT(Chang_trackD(int, bool)));*/
 
-    QObject::connect(ui->rof1, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof1(QString)));
+    /*QObject::connect(ui->rof1, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof1(QString)));
     QObject::connect(ui->rof2, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof2(QString)));
     QObject::connect(ui->rof3, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof3(QString)));
     QObject::connect(ui->rof4, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof4(QString)));
-    QObject::connect(ui->rof5, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof5(QString)));
+    QObject::connect(ui->rof5, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof5(QString)));*/
 
   /*  QObject::connect(ui->FilterType1, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype1(QString)));
     QObject::connect(ui->FilterType2, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype2(QString)));
@@ -1530,7 +1541,7 @@ void MainWindow::setup_log_plot(QCustomPlot *histo){
 
 void MainWindow::QUTAG_setup_comboboxes(){
 
-    ui->rof1->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
+ /*   ui->rof1->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
     ui->rof2->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
     ui->rof3->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
     ui->rof4->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
@@ -1548,9 +1559,8 @@ void MainWindow::QUTAG_setup_comboboxes(){
     ui->rof4->addItem(tr("Fall"));
     ui->rof5->addItem(tr("Rise"));
     ui->rof5->addItem(tr("Fall"));
-
-
-    tab2buttongroup.setExclusive(0);
+*/
+   // tab2buttongroup.setExclusive(0);
 }
 
 void MainWindow::createQKDLinesA(){
@@ -2092,25 +2102,27 @@ void MainWindow::tracktab2_change(bool c, int i){
 }*/
 
 void MainWindow::qutag_paremetes_setup(){
-    //filterTypemapper = new QSignalMapper(this);
-    //QObject::connect(filterTypemapper,SIGNAL(mapped(int)),this,SLOT(MWChang_filtertype_MAP(int)));
-    //QObject::connect(this,SIGNAL(MWChang_filtertype(QString, int)),&qutag,SLOT(Chang_filtertype(QString, int)));
 
-    //filterMaskmapper = new QSignalMapper(this);
-    //QObject::connect(filterMaskmapper,SIGNAL(mapped(int, int, int)),&qutag,SLOT(Chang_filtermask(int, int, int)));
+    /*************Thresholds*********/
 
     QLabel *thchLab[NQUTAGCHANNELS];
-    QHBoxLayout *FiltersHLayout[NQUTAGCHANNELS];
-    QHBoxLayout *FiltersboxesHLayout[NQUTAGCHANNELS];
-    QLabel *filterLab[NQUTAGCHANNELS];
+
+
     for (int i=0;i<NQUTAGCHANNELS ;i++) {
         thchLab[i] = new QLabel(tr("Threshold Channel ")+QString::number(i));
         thchLab[i]->setStyleSheet("color: rgb(238, 238, 236)");
         thch[i] = new QDoubleSpinBox();
         thch[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
         ui->Parameters_left->addRow(thchLab[i], thch[i]);
-
+        QObject::connect(thch[i], &QDoubleSpinBox::valueChanged,[this, i](double thresh) {emit MWChang_qutagThresh(thresh, i);});
     }
+
+      /*************Filters*********/
+
+
+    QHBoxLayout *FiltersHLayout[NQUTAGCHANNELS];
+    QHBoxLayout *FiltersboxesHLayout[NQUTAGCHANNELS];
+    QLabel *filterLab[NQUTAGCHANNELS];
 
     for (int i=0;i<NQUTAGCHANNELS ;i++) {
         filterLab[i] = new QLabel(tr("Filter Ch ")+QString::number(i));
@@ -2136,7 +2148,7 @@ void MainWindow::qutag_paremetes_setup(){
             qutagfilter[i][j] = new QCheckBox(QString::number(j)+tr(" "));
             qutagfilter[i][j]->setStyleSheet("color: rgb(238, 238, 236);");
             FiltersboxesHLayout[i]->addWidget(qutagfilter[i][j]);
-
+            QObject::connect(qutagfilter[i][j], &QCheckBox::stateChanged,[this, i, j](int state) {emit MWChang_qutag_filtermask(state, i, j);});
         }
 
         FiltersHLayout[i]->addWidget(qutagFilterType[i]);
@@ -2144,6 +2156,35 @@ void MainWindow::qutag_paremetes_setup(){
 
     }
 
+    /*********Delays**********/
+
+
+    QLabel *delLab[NQUTAGCHANNELS];
+    for (int i=0;i<NQUTAGCHANNELS ;i++) {
+        delLab[i] = new QLabel(tr("Delay ch ")+QString::number(i));
+        delLab[i]->setStyleSheet("color: rgb(238, 238, 236)");
+        delaych[i] = new QDoubleSpinBox();
+        delaych[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+        ui->Parameters_left->addRow(delLab[i], delaych[i]);
+        QObject::connect(delaych[i], &QDoubleSpinBox::valueChanged,[this, i](double delay) {emit MWChang_qutag_delay(delay, i);});
+    }
+
+    /********** trigger polarity***********/
+
+    QLabel *edgeLab[NQUTAGCHANNELS];
+
+    for (int i=0;i<NQUTAGCHANNELS ;i++) {
+        edgeLab[i] = new QLabel(tr("Trigger polarity ch ")+QString::number(i));
+        edgeLab[i]->setStyleSheet("color: rgb(238, 238, 236)");
+        qutagEdge[i] = new QComboBox();
+        qutagEdge[i]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
+        qutagEdge[i] ->addItem(tr("RISE"));
+        qutagEdge[i] ->addItem(tr("FALL"));
+
+        QObject::connect(qutagEdge[i], &QComboBox::currentTextChanged,[this, i](const QString text) {emit MWChang_qutag_edge(text, i);});
+
+        ui->parameters_R->addRow(edgeLab[i], qutagEdge[i]);
+    }
 }
 
 void MainWindow::runQutag(bool a){

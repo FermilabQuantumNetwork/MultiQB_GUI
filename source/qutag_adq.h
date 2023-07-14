@@ -73,27 +73,32 @@ public slots:
 
   void Chang_anlAvilable(bool val){this->anlAvilable =val;}
 
-  void Chang_in_thch1(double val){thresholds[1]=val;changThreshold(1);}
+  /*void Chang_in_thch1(double val){thresholds[1]=val;changThreshold(1);}
   void Chang_in_thch2(double val){thresholds[2]=val;changThreshold(2);}
   void Chang_in_thch3(double val){thresholds[3]=val;changThreshold(3);}
   void Chang_in_thch4(double val){thresholds[4]=val;changThreshold(4);}
-  void Chang_in_thch5(double val){thresholds[0]=val;changThreshold(0);}
+  void Chang_in_thch5(double val){thresholds[0]=val;changThreshold(0);}*/
+
+  void Chang_in_thch(double val, int ch){thresholds[ch]=val;changThreshold(ch);}
 
   void Chang_in_cw(int val){this->in_cw=val; TDC_setCoincidenceWindow(val);}
 
-  void Chang_rof1(QString text){if(text=="Rise")RoF[1]=1;else RoF[1]=0;changThreshold(1);}
+  /*void Chang_rof1(QString text){if(text=="Rise")RoF[1]=1;else RoF[1]=0;changThreshold(1);}
   void Chang_rof2(QString text){if(text=="Rise")RoF[2]=1;else RoF[2]=0;changThreshold(2);}
   void Chang_rof3(QString text){if(text=="Rise")RoF[3]=1;else RoF[3]=0;changThreshold(3);}
   void Chang_rof4(QString text){if(text=="Rise")RoF[4]=1;else RoF[4]=0;changThreshold(4);}
-  void Chang_rof5(QString text){if(text=="Rise")RoF[0]=1;else RoF[0]=0;changThreshold(0);}
+  void Chang_rof5(QString text){if(text=="Rise")RoF[0]=1;else RoF[0]=0;changThreshold(0);}*/
 
-  void Chang_delay1(double val){delays[1]=int(1000*val);set_delays();}
+  void Chang_rof(QString text, int ch){if(text=="Rise")RoF[ch]=1;else RoF[ch]=0;changThreshold(ch);}
+
+  /*void Chang_delay1(double val){delays[1]=int(1000*val);set_delays();}
   void Chang_delay2(double val){delays[2]=int(1000*val);set_delays();}
   void Chang_delay3(double val){delays[3]=int(1000*val);set_delays();}
   void Chang_delay4(double val){delays[4]=int(1000*val);set_delays();}
-  void Chang_delay5(double val){delays[0]=int(1000*val);set_delays();}
+  void Chang_delay5(double val){delays[0]=int(1000*val);set_delays();}*/
+  void Chang_delay(double val, int ch){delays[ch]=int(1000*val);set_delays();}
 
-  void set_delays();
+
 
   /*void Chang_filtertype1(QString text){filtertypeSTR[1]=text; updatefiltertype(1);}
   void Chang_filtertype2(QString text){filtertypeSTR[2]=text; updatefiltertype(2);}
@@ -101,7 +106,7 @@ public slots:
   void Chang_filtertype4(QString text){filtertypeSTR[4]=text; updatefiltertype(4);}
   void Chang_filtertype5(QString text){filtertypeSTR[0]=text; updatefiltertype(0);}*/
 
-  void Chang_filtermask1_1(int state){if(state)ch_filtermask[1]|=0x1<<1;else ch_filtermask[1]&=!(0x1<<1);setfilter(1); }
+ /* void Chang_filtermask1_1(int state){if(state)ch_filtermask[1]|=0x1<<1;else ch_filtermask[1]&=!(0x1<<1);setfilter(1); }
   void Chang_filtermask1_2(int state){if(state)ch_filtermask[1]|=0x1<<2;else ch_filtermask[1]&=!(0x1<<2);setfilter(1); }
   void Chang_filtermask1_3(int state){if(state)ch_filtermask[1]|=0x1<<3;else ch_filtermask[1]&=!(0x1<<3);setfilter(1); }
   void Chang_filtermask1_4(int state){if(state)ch_filtermask[1]|=0x1<<4;else ch_filtermask[1]&=!(0x1<<4);setfilter(1); }
@@ -125,13 +130,14 @@ public slots:
   void Chang_filtermask5_2(int state){if(state)ch_filtermask[0]|=0x1<<2;else ch_filtermask[0]&=!(0x1<<2);setfilter(0); }
   void Chang_filtermask5_3(int state){if(state)ch_filtermask[0]|=0x1<<3;else ch_filtermask[0]&=!(0x1<<3);setfilter(0); }
   void Chang_filtermask5_4(int state){if(state)ch_filtermask[0]|=0x1<<4;else ch_filtermask[0]&=!(0x1<<4);setfilter(0); }
-
+*/
   void TSanl(int val){this->in_TSON=val;}
   void changTSper(int val){this->TSpercentage=val;}
 
   //void Chang_filtertype(QString text, int state);
   //void Chang_filtermask(int row, int column, int state);
-  void Chang_qutag_filtertype(QString text, int row){filtertypeSTR[row]=text; updatefiltertype(1);}
+  void Chang_qutag_filtertype(QString text, int row){filtertypeSTR[row]=text; updatefiltertype(row);}
+  void Chang_qutag_filtermask(int status, int row, int column){if(status)ch_filtermask[row]|=0x1<<column;else ch_filtermask[row]&=~(0x1<<column);setfilter(0); }
 
 signals:
    // void dataready(const vectorInt64 &TTdata, const channelsTDCPP &CHdata, int nevent); // sends to inputdata()
@@ -140,6 +146,7 @@ signals:
     void TDCerror(QString text);
     void initdone();
 private:
+    void set_delays();
     QVector<double> dataA;
     QVector<double> dataB;
     QVector<double> dataC;
@@ -161,7 +168,6 @@ private:
     QVector<int> channelsTDC;
     //QVector<int32_t> histo1vector, histo2vector;
 
-    int debug = DEBUG;
     bool _stop;
     int ret;
     Int32 rc, count, tooSmall, tooBig, tsValid, eventsA, eventsB, eventsC, eventsD, i, j, it, ch;

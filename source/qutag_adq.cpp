@@ -110,8 +110,8 @@ int qutagadq::filterset(){
      ///////////////initial thresholds and edges/////////////
      //int temp_edge[1];
      //double temp_thresh[1];
-     int *temp_edge = nullptr;
-     double *temp_thresh = nullptr;
+    /* int *temp_edge = nullptr;
+     double *temp_thresh = nullptr;*/
 
      for(int i = 0 ; i<5; i++){
          if(i==0)rc = TDC_getSignalConditioning(5, RoF,thresholds );
@@ -321,7 +321,7 @@ int qutagadq::filterset(){
     //std::cout<<count1<<"\t"<<count2<<"\t"<<count3<<"\t"<<count4<<"\t"<<std::endl;
     //std::cout<<dataA.size()<<"\t"<<dataB.size()<<"\t"<<dataC.size()<<"\t"<<dataD.size()<<"\t"<<std::endl;
 
-     if(count1 != 0 || count2 !=0 || count3 !=0|| count4 !=0) emit(qutaghist(dataA, dataB, dataC, dataD,  count1, count2, count3, count4));
+     if(count1 != 0 || count2 !=0 || count3 !=0|| count4 !=0) emit qutaghist(dataA, dataB, dataC, dataD,  count1, count2, count3, count4);
 
        dataA.clear();
        dataB.clear();

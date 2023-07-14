@@ -13,7 +13,6 @@
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QComboBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QFrame>
@@ -169,16 +168,19 @@ public:
     QHBoxLayout *horizontalLayout_25;
     QFormLayout *Parameters_left;
     QFormLayout *parameters_R;
-    QLabel *label_73;
-    QLabel *label_74;
-    QLabel *label_75;
-    QComboBox *rof1;
-    QComboBox *rof2;
-    QComboBox *rof3;
-    QLabel *label_97;
-    QComboBox *rof4;
-    QLabel *label_98;
-    QComboBox *rof5;
+    QWidget *tab4;
+    QVBoxLayout *verticalLayout_20;
+    QWidget *verticalWidget;
+    QVBoxLayout *verticalLayout_16;
+    QHBoxLayout *horizontalLayout_8;
+    QPushButton *connect_OVDL;
+    QSpacerItem *horizontalSpacer_3;
+    QHBoxLayout *horizontalLayout_7;
+    QFormLayout *OVDL_param;
+    QPushButton *pushButton;
+    QSpinBox *spinBox;
+    QSpacerItem *horizontalSpacer_2;
+    QSpacerItem *verticalSpacer_2;
     QMenuBar *menuBar;
     QMenu *menuconfig_n;
     QMenu *menuEdit;
@@ -1109,71 +1111,6 @@ public:
         parameters_R = new QFormLayout();
         parameters_R->setSpacing(6);
         parameters_R->setObjectName("parameters_R");
-        label_73 = new QLabel(horizontalWidget1);
-        label_73->setObjectName("label_73");
-        label_73->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        parameters_R->setWidget(0, QFormLayout::LabelRole, label_73);
-
-        label_74 = new QLabel(horizontalWidget1);
-        label_74->setObjectName("label_74");
-        label_74->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        parameters_R->setWidget(1, QFormLayout::LabelRole, label_74);
-
-        label_75 = new QLabel(horizontalWidget1);
-        label_75->setObjectName("label_75");
-        label_75->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        parameters_R->setWidget(2, QFormLayout::LabelRole, label_75);
-
-        rof1 = new QComboBox(horizontalWidget1);
-        rof1->setObjectName("rof1");
-        rof1->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
-        rof1->setMaxVisibleItems(2);
-
-        parameters_R->setWidget(0, QFormLayout::FieldRole, rof1);
-
-        rof2 = new QComboBox(horizontalWidget1);
-        rof2->setObjectName("rof2");
-        rof2->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
-        rof2->setMaxVisibleItems(2);
-
-        parameters_R->setWidget(1, QFormLayout::FieldRole, rof2);
-
-        rof3 = new QComboBox(horizontalWidget1);
-        rof3->setObjectName("rof3");
-        rof3->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
-        rof3->setMaxVisibleItems(2);
-
-        parameters_R->setWidget(2, QFormLayout::FieldRole, rof3);
-
-        label_97 = new QLabel(horizontalWidget1);
-        label_97->setObjectName("label_97");
-        label_97->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        parameters_R->setWidget(3, QFormLayout::LabelRole, label_97);
-
-        rof4 = new QComboBox(horizontalWidget1);
-        rof4->setObjectName("rof4");
-        rof4->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
-        rof4->setMaxVisibleItems(2);
-
-        parameters_R->setWidget(3, QFormLayout::FieldRole, rof4);
-
-        label_98 = new QLabel(horizontalWidget1);
-        label_98->setObjectName("label_98");
-        label_98->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        parameters_R->setWidget(4, QFormLayout::LabelRole, label_98);
-
-        rof5 = new QComboBox(horizontalWidget1);
-        rof5->setObjectName("rof5");
-        rof5->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
-        rof5->setMaxVisibleItems(2);
-
-        parameters_R->setWidget(4, QFormLayout::FieldRole, rof5);
-
 
         horizontalLayout_25->addLayout(parameters_R);
 
@@ -1181,6 +1118,69 @@ public:
         horizontalLayout_26->addWidget(horizontalWidget1);
 
         horizontalTabWidget->addTab(conf, QString());
+        tab4 = new QWidget();
+        tab4->setObjectName("tab4");
+        verticalLayout_20 = new QVBoxLayout(tab4);
+        verticalLayout_20->setSpacing(6);
+        verticalLayout_20->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_20->setObjectName("verticalLayout_20");
+        verticalWidget = new QWidget(tab4);
+        verticalWidget->setObjectName("verticalWidget");
+        verticalWidget->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
+        verticalLayout_16 = new QVBoxLayout(verticalWidget);
+        verticalLayout_16->setSpacing(6);
+        verticalLayout_16->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_16->setObjectName("verticalLayout_16");
+        horizontalLayout_8 = new QHBoxLayout();
+        horizontalLayout_8->setSpacing(6);
+        horizontalLayout_8->setObjectName("horizontalLayout_8");
+        connect_OVDL = new QPushButton(verticalWidget);
+        connect_OVDL->setObjectName("connect_OVDL");
+        connect_OVDL->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        horizontalLayout_8->addWidget(connect_OVDL);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_8->addItem(horizontalSpacer_3);
+
+
+        verticalLayout_16->addLayout(horizontalLayout_8);
+
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setObjectName("horizontalLayout_7");
+        OVDL_param = new QFormLayout();
+        OVDL_param->setSpacing(6);
+        OVDL_param->setObjectName("OVDL_param");
+        pushButton = new QPushButton(verticalWidget);
+        pushButton->setObjectName("pushButton");
+
+        OVDL_param->setWidget(0, QFormLayout::LabelRole, pushButton);
+
+        spinBox = new QSpinBox(verticalWidget);
+        spinBox->setObjectName("spinBox");
+
+        OVDL_param->setWidget(0, QFormLayout::FieldRole, spinBox);
+
+
+        horizontalLayout_7->addLayout(OVDL_param);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_7->addItem(horizontalSpacer_2);
+
+
+        verticalLayout_16->addLayout(horizontalLayout_7);
+
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_16->addItem(verticalSpacer_2);
+
+
+        verticalLayout_20->addWidget(verticalWidget);
+
+        horizontalTabWidget->addTab(tab4, QString());
 
         verticalLayout->addWidget(horizontalTabWidget);
 
@@ -1210,8 +1210,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        horizontalTabWidget->setCurrentIndex(2);
-        rof1->setCurrentIndex(-1);
+        horizontalTabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1273,13 +1272,10 @@ public:
         VDL_start->setSuffix(QCoreApplication::translate("MainWindow", " [ps]", nullptr));
         reset_delay->setText(QCoreApplication::translate("MainWindow", "Reset Del.", nullptr));
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab2), QCoreApplication::translate("MainWindow", "AND gates", nullptr));
-        label_73->setText(QCoreApplication::translate("MainWindow", "RoF ch1", nullptr));
-        label_74->setText(QCoreApplication::translate("MainWindow", "RoF ch2", nullptr));
-        label_75->setText(QCoreApplication::translate("MainWindow", "RoF ch3", nullptr));
-        rof1->setCurrentText(QString());
-        label_97->setText(QCoreApplication::translate("MainWindow", "RoF ch4", nullptr));
-        label_98->setText(QCoreApplication::translate("MainWindow", "RoF ch5", nullptr));
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(conf), QCoreApplication::translate("MainWindow", "Parameters", nullptr));
+        connect_OVDL->setText(QCoreApplication::translate("MainWindow", "OVDL connect", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab4), QCoreApplication::translate("MainWindow", "OVDL", nullptr));
         menuconfig_n->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
         menuEdit->setTitle(QCoreApplication::translate("MainWindow", "Edit", nullptr));
     } // retranslateUi

@@ -144,7 +144,7 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
     //if(outputCounter.isEmpty()) outputCounter.resize(numberOfLogicPlots);
     vectorInt32 threadCounter(numberOfLogicPlots,0);
     int ChannelIndex;
-    int StopIndex, aux1=0, aux2=0;
+    int StopIndex;
     QVector<bool> flagL(logicOP.size(),0);
     QVector<bool> flagR(logicOP.size(),0);
     ////two vectors with the same size (tsvalid) are comming, one with timestamps (vectorTimetags) and the other with the corresponding channel (vectorChannels)////
