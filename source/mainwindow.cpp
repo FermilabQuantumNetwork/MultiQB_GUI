@@ -118,14 +118,15 @@ void MainWindow::QUTAG_initdone(){
     //QUTAG_setup_comboboxes();
     qutag_paremetes_setup();
 
-    //for (int i=0;i<5;i++)this->RoF[i]=qutag.RoF[i];
+    //for (int i=0;i<NQUTAGCHANNELS;i++)qutagEdge[i]=qutag.RoF[i];
 
-    /*
+
     for (int i = 0;i<NQUTAGCHANNELS ;i++ ) {
         thch[i]->setValue(qutag.thresholds[i]);
         qutagFilterType[i]->setCurrentText(qutag.filtertypeSTR[i]);
         delaych[i]->setValue(double(qutag.delays[i])/1000);
-    }*/
+        if(qutag.RoF[i])qutagEdge[i]->setCurrentText("Rise");else qutagEdge[i]->setCurrentText("Fall");
+    }
 
 
 

@@ -113,11 +113,13 @@ int qutagadq::filterset(){
     /* int *temp_edge = nullptr;
      double *temp_thresh = nullptr;*/
 
-     for(int i = 0 ; i<5; i++){
+     for(int i = 0 ; i<NQUTAGCHANNELS; i++){
          if(i==0)rc = TDC_getSignalConditioning(5, RoF,thresholds );
          else rc = TDC_getSignalConditioning(i, RoF+i,thresholds+i );
          checkRc( "TDC_getSignalConditioning", rc );
          std::cout<<" ch "<<i<<" edge : "<<RoF[i]<<"\t thresh"<<thresholds[i] <<std::endl;
+
+
      }
 
 /*

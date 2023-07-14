@@ -37,6 +37,8 @@ typedef QVector<int> vectorInt;
 #define HIST_CH_MIN 1
 #define HIST_CH_MAX 4
 
+#define NQUTAGCHANNELS 5
+
 class qutagadq : public QThread
 {
     Q_OBJECT

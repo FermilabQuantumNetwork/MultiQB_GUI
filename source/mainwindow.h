@@ -16,7 +16,7 @@
 
 #define MAX_QUBITS 1000
 #define MAX_WIN 7
-#define NQUTAGCHANNELS 5
+
 
 
 namespace Ui {
