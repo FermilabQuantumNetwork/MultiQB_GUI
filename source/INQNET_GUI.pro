@@ -6,12 +6,12 @@ QT       += core gui multimedia sql widgets serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 
-INCLUDEPATH += $$PWD/../lib
+INCLUDEPATH += $$PWD/../lib /usr/lib/
 DEPENDPATH += $$PWD/../lib
 DEFINES += LINUX linux
 TARGET = PROGRAM
 TEMPLATE = app
-LIBS += -DLINUX -Dlinux -L$$PWD/../lib/ -lftd3xx -ltdcbase
+LIBS += -DLINUX -Dlinux -L$$PWD/../lib/ -lftd3xx -ltdcbase -lTimeTagger
 PKGCONFIG += 
 CONFIG += link_pkgconfig 
 
@@ -28,7 +28,8 @@ SOURCES += main.cpp\
            qcustomplot.cpp \
            qutag_adq.cpp \
            qutag_anl.cpp \
-    ovdl.cpp
+    ovdl.cpp \
+    timetaggerultra.cpp
           
 
 HEADERS  += mainwindow.h \
@@ -40,7 +41,8 @@ HEADERS  += mainwindow.h \
             tdcbase.h \
             tdcdecl.h \
             tdcstartstop.h \
-    ovdl.h
+    ovdl.h \
+    timetaggerultra.h
 	   
 
 FORMS    += mainwindow.ui \

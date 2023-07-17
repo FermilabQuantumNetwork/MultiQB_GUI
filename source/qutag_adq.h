@@ -233,13 +233,4 @@ private:
 
 
 
-class QUTAG_Channel : public QObject
-{
-Q_OBJECT
-    public slots:
-
-
-};
-
-
 #endif // ADQUICLASS_H
