@@ -30,7 +30,7 @@ setupHistoPlot(ui->PlotC);
 setupHistoPlot(ui->PlotD);
 
 plotslist<<QString("")<<QString("PlotA")<<QString("PlotB")<< QString("PlotC")<< QString("PlotD");
-logicrelations<<QString("")<<QString("AND")<<QString("OR");
+logicrelations<<QString("")<<QString("OR")<<QString("AND");
 
 setupratePlot(ui->PlotTrack);
 setupratePlot_tab2(ui->PlotTab2);
@@ -68,31 +68,9 @@ tab2buttongroup.setExclusive(0);
 //while(adq.isRunning())usleep(100);
 
 
-
-/*if(RoF[1])ui->rof1->setCurrentText("Rise");
-else ui->rof1->setCurrentText("Fall");
-if(RoF[2])ui->rof2->setCurrentText("Rise");
-else ui->rof2->setCurrentText("Fall");
-if(RoF[3])ui->rof3->setCurrentText("Rise");
-else ui->rof3->setCurrentText("Fall");
-if(RoF[4])ui->rof4->setCurrentText("Rise");
-else ui->rof4->setCurrentText("Fall");
-if(RoF[0])ui->rof5->setCurrentText("Rise");
-else ui->rof5->setCurrentText("Fall");
-*/
-//std::cout<<"filtersss   "<<adq.filtertypeSTR[1].toStdString()<<"  "<<adq.filtertypeSTR[2].toStdString()<<"   "<<adq.filtertypeSTR[3].toStdString()<<std::endl;
-
-
-
-
 qkdparam.QKD_setDefault();
 
 setupsignalslot2();
-
-//qutag.start();//the start rutine for the adquisition
-
-
-//std::cout<<" MAINWINDOW rof"<<adq.RoF[1]<<"rof"<<adq.RoF[2]<<"rof"<<adq.RoF[3]<<"rof"<<adq.RoF[4]<<std::endl;
 
 //adq.initdone = 1;
 
@@ -115,7 +93,6 @@ createQKDLinesD();
 void MainWindow::QUTAG_initdone(){
 
 
-    //QUTAG_setup_comboboxes();
     qutag_paremetes_setup();
 
     //for (int i=0;i<NQUTAGCHANNELS;i++)qutagEdge[i]=qutag.RoF[i];
@@ -128,55 +105,12 @@ void MainWindow::QUTAG_initdone(){
         if(qutag.RoF[i])qutagEdge[i]->setCurrentText("Rise");else qutagEdge[i]->setCurrentText("Fall");
     }
 
-
-
-
-  /*  if(adq.ch_filtermask[1] & 0x01<<1)ui->Filter1_1->setCheckState(Qt::Checked);
-    else ui->Filter1_1->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[1] & 0x01<<2)ui->Filter1_2->setCheckState(Qt::Checked);
-    else ui->Filter1_2->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[1] & 0x01<<3)ui->Filter1_3->setCheckState(Qt::Checked);
-    else ui->Filter1_3->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[1] & 0x01<<4)ui->Filter1_4->setCheckState(Qt::Checked);
-    else ui->Filter1_4->setCheckState(Qt::Unchecked);
-
-    if(adq.ch_filtermask[2] & 0x01<<1)ui->Filter2_1->setCheckState(Qt::Checked);
-    else ui->Filter2_1->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[2] & 0x01<<2)ui->Filter2_2->setCheckState(Qt::Checked);
-    else ui->Filter2_2->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[2] & 0x01<<3)ui->Filter2_3->setCheckState(Qt::Checked);
-    else ui->Filter2_3->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[2] & 0x01<<4)ui->Filter2_4->setCheckState(Qt::Checked);
-    else ui->Filter2_4->setCheckState(Qt::Unchecked);
-
-    if(adq.ch_filtermask[3] & 0x01<<1)ui->Filter3_1->setCheckState(Qt::Checked);
-    else ui->Filter3_1->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[3] & 0x01<<2)ui->Filter3_2->setCheckState(Qt::Checked);
-    else ui->Filter3_2->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[3] & 0x01<<3)ui->Filter3_3->setCheckState(Qt::Checked);
-    else ui->Filter3_3->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[3] & 0x01<<4)ui->Filter3_4->setCheckState(Qt::Checked);
-    else ui->Filter3_4->setCheckState(Qt::Unchecked);
-
-    if(adq.ch_filtermask[4] & 0x01<<1)ui->Filter4_1->setCheckState(Qt::Checked);
-    else ui->Filter4_1->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[4] & 0x01<<2)ui->Filter4_2->setCheckState(Qt::Checked);
-    else ui->Filter4_2->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[4] & 0x01<<3)ui->Filter4_3->setCheckState(Qt::Checked);
-    else ui->Filter4_3->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[4] & 0x01<<4)ui->Filter4_4->setCheckState(Qt::Checked);
-    else ui->Filter4_4->setCheckState(Qt::Unchecked);
-
-    if(adq.ch_filtermask[0] & 0x01<<1)ui->Filter5_1->setCheckState(Qt::Checked);
-    else ui->Filter5_1->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[0] & 0x01<<2)ui->Filter5_2->setCheckState(Qt::Checked);
-    else ui->Filter5_2->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[0] & 0x01<<3)ui->Filter5_3->setCheckState(Qt::Checked);
-    else ui->Filter5_3->setCheckState(Qt::Unchecked);
-    if(adq.ch_filtermask[0] & 0x01<<4)ui->Filter5_4->setCheckState(Qt::Checked);
-    else ui->Filter5_4->setCheckState(Qt::Unchecked);
-   */
 }
+
+void MainWindow::TTUinitdone(){
+    TTU_paremetes_setup();
+}
+
 void MainWindow::setup_histolines_QKD(){
 
     for (int i = 0 ; i<MAX_QUBITS ; i++) {
@@ -552,7 +486,6 @@ void MainWindow::setupsignalslot(){
 
     //QTimer::singleShot(0, this, SLOT(showFullScreen()));
 
-
     qRegisterMetaType<vectorInt64>("vectorInt64");
     qRegisterMetaType<vectorInt32>("vectorInt32");
     qRegisterMetaType<vectorInt8>("vectorInt8");
@@ -600,18 +533,6 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(&anl, SIGNAL(rates_tab2(vectorInt32, double)), this, SLOT(plotRates_tab2(vectorInt32, double)));
 
-    /*QObject::connect(ui->thch1, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_in_thch1(double)));
-    QObject::connect(ui->thch2, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_in_thch2(double)));
-    QObject::connect(ui->thch3, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_in_thch3(double)));
-    QObject::connect(ui->thch4, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_in_thch4(double)));
-
-    QObject::connect(ui->thch1, SIGNAL(valueChanged(double)), this, SLOT(Chang_in_thch1(double)));
-    QObject::connect(ui->thch2, SIGNAL(valueChanged(double)), this, SLOT(Chang_in_thch2(double)));
-    QObject::connect(ui->thch3, SIGNAL(valueChanged(double)), this, SLOT(Chang_in_thch3(double)));
-    QObject::connect(ui->thch4, SIGNAL(valueChanged(double)), this, SLOT(Chang_in_thch4(double)));
-
-    QObject::connect(ui->cw, SIGNAL(valueChanged(int)), &qutag, SLOT(Chang_in_cw(int)));
-    QObject::connect(ui->cw, SIGNAL(valueChanged(int)), this, SLOT(Chang_in_cw(int)));*/
 
     QObject::connect(ui->DBON, SIGNAL(valueChanged(int)), this, SLOT(turnONDB(int)));
 
@@ -619,8 +540,8 @@ void MainWindow::setupsignalslot(){
     QObject::connect(ui->actionLoad_state, SIGNAL(triggered(bool)), this, SLOT(LoadState(bool)));
 
 
-    QObject::connect(ui->BSM, SIGNAL(released()), this, SLOT(setBSMmeas()));
-    QObject::connect(ui->HOM, SIGNAL(released()), this, SLOT(setHOMmeas()));
+    QObject::connect(ui->loadLogic, SIGNAL(released()), this, SLOT(loadLogicS()));
+    QObject::connect(ui->saveLogic, SIGNAL(released()), this, SLOT(saveLogicS()));
 
     //QObject::connect(ui->delayline, SIGNAL(valueChanged(int)), this, SLOT(Chang_delayline(int)));
 
@@ -629,10 +550,6 @@ void MainWindow::setupsignalslot(){
     QObject::connect(this, SIGNAL( main_CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool)), &dbc, SLOT(CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool)),Qt::QueuedConnection);
     QObject::connect(this, SIGNAL(main_SaveTab2Values(vectorInt32, float, double)), &dbc, SLOT(SaveTab2Values(vectorInt32, float, double)),Qt::QueuedConnection);
     QObject::connect(this, SIGNAL(main_SaveTab1Values(vectorInt32,vectorInt32,vectorInt32,vectorInt32,float)), &dbc, SLOT(SaveTab1Values(vectorInt32,vectorInt32,vectorInt32,vectorInt32,float)),Qt::QueuedConnection);
-    /*void main_CreateTableTab1(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD );
-    void main_CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate);
-    void main_SaveTab2Values(QVector<int> datatab2, float andTime, int delayline);
-    void main_SaveTab1Values(QVector<int> dataplots, float hist_adqtime);*/
 
 
     QObject::connect(ui->homscan_timed, SIGNAL(valueChanged(double)), this, SLOT(Chang_homscan_time(double)));
@@ -649,17 +566,6 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(ui->clean_tab2, SIGNAL(released()), this, SLOT(clean_tab2()));
 
- /*   QObject::connect(ui->rof1, SIGNAL(currentTextChanged(QString)), this, SLOT(Chang_rof1(QString)));
-    QObject::connect(ui->rof2, SIGNAL(currentTextChanged(QString)), this, SLOT(Chang_rof2(QString)));
-    QObject::connect(ui->rof3, SIGNAL(currentTextChanged(QString)), this, SLOT(Chang_rof3(QString)));
-    QObject::connect(ui->rof4, SIGNAL(currentTextChanged(QString)), this, SLOT(Chang_rof4(QString)));*/
-
-
-    /*QObject::connect(ui->delay1, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_delay1(double)));
-    QObject::connect(ui->delay2, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_delay2(double)));
-    QObject::connect(ui->delay3, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_delay3(double)));
-    QObject::connect(ui->delay4, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_delay4(double)));
-    QObject::connect(ui->delay5, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_delay5(double)));*/
 
     QObject::connect(&qutag, SIGNAL(TDCerror(QString)), this, SLOT(error1(QString)) );
 
@@ -736,6 +642,10 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(this, SIGNAL( MWChang_qutag_delay(double, int)), &qutag, SLOT(Chang_delay(double, int)));
 
+
+    QObject::connect(ui->actioninit_TTU, SIGNAL(triggered(bool)), this, SLOT(runTTU(bool)));
+
+    QObject::connect(ui->connect_OVDL, SIGNAL(released()), &ovdl_1, SLOT(ovdlconnect()));
 }
 
 void MainWindow::setupsignalslot2(){
@@ -1058,15 +968,16 @@ void MainWindow::histoplot(const vectorDouble &datA, const vectorDouble &datB, c
 }
 
 void MainWindow::turnONDB(int val){
-    if(!dbc.isRunning() && dbrunning == 0 && val==1){
+    if(!dbc.isRunning()  && val==1){
         dbc.run();
-        dbrunning=val;
+        //dbrunning=val;
     }
-    if(dbc.isRunning() && dbrunning == 1 && val==0){
-        dbrunning = val;
-        while(dbc.isRunning())usleep(100);
-        dbc.~DBControl();
-        for (int i=0;i<in_QKD_pxqA;i++) {
+    if(val==0){
+        //dbrunning = val;
+        dbc.disconnectFromServer();
+        //while(dbc.isRunning())usleep(100);
+        //dbc.~DBControl();
+        /*for (int i=0;i<in_QKD_pxqA;i++) {
             trackA[i]->setEnabled(true);
         }
         for (int i=0;i<in_QKD_pxqB;i++) {
@@ -1077,7 +988,7 @@ void MainWindow::turnONDB(int val){
         }
         for (int i=0;i<in_QKD_pxqD;i++) {
             trackD[i]->setEnabled(true);
-        }
+        }*/
     }
    // dbrunning=val;
     if(val){
@@ -1185,19 +1096,12 @@ void MainWindow::SaveState(bool a){
                     mapdouble.insert("in_adqtime", in_adqtime);
                     mapdouble.insert("in_adqtime_2", double(in_adqtime_2));
 
-                    /*mapint.insert("RoF1",int(RoF[1]));
-                    mapint.insert("RoF2",int(RoF[2]));
-                    mapint.insert("RoF3",int(RoF[3]));
-                    mapint.insert("RoF4",int(RoF[4]));*/
 
                     /*QMapIterator<QString,int>ip(mapint);
                     while (ip.hasNext()) {
                         ip.next();
                         std::cout<< ip.key().toStdString()<< ": " << ip.value() << std::endl;
 
- double in_thch1, in_thch2,in_thch3,in_thch4;
- int in_cw;
- bool RoF[5];
                     }*/
                     out<<mapint;
                     out<<mapdouble;
@@ -1296,7 +1200,7 @@ void MainWindow::SaveSeason(bool a){
     out.setVersion(QDataStream::Qt_4_5);
     QMap<QString, int> mapint;
     QMap<QString, double> mapdouble;
-    QString localstring;
+
 
     mapint.insert("in_startChan",in_startChan);
 
@@ -1423,17 +1327,113 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
-void MainWindow::setBSMmeas(){
+void MainWindow::loadLogicS(){
 
-    //ui->win3_2->setValue(2);
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                  "./",
+                                                  tr("Images (LogicState*)"));
 
+    if (fileName.isEmpty())return;
+    else {
+
+        QFile file(fileName);
+
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+            return;
+        }
+
+        QMap<QString, int> mapintout;
+        QMap<QString, QString> mapstringout;
+
+        QDataStream in(&file);
+        //in.setVersion(QDataStream::Qt_4_5);
+        in>>mapintout;
+        in>>mapstringout;
+
+        if(mapintout.contains("numberOfLogicPlots")){
+            int logicnumberloaded = mapintout.value("numberOfLogicPlots");
+            for(int i = 0; i<logicnumberloaded; i++)if(numberOfLogicPlots <=logicnumberloaded)this->AddLogicSelectorElement();
+            for(int i = 0; i<logicnumberloaded; i++){
+                QString LeftSourceMap = QString("SourceLeft%1").arg(i);
+                if(mapintout.contains(LeftSourceMap)){
+                int LeftSourceMapValue = mapintout.value(LeftSourceMap);
+                //qDebug()<<mapintout.value(QString("SourceLeft%1").arg(i));
+                if(LeftSourceMapValue<0){
+                    LogicL[i]->setCurrentIndex(-1*LeftSourceMapValue);
+                    QString WinLeftMap = QString("WindowLeft%1").arg(i);
+                    if(mapintout.contains(WinLeftMap)){
+                        int WinLeftMapValue = mapintout.value(WinLeftMap);
+                        LogicWinL[i]->setCurrentIndex(WinLeftMapValue+1);
+
+                    }
+                }
+                if(LeftSourceMapValue>=0)LogicL[i]->setCurrentText(QString::number(LeftSourceMapValue));
+                }
+                QString RightSourceMap = QString("SourceRight%1").arg(i);
+                if(mapintout.contains(RightSourceMap)){
+                int RightSourceMapValue = mapintout.value(RightSourceMap);
+                if(RightSourceMapValue<0){
+                    LogicR[i]->setCurrentIndex(-1*RightSourceMapValue);
+                    QString WinRightMap = QString("WindowRight%1").arg(i);
+                    if(mapintout.contains(WinRightMap)){
+                        int WinLeftMapValue = mapintout.value(WinRightMap);
+                        //qDebug()<<"winlef"<<WinLeftMapValue;
+                        LogicWinR[i]->setCurrentIndex(WinLeftMapValue+1);
+                    }
+                }
+                if(RightSourceMapValue>=0)LogicR[i]->setCurrentText(QString::number(RightSourceMapValue));
+                }
+                QString LogicOperatorMap = QString("LogicOperator%1").arg(i);
+                //qDebug()<<"LogicOperatorMap: "<<LogicOperatorMap<<"\t value: "<<mapstringout.value(LogicOperatorMap);
+                if(mapstringout.contains(LogicOperatorMap) ){
+                //int LogicOperatorMapValue = mapintout.value(LogicOperatorMap);
+                    //qDebug()<<"log op"<<mapstringout.value(LogicOperatorMap);
+                    LogicG[i]->setCurrentText(mapstringout.value(LogicOperatorMap));
+                //LogicG[i]->setCurrentIndex(LogicOperatorMapValue+1);
+                }
+            }
+
+        }
+    }
 }
 
-void MainWindow::setHOMmeas(){
+void MainWindow::saveLogicS(){
 
-    QMessageBox msgBox;
-    msgBox.setText("Still to do :P");
-    msgBox.exec();
+
+    bool ok;
+    QString com = QInputDialog::getText(this, tr("Record DATA"),tr("Insert a name for the file"), QLineEdit::Normal,QDir::home().dirName(), &ok);
+
+        if (ok && !com.isEmpty()){
+            com.prepend("LogicState_");
+            com.append(".txt");
+            QFile LogicFile(com);
+            if (!LogicFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                QMessageBox::information(this, tr("Unable to open file"),
+                LogicFile.errorString());
+                return;
+            }
+            QDataStream out(&LogicFile);
+
+            //out.setVersion(QDataStream::Qt_4_5);
+
+            QMap<QString, int> mapint;
+            QMap<QString, QString> mapstring;
+
+            mapint.insert("numberOfLogicPlots", anl.numberOfLogicPlots);
+
+            for(int i=0;i<anl.numberOfLogicPlots;i++){
+                mapint.insert(QString("SourceLeft%1").arg(i), anl.LSource[i]);
+                mapint.insert(QString("SourceRight%1").arg(i), anl.RSource[i]);
+                mapint.insert(QString("WindowLeft%1").arg(i), anl.LWin[i]);
+                mapint.insert(QString("WindowRight%1").arg(i), anl.RWin[i]);
+                //mapint.insert(QString("LogicOperator%1").arg(i), anl.logicOP[i]);
+                mapstring.insert(QString("LogicOperator%1").arg(i), LogicG[i]->currentText());
+            }
+            out<<mapint;
+            out<<mapstring;
+       }
+
 }
 
 void MainWindow::clean_tab2(){
@@ -1461,6 +1461,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
    SaveSeason(1);
    std::cout<<"going out"<<std::endl;
    qutag.Break();
+   TTU1.Break();
    anl.Break();
    qutag.quit();
    //anl.quit();
@@ -1473,7 +1474,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
 
 
    while(qutag.isRunning())sleep(1);std::cout<<"adq"<<std::endl;
-   //while(anl.isRunning())sleep(1);std::cout<<"anl"<<std::endl;
+   while(TTU1.isRunning())sleep(1);std::cout<<"TTU"<<std::endl;
    while( dbc.isRunning())sleep(1);std::cout<<"dbc"<<std::endl;
    //usleep(1000);
    event->accept();
@@ -2113,6 +2114,11 @@ void MainWindow::qutag_paremetes_setup(){
         thchLab[i] = new QLabel(tr("Threshold Channel ")+QString::number(i));
         thchLab[i]->setStyleSheet("color: rgb(238, 238, 236)");
         thch[i] = new QDoubleSpinBox();
+        thch[i]->setMaximum(3);
+        thch[i]->setMinimum(-3);
+        thch[i]->setDecimals(3);
+        thch[i]->setSuffix(" [V]");
+        thch[i]->setSingleStep(THRESHOLD_STEP);
         thch[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
         ui->Parameters_left->addRow(thchLab[i], thch[i]);
         QObject::connect(thch[i], &QDoubleSpinBox::valueChanged,[this, i](double thresh) {emit MWChang_qutagThresh(thresh, i);});
@@ -2165,6 +2171,11 @@ void MainWindow::qutag_paremetes_setup(){
         delLab[i] = new QLabel(tr("Delay ch ")+QString::number(i));
         delLab[i]->setStyleSheet("color: rgb(238, 238, 236)");
         delaych[i] = new QDoubleSpinBox();
+        delaych[i]->setMaximum(100000);
+        delaych[i]->setMinimum(-100000);
+        delaych[i]->setDecimals(0);
+        delaych[i]->setSuffix(" [ps]");
+        delaych[i]->setSingleStep(DELAY_STEP);
         delaych[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
         ui->Parameters_left->addRow(delLab[i], delaych[i]);
         QObject::connect(delaych[i], &QDoubleSpinBox::valueChanged,[this, i](double delay) {emit MWChang_qutag_delay(delay, i);});
@@ -2193,3 +2204,13 @@ void MainWindow::runQutag(bool a){
         qutag.start();
     }
 }
+
+void MainWindow::TTU_paremetes_setup(){
+
+}
+void MainWindow::runTTU(bool a){
+    if(!TTU1.isRunning()){
+        TTU1.start();
+    }
+}
+

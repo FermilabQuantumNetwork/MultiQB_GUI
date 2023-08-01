@@ -1309,22 +1309,22 @@
                 <item>
                  <layout class="QFormLayout" name="formLayout_2">
                   <item row="0" column="0">
-                   <widget class="QPushButton" name="BSM">
+                   <widget class="QPushButton" name="saveLogic">
                     <property name="styleSheet">
                      <string notr="true">color: rgb(238, 238, 236);</string>
                     </property>
                     <property name="text">
-                     <string>BSM</string>
+                     <string>Save</string>
                     </property>
                    </widget>
                   </item>
                   <item row="0" column="1">
-                   <widget class="QPushButton" name="HOM">
+                   <widget class="QPushButton" name="loadLogic">
                     <property name="styleSheet">
                      <string notr="true">color: rgb(238, 238, 236);</string>
                     </property>
                     <property name="text">
-                     <string>HOM</string>
+                     <string>Load</string>
                     </property>
                    </widget>
                   </item>
@@ -1526,185 +1526,6 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QFormLayout" name="formLayout_7">
-                  <property name="topMargin">
-                   <number>20</number>
-                  </property>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_103">
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(238, 238, 236);</string>
-                    </property>
-                    <property name="text">
-                     <string>Scan mode</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QSlider" name="homscan">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(238, 238, 236);</string>
-                    </property>
-                    <property name="minimum">
-                     <number>0</number>
-                    </property>
-                    <property name="maximum">
-                     <number>1</number>
-                    </property>
-                    <property name="value">
-                     <number>0</number>
-                    </property>
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_104">
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(238, 238, 236);</string>
-                    </property>
-                    <property name="text">
-                     <string>Scan step Size</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QDoubleSpinBox" name="homscan_timed">
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(238, 238, 236);</string>
-                    </property>
-                    <property name="suffix">
-                     <string> [ps]</string>
-                    </property>
-                    <property name="decimals">
-                     <number>3</number>
-                    </property>
-                    <property name="minimum">
-                     <double>0.001000000000000</double>
-                    </property>
-                    <property name="maximum">
-                     <double>560.000000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0">
-                   <widget class="QLabel" name="label_108">
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(238, 238, 236);</string>
-                    </property>
-                    <property name="text">
-                     <string>Step duration</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="1">
-                   <widget class="QSpinBox" name="stepduration">
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(238, 238, 236);</string>
-                    </property>
-                    <property name="suffix">
-                     <string> [ps]</string>
-                    </property>
-                    <property name="minimum">
-                     <number>1</number>
-                    </property>
-                    <property name="maximum">
-                     <number>50000</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="0">
-                   <widget class="QLabel" name="label_106">
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(238, 238, 236);</string>
-                    </property>
-                    <property name="text">
-                     <string>Max Delay</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="1">
-                   <widget class="QDoubleSpinBox" name="Max_delayd">
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(238, 238, 236);</string>
-                    </property>
-                    <property name="suffix">
-                     <string> [ps]</string>
-                    </property>
-                    <property name="decimals">
-                     <number>3</number>
-                    </property>
-                    <property name="minimum">
-                     <double>1.000000000000000</double>
-                    </property>
-                    <property name="maximum">
-                     <double>560.000000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="5" column="0">
-                   <widget class="QLabel" name="label_105">
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(238, 238, 236);</string>
-                    </property>
-                    <property name="text">
-                     <string>Current pos.</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="5" column="1">
-                   <widget class="QLCDNumber" name="current_delay_pos">
-                    <property name="digitCount">
-                     <number>4</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="label_9">
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(238, 238, 236);</string>
-                    </property>
-                    <property name="text">
-                     <string>Start delay</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="1">
-                   <widget class="QDoubleSpinBox" name="VDL_start">
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(238, 238, 236);</string>
-                    </property>
-                    <property name="suffix">
-                     <string> [ps]</string>
-                    </property>
-                    <property name="decimals">
-                     <number>3</number>
-                    </property>
-                    <property name="maximum">
-                     <double>560.000000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="reset_delay">
-                  <property name="styleSheet">
-                   <string notr="true">color: rgb(238, 238, 236);</string>
-                  </property>
-                  <property name="text">
-                   <string>Reset Del.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
                  <spacer name="verticalSpacer_3">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -1803,10 +1624,175 @@
           <property name="styleSheet">
            <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_16">
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_8">
-             <item>
+            <layout class="QFormLayout" name="formLayout_7">
+             <property name="topMargin">
+              <number>20</number>
+             </property>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_103">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(238, 238, 236);</string>
+               </property>
+               <property name="text">
+                <string>Scan mode</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QSlider" name="homscan">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(238, 238, 236);</string>
+               </property>
+               <property name="minimum">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>0</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_104">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(238, 238, 236);</string>
+               </property>
+               <property name="text">
+                <string>Scan step Size</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="homscan_timed">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(238, 238, 236);</string>
+               </property>
+               <property name="suffix">
+                <string> [ps]</string>
+               </property>
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>560.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_108">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(238, 238, 236);</string>
+               </property>
+               <property name="text">
+                <string>Step duration</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QSpinBox" name="stepduration">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(238, 238, 236);</string>
+               </property>
+               <property name="suffix">
+                <string> [ps]</string>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>50000</number>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_106">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(238, 238, 236);</string>
+               </property>
+               <property name="text">
+                <string>Max Delay</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QDoubleSpinBox" name="Max_delayd">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(238, 238, 236);</string>
+               </property>
+               <property name="suffix">
+                <string> [ps]</string>
+               </property>
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>1.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>560.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_105">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(238, 238, 236);</string>
+               </property>
+               <property name="text">
+                <string>Current pos.</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLCDNumber" name="current_delay_pos">
+               <property name="digitCount">
+                <number>4</number>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_9">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(238, 238, 236);</string>
+               </property>
+               <property name="text">
+                <string>Start delay</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QDoubleSpinBox" name="VDL_start">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(238, 238, 236);</string>
+               </property>
+               <property name="suffix">
+                <string> [ps]</string>
+               </property>
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="maximum">
+                <double>560.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
               <widget class="QPushButton" name="connect_OVDL">
                <property name="styleSheet">
                 <string notr="true">color: rgb(255, 255, 255);</string>
@@ -1816,61 +1802,27 @@
                </property>
               </widget>
              </item>
-             <item>
-              <spacer name="horizontalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
+             <item row="0" column="1">
+              <widget class="QPushButton" name="reset_delay">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);</string>
                </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
+               <property name="text">
+                <string>Reset</string>
                </property>
-              </spacer>
+              </widget>
              </item>
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
-             <item>
-              <layout class="QFormLayout" name="OVDL_param">
-               <item row="0" column="0">
-                <widget class="QPushButton" name="pushButton">
-                 <property name="text">
-                  <string>PushButton</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QSpinBox" name="spinBox"/>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_2">
+            <spacer name="horizontalSpacer">
              <property name="orientation">
-              <enum>Qt::Vertical</enum>
+              <enum>Qt::Horizontal</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>20</width>
-               <height>40</height>
+               <width>40</width>
+               <height>20</height>
               </size>
              </property>
             </spacer>
@@ -1910,6 +1862,7 @@
     <addaction name="separator"/>
     <addaction name="actioninit_Qutag"/>
     <addaction name="separator"/>
+    <addaction name="actioninit_TTU"/>
     <addaction name="separator"/>
     <addaction name="actionLoad_state"/>
     <addaction name="actionSave_state"/>
@@ -1946,6 +1899,11 @@
   <action name="actioninit_Qutag">
    <property name="text">
     <string>init Qutag</string>
+   </property>
+  </action>
+  <action name="actioninit_TTU">
+   <property name="text">
+    <string>init TTU</string>
    </property>
   </action>
  </widget>

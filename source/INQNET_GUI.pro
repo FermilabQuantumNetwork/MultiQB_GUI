@@ -7,6 +7,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 
 INCLUDEPATH += $$PWD/../lib /usr/lib/
+
 DEPENDPATH += $$PWD/../lib
 DEFINES += LINUX linux
 TARGET = PROGRAM
@@ -14,11 +15,6 @@ TEMPLATE = app
 LIBS += -DLINUX -Dlinux -L$$PWD/../lib/ -lftd3xx -ltdcbase -lTimeTagger
 PKGCONFIG += 
 CONFIG += link_pkgconfig 
-
-
-INCPATH +=
-
-
 
 
 SOURCES += main.cpp\
@@ -42,7 +38,8 @@ HEADERS  += mainwindow.h \
             tdcdecl.h \
             tdcstartstop.h \
     ovdl.h \
-    timetaggerultra.h
+    timetaggerultra.h \
+    typedefs.h
 	   
 
 FORMS    += mainwindow.ui \

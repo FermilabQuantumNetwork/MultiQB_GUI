@@ -33,6 +33,7 @@ DBControl::~DBControl(){
 void DBControl::run(){
 
     this->DBConnect("localhost", 3306, "INQNET_GUI", "GUI3", "Teleport1536!");
+    //this->DBConnect(server, port, database, user, passwd);
 
 }
 
@@ -47,14 +48,14 @@ void DBControl::DBConnect(QString server, int port, QString database, QString lo
 
     connection_succesfull = connectToServerMySQL(server, port, database, login, password);
     if(connection_succesfull){
-        std::cout<<"connection DB success"<<std::endl;
+        qDebug()<<"connection DB success";
        /* QStringList tables_names = db.tables();
         for (int i = 0; i < tables_names.size(); ++i)
                  //std::cout << tables_names.at(i).toLocal8Bit().constData() << std::endl;
 
        */
     }
-    else std::cout<<"database connection failed "<<std::endl;
+    else qDebug()<<"database connection failed ";
 
 }
 

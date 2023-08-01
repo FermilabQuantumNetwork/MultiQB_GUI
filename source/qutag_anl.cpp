@@ -97,7 +97,7 @@ qutaganl::~qutaganl(){
 }
 
 void qutaganl::timestampREC(const vectorInt64 &inconimg_vectorTimetags, const vectorInt &inconimg_vectorChannels, int inconimg_tsvalid){
-    emit(Chang_anlAvilable(false));
+    emit Chang_anlAvilable(false);
     /*vectorTimetags.clear();
     vectorChannels.clear();
     //std::copy( inconimg_vectorTimetags, inconimg_vectorTimetags+tsvalid, std::back_inserter(vectorTimetags) );

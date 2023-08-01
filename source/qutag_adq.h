@@ -11,27 +11,18 @@
 #include <string.h>
 #include <stdlib.h>              /* for exit() */
 #include <math.h>
-#include "tdcbase.h"
+#include "typedefs.h"
 #include "tdcstartstop.h"
 #include <algorithm>
 
-typedef QVector<Int64> vectorInt64;
-typedef QVector<int8_t> vectorInt8;
-typedef QVector<double> vectorDouble;
-typedef QVector<Int32> vectorInt32;
-typedef QVector<bool> vectorBool;
-typedef QVector<int> vectorInt;
+//#define EXP_TIME    1000
+//#define AVGLENGTH   10
 
-#define EXP_TIME    1000
-#define AVGLENGTH   10
-#define DEBUG 0
-#define DEBUG2 1
-#define DEBUG3 1
-
+#define THRESHOLD_STEP 0.1
+#define DELAY_STEP 100
 #define START_CHANNEL 5
 
 #define TIMESTAMP_COUNT   150000  /* Timestamp buffer size */
-//#define COLLECT_TIME         1000  /* Time [ms] for data acquisition per round */
 #define COLLECT_ROUNDS      100
 
 #define HIST_CH_MIN 1
@@ -176,18 +167,18 @@ private:
     Int64 expTime, lastTimestamp = 0;    
     Int8  channels[TIMESTAMP_COUNT];
     int   coincCnt[TDC_COINC_CHANNELS];
-    double bin2ns = 0, timeBase = 0.;
-    double simPara[2] = { 1000., 1000. };
+    double timeBase = 0.;
+    //double simPara[2] = { 1000., 1000. };
     float TOTAL_RATE;
-    //int COLLECT_TIME;
-    int adqclock;
-    int notfirstrun = 0;
-    int sleeptime = 10;
-    int debug3 = DEBUG3;
-    int a = 0;
 
-    int microsec = 10000; // length of time to sleep, in microseconds
-    //struct timespec req = {0};
+    //int adqclock;
+    //int notfirstrun = 0;
+    //int sleeptime = 10;
+
+    //int a = 0;
+
+    //int microsec = 10000; // length of time to sleep, in microseconds
+
 
     void lautrun();
     void getTimeStamps();

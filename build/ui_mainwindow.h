@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 6.4.3
+** Created by: Qt User Interface Compiler version 6.4.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -41,6 +41,7 @@ public:
     QAction *actionQKD;
     QAction *action7;
     QAction *actioninit_Qutag;
+    QAction *actioninit_TTU;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QTabWidget *horizontalTabWidget;
@@ -121,8 +122,8 @@ public:
     QHBoxLayout *horizontalLayout_27;
     QVBoxLayout *verticalLayout_5;
     QFormLayout *formLayout_2;
-    QPushButton *BSM;
-    QPushButton *HOM;
+    QPushButton *saveLogic;
+    QPushButton *loadLogic;
     QPushButton *AddLogic;
     QPushButton *RemoveLogic;
     QPushButton *clean_tab2;
@@ -138,20 +139,6 @@ public:
     QFormLayout *formLayout_5;
     QLabel *label_77;
     QSlider *DBON;
-    QFormLayout *formLayout_7;
-    QLabel *label_103;
-    QSlider *homscan;
-    QLabel *label_104;
-    QDoubleSpinBox *homscan_timed;
-    QLabel *label_108;
-    QSpinBox *stepduration;
-    QLabel *label_106;
-    QDoubleSpinBox *Max_delayd;
-    QLabel *label_105;
-    QLCDNumber *current_delay_pos;
-    QLabel *label_9;
-    QDoubleSpinBox *VDL_start;
-    QPushButton *reset_delay;
     QSpacerItem *verticalSpacer_3;
     QVBoxLayout *verticalLayout_6;
     QHBoxLayout *horizontalLayout_3;
@@ -171,16 +158,23 @@ public:
     QWidget *tab4;
     QVBoxLayout *verticalLayout_20;
     QWidget *verticalWidget;
-    QVBoxLayout *verticalLayout_16;
-    QHBoxLayout *horizontalLayout_8;
-    QPushButton *connect_OVDL;
-    QSpacerItem *horizontalSpacer_3;
     QHBoxLayout *horizontalLayout_7;
-    QFormLayout *OVDL_param;
-    QPushButton *pushButton;
-    QSpinBox *spinBox;
-    QSpacerItem *horizontalSpacer_2;
-    QSpacerItem *verticalSpacer_2;
+    QFormLayout *formLayout_7;
+    QLabel *label_103;
+    QSlider *homscan;
+    QLabel *label_104;
+    QDoubleSpinBox *homscan_timed;
+    QLabel *label_108;
+    QSpinBox *stepduration;
+    QLabel *label_106;
+    QDoubleSpinBox *Max_delayd;
+    QLabel *label_105;
+    QLCDNumber *current_delay_pos;
+    QLabel *label_9;
+    QDoubleSpinBox *VDL_start;
+    QPushButton *connect_OVDL;
+    QPushButton *reset_delay;
+    QSpacerItem *horizontalSpacer;
     QMenuBar *menuBar;
     QMenu *menuconfig_n;
     QMenu *menuEdit;
@@ -205,6 +199,8 @@ public:
         action7->setObjectName("action7");
         actioninit_Qutag = new QAction(MainWindow);
         actioninit_Qutag->setObjectName("actioninit_Qutag");
+        actioninit_TTU = new QAction(MainWindow);
+        actioninit_TTU->setObjectName("actioninit_TTU");
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName("centralWidget");
         centralWidget->setLayoutDirection(Qt::LeftToRight);
@@ -801,17 +797,17 @@ public:
         formLayout_2 = new QFormLayout();
         formLayout_2->setSpacing(6);
         formLayout_2->setObjectName("formLayout_2");
-        BSM = new QPushButton(horizontalWidget);
-        BSM->setObjectName("BSM");
-        BSM->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+        saveLogic = new QPushButton(horizontalWidget);
+        saveLogic->setObjectName("saveLogic");
+        saveLogic->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
 
-        formLayout_2->setWidget(0, QFormLayout::LabelRole, BSM);
+        formLayout_2->setWidget(0, QFormLayout::LabelRole, saveLogic);
 
-        HOM = new QPushButton(horizontalWidget);
-        HOM->setObjectName("HOM");
-        HOM->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+        loadLogic = new QPushButton(horizontalWidget);
+        loadLogic->setObjectName("loadLogic");
+        loadLogic->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
 
-        formLayout_2->setWidget(0, QFormLayout::FieldRole, HOM);
+        formLayout_2->setWidget(0, QFormLayout::FieldRole, loadLogic);
 
 
         verticalLayout_5->addLayout(formLayout_2);
@@ -927,107 +923,6 @@ public:
 
         verticalLayout_5->addLayout(formLayout_5);
 
-        formLayout_7 = new QFormLayout();
-        formLayout_7->setSpacing(6);
-        formLayout_7->setObjectName("formLayout_7");
-        formLayout_7->setContentsMargins(-1, 20, -1, -1);
-        label_103 = new QLabel(horizontalWidget);
-        label_103->setObjectName("label_103");
-        label_103->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout_7->setWidget(0, QFormLayout::LabelRole, label_103);
-
-        homscan = new QSlider(horizontalWidget);
-        homscan->setObjectName("homscan");
-        sizePolicy7.setHeightForWidth(homscan->sizePolicy().hasHeightForWidth());
-        homscan->setSizePolicy(sizePolicy7);
-        homscan->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        homscan->setMinimum(0);
-        homscan->setMaximum(1);
-        homscan->setValue(0);
-        homscan->setOrientation(Qt::Horizontal);
-
-        formLayout_7->setWidget(0, QFormLayout::FieldRole, homscan);
-
-        label_104 = new QLabel(horizontalWidget);
-        label_104->setObjectName("label_104");
-        label_104->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout_7->setWidget(1, QFormLayout::LabelRole, label_104);
-
-        homscan_timed = new QDoubleSpinBox(horizontalWidget);
-        homscan_timed->setObjectName("homscan_timed");
-        homscan_timed->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        homscan_timed->setDecimals(3);
-        homscan_timed->setMinimum(0.001000000000000);
-        homscan_timed->setMaximum(560.000000000000000);
-
-        formLayout_7->setWidget(1, QFormLayout::FieldRole, homscan_timed);
-
-        label_108 = new QLabel(horizontalWidget);
-        label_108->setObjectName("label_108");
-        label_108->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout_7->setWidget(2, QFormLayout::LabelRole, label_108);
-
-        stepduration = new QSpinBox(horizontalWidget);
-        stepduration->setObjectName("stepduration");
-        stepduration->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        stepduration->setMinimum(1);
-        stepduration->setMaximum(50000);
-
-        formLayout_7->setWidget(2, QFormLayout::FieldRole, stepduration);
-
-        label_106 = new QLabel(horizontalWidget);
-        label_106->setObjectName("label_106");
-        label_106->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout_7->setWidget(4, QFormLayout::LabelRole, label_106);
-
-        Max_delayd = new QDoubleSpinBox(horizontalWidget);
-        Max_delayd->setObjectName("Max_delayd");
-        Max_delayd->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        Max_delayd->setDecimals(3);
-        Max_delayd->setMinimum(1.000000000000000);
-        Max_delayd->setMaximum(560.000000000000000);
-
-        formLayout_7->setWidget(4, QFormLayout::FieldRole, Max_delayd);
-
-        label_105 = new QLabel(horizontalWidget);
-        label_105->setObjectName("label_105");
-        label_105->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout_7->setWidget(5, QFormLayout::LabelRole, label_105);
-
-        current_delay_pos = new QLCDNumber(horizontalWidget);
-        current_delay_pos->setObjectName("current_delay_pos");
-        current_delay_pos->setDigitCount(4);
-
-        formLayout_7->setWidget(5, QFormLayout::FieldRole, current_delay_pos);
-
-        label_9 = new QLabel(horizontalWidget);
-        label_9->setObjectName("label_9");
-        label_9->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        formLayout_7->setWidget(3, QFormLayout::LabelRole, label_9);
-
-        VDL_start = new QDoubleSpinBox(horizontalWidget);
-        VDL_start->setObjectName("VDL_start");
-        VDL_start->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-        VDL_start->setDecimals(3);
-        VDL_start->setMaximum(560.000000000000000);
-
-        formLayout_7->setWidget(3, QFormLayout::FieldRole, VDL_start);
-
-
-        verticalLayout_5->addLayout(formLayout_7);
-
-        reset_delay = new QPushButton(horizontalWidget);
-        reset_delay->setObjectName("reset_delay");
-        reset_delay->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
-
-        verticalLayout_5->addWidget(reset_delay);
-
         verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_5->addItem(verticalSpacer_3);
@@ -1127,55 +1022,120 @@ public:
         verticalWidget = new QWidget(tab4);
         verticalWidget->setObjectName("verticalWidget");
         verticalWidget->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
-        verticalLayout_16 = new QVBoxLayout(verticalWidget);
-        verticalLayout_16->setSpacing(6);
-        verticalLayout_16->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_16->setObjectName("verticalLayout_16");
-        horizontalLayout_8 = new QHBoxLayout();
-        horizontalLayout_8->setSpacing(6);
-        horizontalLayout_8->setObjectName("horizontalLayout_8");
+        horizontalLayout_7 = new QHBoxLayout(verticalWidget);
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_7->setObjectName("horizontalLayout_7");
+        formLayout_7 = new QFormLayout();
+        formLayout_7->setSpacing(6);
+        formLayout_7->setObjectName("formLayout_7");
+        formLayout_7->setContentsMargins(-1, 20, -1, -1);
+        label_103 = new QLabel(verticalWidget);
+        label_103->setObjectName("label_103");
+        label_103->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+
+        formLayout_7->setWidget(1, QFormLayout::LabelRole, label_103);
+
+        homscan = new QSlider(verticalWidget);
+        homscan->setObjectName("homscan");
+        sizePolicy7.setHeightForWidth(homscan->sizePolicy().hasHeightForWidth());
+        homscan->setSizePolicy(sizePolicy7);
+        homscan->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+        homscan->setMinimum(0);
+        homscan->setMaximum(1);
+        homscan->setValue(0);
+        homscan->setOrientation(Qt::Horizontal);
+
+        formLayout_7->setWidget(1, QFormLayout::FieldRole, homscan);
+
+        label_104 = new QLabel(verticalWidget);
+        label_104->setObjectName("label_104");
+        label_104->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+
+        formLayout_7->setWidget(2, QFormLayout::LabelRole, label_104);
+
+        homscan_timed = new QDoubleSpinBox(verticalWidget);
+        homscan_timed->setObjectName("homscan_timed");
+        homscan_timed->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+        homscan_timed->setDecimals(3);
+        homscan_timed->setMinimum(0.001000000000000);
+        homscan_timed->setMaximum(560.000000000000000);
+
+        formLayout_7->setWidget(2, QFormLayout::FieldRole, homscan_timed);
+
+        label_108 = new QLabel(verticalWidget);
+        label_108->setObjectName("label_108");
+        label_108->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+
+        formLayout_7->setWidget(3, QFormLayout::LabelRole, label_108);
+
+        stepduration = new QSpinBox(verticalWidget);
+        stepduration->setObjectName("stepduration");
+        stepduration->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+        stepduration->setMinimum(1);
+        stepduration->setMaximum(50000);
+
+        formLayout_7->setWidget(3, QFormLayout::FieldRole, stepduration);
+
+        label_106 = new QLabel(verticalWidget);
+        label_106->setObjectName("label_106");
+        label_106->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+
+        formLayout_7->setWidget(5, QFormLayout::LabelRole, label_106);
+
+        Max_delayd = new QDoubleSpinBox(verticalWidget);
+        Max_delayd->setObjectName("Max_delayd");
+        Max_delayd->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+        Max_delayd->setDecimals(3);
+        Max_delayd->setMinimum(1.000000000000000);
+        Max_delayd->setMaximum(560.000000000000000);
+
+        formLayout_7->setWidget(5, QFormLayout::FieldRole, Max_delayd);
+
+        label_105 = new QLabel(verticalWidget);
+        label_105->setObjectName("label_105");
+        label_105->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+
+        formLayout_7->setWidget(6, QFormLayout::LabelRole, label_105);
+
+        current_delay_pos = new QLCDNumber(verticalWidget);
+        current_delay_pos->setObjectName("current_delay_pos");
+        current_delay_pos->setDigitCount(4);
+
+        formLayout_7->setWidget(6, QFormLayout::FieldRole, current_delay_pos);
+
+        label_9 = new QLabel(verticalWidget);
+        label_9->setObjectName("label_9");
+        label_9->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+
+        formLayout_7->setWidget(4, QFormLayout::LabelRole, label_9);
+
+        VDL_start = new QDoubleSpinBox(verticalWidget);
+        VDL_start->setObjectName("VDL_start");
+        VDL_start->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
+        VDL_start->setDecimals(3);
+        VDL_start->setMaximum(560.000000000000000);
+
+        formLayout_7->setWidget(4, QFormLayout::FieldRole, VDL_start);
+
         connect_OVDL = new QPushButton(verticalWidget);
         connect_OVDL->setObjectName("connect_OVDL");
         connect_OVDL->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
-        horizontalLayout_8->addWidget(connect_OVDL);
+        formLayout_7->setWidget(0, QFormLayout::LabelRole, connect_OVDL);
 
-        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        reset_delay = new QPushButton(verticalWidget);
+        reset_delay->setObjectName("reset_delay");
+        reset_delay->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
-        horizontalLayout_8->addItem(horizontalSpacer_3);
-
-
-        verticalLayout_16->addLayout(horizontalLayout_8);
-
-        horizontalLayout_7 = new QHBoxLayout();
-        horizontalLayout_7->setSpacing(6);
-        horizontalLayout_7->setObjectName("horizontalLayout_7");
-        OVDL_param = new QFormLayout();
-        OVDL_param->setSpacing(6);
-        OVDL_param->setObjectName("OVDL_param");
-        pushButton = new QPushButton(verticalWidget);
-        pushButton->setObjectName("pushButton");
-
-        OVDL_param->setWidget(0, QFormLayout::LabelRole, pushButton);
-
-        spinBox = new QSpinBox(verticalWidget);
-        spinBox->setObjectName("spinBox");
-
-        OVDL_param->setWidget(0, QFormLayout::FieldRole, spinBox);
+        formLayout_7->setWidget(0, QFormLayout::FieldRole, reset_delay);
 
 
-        horizontalLayout_7->addLayout(OVDL_param);
+        horizontalLayout_7->addLayout(formLayout_7);
 
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout_7->addItem(horizontalSpacer_2);
-
-
-        verticalLayout_16->addLayout(horizontalLayout_7);
-
-        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout_16->addItem(verticalSpacer_2);
+        horizontalLayout_7->addItem(horizontalSpacer);
 
 
         verticalLayout_20->addWidget(verticalWidget);
@@ -1203,6 +1163,7 @@ public:
         menuconfig_n->addSeparator();
         menuconfig_n->addAction(actioninit_Qutag);
         menuconfig_n->addSeparator();
+        menuconfig_n->addAction(actioninit_TTU);
         menuconfig_n->addSeparator();
         menuconfig_n->addAction(actionLoad_state);
         menuconfig_n->addAction(actionSave_state);
@@ -1224,6 +1185,7 @@ public:
         actionQKD->setText(QCoreApplication::translate("MainWindow", "Lines", nullptr));
         action7->setText(QCoreApplication::translate("MainWindow", "7", nullptr));
         actioninit_Qutag->setText(QCoreApplication::translate("MainWindow", "init Qutag", nullptr));
+        actioninit_TTU->setText(QCoreApplication::translate("MainWindow", "init TTU", nullptr));
         label_8->setText(QString());
         label_2->setText(QCoreApplication::translate("MainWindow", "Histogram DisplayStart", nullptr));
         histStart->setSuffix(QCoreApplication::translate("MainWindow", "  [ps]", nullptr));
@@ -1247,8 +1209,8 @@ public:
         label_161->setText(QCoreApplication::translate("MainWindow", "Counts", nullptr));
         label_162->setText(QCoreApplication::translate("MainWindow", "Track", nullptr));
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab1), QCoreApplication::translate("MainWindow", "Histograms", nullptr));
-        BSM->setText(QCoreApplication::translate("MainWindow", "BSM", nullptr));
-        HOM->setText(QCoreApplication::translate("MainWindow", "HOM", nullptr));
+        saveLogic->setText(QCoreApplication::translate("MainWindow", "Save", nullptr));
+        loadLogic->setText(QCoreApplication::translate("MainWindow", "Load", nullptr));
         AddLogic->setText(QCoreApplication::translate("MainWindow", "Add Logic Element", nullptr));
         RemoveLogic->setText(QCoreApplication::translate("MainWindow", "Remove Logic Element", nullptr));
         clean_tab2->setText(QCoreApplication::translate("MainWindow", "Clean Plot", nullptr));
@@ -1260,6 +1222,8 @@ public:
         label_7->setText(QCoreApplication::translate("MainWindow", "Data %", nullptr));
         TSper->setSuffix(QCoreApplication::translate("MainWindow", " [%]", nullptr));
         label_77->setText(QCoreApplication::translate("MainWindow", "Record Data", nullptr));
+        horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab2), QCoreApplication::translate("MainWindow", "AND gates", nullptr));
+        horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(conf), QCoreApplication::translate("MainWindow", "Parameters", nullptr));
         label_103->setText(QCoreApplication::translate("MainWindow", "Scan mode", nullptr));
         label_104->setText(QCoreApplication::translate("MainWindow", "Scan step Size", nullptr));
         homscan_timed->setSuffix(QCoreApplication::translate("MainWindow", " [ps]", nullptr));
@@ -1270,11 +1234,8 @@ public:
         label_105->setText(QCoreApplication::translate("MainWindow", "Current pos.", nullptr));
         label_9->setText(QCoreApplication::translate("MainWindow", "Start delay", nullptr));
         VDL_start->setSuffix(QCoreApplication::translate("MainWindow", " [ps]", nullptr));
-        reset_delay->setText(QCoreApplication::translate("MainWindow", "Reset Del.", nullptr));
-        horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab2), QCoreApplication::translate("MainWindow", "AND gates", nullptr));
-        horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(conf), QCoreApplication::translate("MainWindow", "Parameters", nullptr));
         connect_OVDL->setText(QCoreApplication::translate("MainWindow", "OVDL connect", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        reset_delay->setText(QCoreApplication::translate("MainWindow", "Reset", nullptr));
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab4), QCoreApplication::translate("MainWindow", "OVDL", nullptr));
         menuconfig_n->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
         menuEdit->setTitle(QCoreApplication::translate("MainWindow", "Edit", nullptr));

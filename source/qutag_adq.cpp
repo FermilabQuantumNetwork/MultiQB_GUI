@@ -324,7 +324,7 @@ int qutagadq::filterset(){
     //std::cout<<dataA.size()<<"\t"<<dataB.size()<<"\t"<<dataC.size()<<"\t"<<dataD.size()<<"\t"<<std::endl;
 
      if(count1 != 0 || count2 !=0 || count3 !=0|| count4 !=0) emit qutaghist(dataA, dataB, dataC, dataD,  count1, count2, count3, count4);
-
+    //QVector<int8_t> channelsTDC;
        dataA.clear();
        dataB.clear();
        dataC.clear();

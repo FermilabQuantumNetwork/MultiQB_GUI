@@ -17,6 +17,7 @@ signals:
 
 public slots:
     void setDelay(float timeps);
+    void ovdlconnect();
 };
 
 #endif // OVDL_H

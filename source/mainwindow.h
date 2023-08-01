@@ -1,3 +1,19 @@
+/////////////////////////////////////////////
+/// by Lautaro Narvaez
+/// For quantum communication aplications
+///
+/// lautaro@caltech.edu
+/// lautaroleon@gmail.com
+///
+/// third party code from:
+/// QT
+/// MYSQL
+/// Qutools
+/// Swabian Instruments
+/// qcustomplot
+/// /////////////////////////////////////////
+
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -13,6 +29,7 @@
 #include "ovdl.h"
 #include <math.h>
 #include "gui_param.h"
+#include "timetaggerultra.h"
 
 #define MAX_QUBITS 1000
 #define MAX_WIN 7
@@ -41,28 +58,31 @@ public:
   void setupsignalslot2();
   void setupHistoPlot(QCustomPlot *customPlot);
   void QUTAG_setup_comboboxes();
-  
+  void qutag_paremetes_setup();
+  void TTU_paremetes_setup();
+
 
 private slots:
-  void QUTAG_initdone();
-  void plotRates(int AoB, int event, double key);
-  void plotRates_tab2(const vectorInt32 &dat, double key);
-  void changeStartchan(int starchan){this->in_startChan=starchan;}
+    void QUTAG_initdone();
+    void TTUinitdone();
 
-  void histoplot(const vectorDouble &dat1, const vectorDouble &dat2, const vectorDouble &dat3, const vectorDouble &dat4, int count1,int count2 ,int count3 ,int count4 );
+    void plotRates(int AoB, int event, double key);
+    void plotRates_tab2(const vectorInt32 &dat, double key);
+    void changeStartchan(int starchan){this->in_startChan=starchan;}
 
+    void histoplot(const vectorDouble &dat1, const vectorDouble &dat2, const vectorDouble &dat3, const vectorDouble &dat4, int count1,int count2 ,int count3 ,int count4 );
 
+    void Chang_in_binsinplot(int val);
+    void Chang_in_histStart(int val);
+    void Chang_in_binWidth(int val);
 
-  void Chang_in_binsinplot(int val);
-  void Chang_in_histStart(int val);
-  void Chang_in_binWidth(int val);
+    void Chang_in_adqtime(double val){this->in_adqtime=val;}
 
-  void Chang_in_adqtime(double val){this->in_adqtime=val;}
+    void Chang_trackA(bool val);
+    void Chang_trackB(bool val);
+    void Chang_trackC(bool val);
+    void Chang_trackD(bool val);
 
-  void Chang_trackA(bool val);
-  void Chang_trackB(bool val);
-  void Chang_trackC(bool val);
-  void Chang_trackD(bool val);
 
 
 
@@ -84,8 +104,8 @@ private slots:
   void tab2_plot5_activate(bool val){in_tab2_plot5=val;}
   void tab2_plot6_activate(bool val){in_tab2_plot6=val;}
 
-  void setBSMmeas();
-  void setHOMmeas();
+  void loadLogicS();
+  void saveLogicS();
   void clean_tab2();
 
   void Chang_delayline(int val){in_delayline=val;}
@@ -171,10 +191,13 @@ private slots:
    void chang_VDL_start(double v){in_VDL_start=v;}
 
    void runQutag(bool a);
+    void runTTU(bool a);
+
 
 private:
 
   Ui::MainWindow *ui;
+    timetaggerUltra TTU1;
   qutagadq qutag;
   qutaganl anl;
   DBControl dbc;
@@ -295,13 +318,20 @@ private:
    int logicOP[MAX_LOGIC]={0};
    double in_VDL_start = 0;
 
-   void qutag_paremetes_setup();
+
 
    QDoubleSpinBox *thch[NQUTAGCHANNELS];
    QDoubleSpinBox *delaych[NQUTAGCHANNELS];
    QCheckBox *qutagfilter[NQUTAGCHANNELS][NQUTAGCHANNELS];
    QComboBox *qutagFilterType[NQUTAGCHANNELS];
    QComboBox *qutagEdge[NQUTAGCHANNELS];
+
+   QDoubleSpinBox *threshTTU[NTTUCHANNELS];
+   QDoubleSpinBox *delayTTU[NTTUCHANNELS];
+   QCheckBox *TTUtriggerfilter[NTTUCHANNELS];
+   QCheckBox *TTUfilter[NTTUCHANNELS];
+   //QComboBox *qutagFilterType[NQUTAGCHANNELS];
+   //QComboBox *qutagEdge[NQUTAGCHANNELS];
 
 
 signals:

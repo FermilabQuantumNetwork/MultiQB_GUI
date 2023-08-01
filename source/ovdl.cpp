@@ -2,17 +2,7 @@
 
 OVDL::OVDL(QObject *parent) : QObject(parent)
 {
-    delaylineport = new QSerialPort(OVDL_PORT);
-    delaylineport->setBaudRate(QSerialPort::Baud9600);
-    delaylineport->setDataBits(QSerialPort::Data8);
-    delaylineport->setStopBits(QSerialPort::OneStop);
-    delaylineport->setParity(QSerialPort::NoParity);
-    delaylineport->setFlowControl(QSerialPort::NoFlowControl);
 
-    if (delaylineport->open(QSerialPort::ReadWrite)) {
-        std::cout<< "SERIAL open  "<< OVDL_PORT <<std::endl;
-    }
-    else std::cout<< "FAIL to open  "<< OVDL_PORT <<std::endl;
 }
 
 void OVDL::setDelay(float timeps){
@@ -25,4 +15,18 @@ void OVDL::setDelay(float timeps){
     QString ans_out = QString::fromUtf8(answ);
     std::cout<<ans_out.toStdString()<<std::endl;
 
+}
+
+void OVDL::ovdlconnect(){
+    delaylineport = new QSerialPort(OVDL_PORT);
+    delaylineport->setBaudRate(QSerialPort::Baud9600);
+    delaylineport->setDataBits(QSerialPort::Data8);
+    delaylineport->setStopBits(QSerialPort::OneStop);
+    delaylineport->setParity(QSerialPort::NoParity);
+    delaylineport->setFlowControl(QSerialPort::NoFlowControl);
+
+    if (delaylineport->open(QSerialPort::ReadWrite)) {
+        std::cout<< "SERIAL open  "<< OVDL_PORT <<std::endl;
+    }
+    else std::cout<< "FAIL to open  "<< OVDL_PORT <<std::endl;
 }
