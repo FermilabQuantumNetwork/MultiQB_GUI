@@ -42,11 +42,13 @@ void DBControl::DBConnect(QString server, int port, QString database, QString lo
     //this->DBConnect(server, port, database, user, passwd);
     std::cout<<"server:"<<server.toStdString()<<"  port:"<<port<<std::endl;
 
-    db = QSqlDatabase();
-    db.removeDatabase("example-connection"); // remove old connection if exists
-    db = QSqlDatabase::addDatabase("QMYSQL", "example-connection");
 
-    connection_succesfull = connectToServerMySQL(server, port, database, login, password);
+    db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setDatabaseName(database);
+    db.setHostName(server);
+    db.setUserName(login);
+    db.setPassword(password);
+    connection_succesfull = db.open();
     if(connection_succesfull){
         qDebug()<<"connection DB success";
        /* QStringList tables_names = db.tables();
