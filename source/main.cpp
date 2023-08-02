@@ -8,10 +8,10 @@
 
 
 
-void my_handler(int s){
+/*void my_handler(int s){
            printf("\n ADIOS :D \n");
            exit(1); 
-}
+}*/
 
 
 
@@ -27,14 +27,14 @@ QApplication a(argc, argv);
 
 ///////////ctl+c/////////////////////////////
 
- struct sigaction sigIntHandler;
+ /*struct sigaction sigIntHandler;
 
    sigIntHandler.sa_handler = my_handler;
    sigemptyset(&sigIntHandler.sa_mask);
    sigIntHandler.sa_flags = 0;
 
    sigaction(SIGINT, &sigIntHandler, NULL);
-
+*/
 ////////////////////////////////////////////
 
 

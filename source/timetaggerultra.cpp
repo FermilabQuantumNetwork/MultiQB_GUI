@@ -22,10 +22,30 @@ void timetaggerUltra::run(){
         std::cout << std::endl << "No time tagger found." << std::endl << "Please attach a Time Tagger." << std::endl;
         return;
     }
-    int res = 0;
+    //int res = 0;
 
     // connect to a time tagger
-    t = createTimeTagger();
+
+
+    try{
+         t = createTimeTagger();
+    }
+    catch (std::invalid_argument const& ex){
+        std::cout << "#1: " << ex.what() << '\n';
+    }
+
+
+    for(int i = 0; i< NTTUCHANNELS; i++){
+
+        try{
+            thresholds[i]=t->getTriggerLevel(i+1);
+        }
+        catch (std::invalid_argument const& ex){
+            std::cout << "#1: " << ex.what() << '\n';
+        }
+    }
+
+    emit ttuinitdone();
 
     std::vector<int>TTUChannels = {1,2};
     long buffersize = EVENT_BUFFER_SIZE;
@@ -41,11 +61,11 @@ void timetaggerUltra::run(){
         current_time = QDateTime::currentDateTime().toMSecsSinceEpoch();
         // std::cout<< current_time-previous_time <<std::endl;
         if((current_time-previous_time) > 1000*in_adqtime){
-            getHisto();//TDC_clearAllHistograms ();
+            //getHisto();//TDC_clearAllHistograms ();
             previous_time = current_time;
         }
         //if(anlAvilable && in_TSON)getTimeStamps();
-        if(in_TSON)getTimeStampsTTU();
+        //if(in_TSON)getTimeStampsTTU();
         QThread::msleep(1);
     }
 
@@ -104,6 +124,12 @@ void timetaggerUltra::getHisto(){
 
 void timetaggerUltra::setHistograms(){
     for(int i = 0; i<NTTUCHANNELS; i++){
-        ttuhisto[i] = new Histogram(t, i , TTUSTARTCHANNEL, in_binWidth, in_nbins);
+        try{
+            ttuhisto[i] = new Histogram(t, i+1 , TTUSTARTCHANNEL, in_binWidth, in_nbins);
+        }
+        catch (std::invalid_argument const& ex){
+            std::cout << "#1: " << ex.what() << '\n';
+        }
+
     }
 }

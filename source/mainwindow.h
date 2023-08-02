@@ -190,7 +190,7 @@ private slots:
    void chang_VDL_start(double v){in_VDL_start=v;}
 
    void runQutag(bool a);
-    void runTTU(bool a);
+   void runTTU(bool a);
 
 
 private:
@@ -347,6 +347,8 @@ signals:
     void MWChang_qutagThresh(double, int);
     void MWChang_qutag_edge(QString, int);
     void MWChang_qutag_delay(double, int);
+
+    void MWChang_TTUThresh(double, int);
 };
 
 class Filtertype: public QWidget{

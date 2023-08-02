@@ -214,8 +214,8 @@ QCPAxisRect *wideAxisRect = new QCPAxisRect(scope);
   graph3->setPen(QPen(QColor(200, 200, 0), 2));
 
   QCPGraph *graph4 = scope->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft));
-  graph3->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::black, 1), QBrush(Qt::green),4));
-  graph3->setPen(QPen(QColor(200, 200, 200), 2));
+  graph4->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::black, 1), QBrush(Qt::green),4));
+  graph4->setPen(QPen(QColor(200, 200, 200), 2));
 
 
 
@@ -495,25 +495,22 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(ui->adqtime, SIGNAL(valueChanged(double)), this, SLOT(Chang_in_adqtime(double)));
     QObject::connect(ui->adqtime, SIGNAL(valueChanged(double)), &qutag, SLOT(Chang_in_adqtime(double)));
-
-
+    QObject::connect(ui->adqtime, SIGNAL(valueChanged(double)), &TTU1, SLOT(Chang_in_adqtime(double)));
 
     QObject::connect(ui->histStart, SIGNAL(valueChanged(int)), &anl, SLOT(Chang_in_histStart(int)));
     QObject::connect(ui->histStart, SIGNAL(valueChanged(int)), this, SLOT(Chang_in_histStart(int)));
     QObject::connect(ui->histStart, SIGNAL(valueChanged(int)), &qutag, SLOT(Chang_in_histStart(int)));
-
+    QObject::connect(ui->histStart, SIGNAL(valueChanged(int)), &TTU1, SLOT(Chang_in_histStart(int)));
 
     QObject::connect(ui->binWidth, SIGNAL(valueChanged(int)), &anl, SLOT(Chang_in_binWidth(int)));
     QObject::connect(ui->binWidth, SIGNAL(valueChanged(int)), this, SLOT(Chang_in_binWidth(int)));
     QObject::connect(ui->binWidth, SIGNAL(valueChanged(int)), &qutag, SLOT(Chang_in_binWidth(int)));
-
-    //QObject::connect(this, SIGNAL(valueChanged(int)), &adq, SLOT(Chang_in_binWidth(int)));
+    QObject::connect(ui->binWidth, SIGNAL(valueChanged(int)), &TTU1, SLOT(Chang_in_binWidth(int)));
 
     QObject::connect(ui->binsinplot, SIGNAL(valueChanged(int)), &anl, SLOT(Chang_in_binsinplot(int)));
     QObject::connect(ui->binsinplot, SIGNAL(valueChanged(int)), this, SLOT(Chang_in_binsinplot(int)));
     QObject::connect(ui->binsinplot, SIGNAL(valueChanged(int)), &qutag, SLOT(Chang_in_binsinplot(int)));
-
-
+    QObject::connect(ui->binsinplot, SIGNAL(valueChanged(int)), &TTU1, SLOT(Chang_in_binsinplot(int)));
 
     QObject::connect(ui->adqtime_2, SIGNAL(valueChanged(double)), &anl, SLOT(Chang_adqtime_2(double)));
     QObject::connect(ui->adqtime_2, SIGNAL(valueChanged(double)), this, SLOT(Chang_adqtime_2(double)));
@@ -524,7 +521,7 @@ void MainWindow::setupsignalslot(){
    // QObject::connect(&anl, SIGNAL(CombinationChange(bool)), this, SLOT(CombinationChange(bool)));
 
     QObject::connect(&qutag, SIGNAL(dataready(vectorInt64, vectorInt, int)), &anl, SLOT(timestampREC(vectorInt64, vectorInt, int)),Qt::QueuedConnection);
-
+    QObject::connect(&TTU1, SIGNAL(dataready(vectorInt64, vectorInt, int)), &anl, SLOT(timestampREC(vectorInt64, vectorInt, int)),Qt::QueuedConnection);
 
     QObject::connect(&anl, SIGNAL(anlongoing(bool)), &qutag, SLOT(adqpausechange(bool)));
 
@@ -630,8 +627,9 @@ void MainWindow::setupsignalslot(){
     QObject::connect(ui->VDL_start, SIGNAL(valueChanged(double)), this, SLOT(chang_VDL_start(double)));
 
     QObject::connect(&qutag, SIGNAL(initdone()), this , SLOT(QUTAG_initdone()));
+    QObject::connect(&TTU1, SIGNAL(ttuinitdone()), this , SLOT(TTUinitdone()));
 
-     QObject::connect(ui->actioninit_Qutag, SIGNAL(triggered(bool)), this, SLOT(runQutag(bool)));
+    QObject::connect(ui->actioninit_Qutag, SIGNAL(triggered(bool)), this, SLOT(runQutag(bool)));
 
     QObject::connect(this, SIGNAL(MWChang_qutag_filtertype(QString, int)), &qutag, SLOT(Chang_qutag_filtertype(QString, int)));
     QObject::connect(this, SIGNAL(MWChang_qutag_filtermask(int, int, int)), &qutag, SLOT(Chang_qutag_filtermask(int, int, int)));
@@ -2210,20 +2208,20 @@ void MainWindow::TTU_paremetes_setup(){
     QLabel *thchLab[NTTUCHANNELS];
 
     for (int i=0;i<NTTUCHANNELS ;i++) {
-        thchLab[i] = new QLabel(tr("Threshold Channel ")+QString::number(i));
+        thchLab[i] = new QLabel(tr("Threshold Channel ")+QString::number(i+1));
         thchLab[i]->setStyleSheet("color: rgb(238, 238, 236)");
-        thch[i] = new QDoubleSpinBox();
-        thch[i]->setMaximum(3);
-        thch[i]->setMinimum(-3);
-        thch[i]->setDecimals(3);
-        thch[i]->setSuffix(" [V]");
-        thch[i]->setSingleStep(QUTAG_THRESHOLD_STEP);
-        thch[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
-        ui->Parameters_left->addRow(thchLab[i], thch[i]);
-        QObject::connect(thch[i], &QDoubleSpinBox::valueChanged,[this, i](double thresh) {emit MWChang_qutagThresh(thresh, i);});
+        threshTTU[i] = new QDoubleSpinBox();
+        threshTTU[i]->setMaximum(3);
+        threshTTU[i]->setMinimum(-3);
+        threshTTU[i]->setDecimals(3);
+        threshTTU[i]->setSuffix(" [V]");
+        threshTTU[i]->setSingleStep(QUTAG_THRESHOLD_STEP);
+        threshTTU[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+        ui->Parameters_left->addRow(thchLab[i], threshTTU[i]);
+        QObject::connect(threshTTU[i], &QDoubleSpinBox::valueChanged,[this, i](double thresh) {emit MWChang_TTUThresh(thresh, i);});
     }
-
 }
+
 void MainWindow::runTTU(bool a){
     if(!TTU1.isRunning()){
         TTU1.start();

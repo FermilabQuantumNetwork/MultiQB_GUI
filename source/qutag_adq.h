@@ -60,10 +60,7 @@ public slots:
   void Chang_in_binsinplot(int val){this->in_binsinplot=val;paramschange=true;}
   void Chang_in_binWidth(int val){this->in_binWidth=val;paramschange=true;}
   void Chang_in_histStart(int val){in_histStart=val;}
-
   void Chang_in_adqtime(double val){this->in_adqtime=val;}
-
-
   void Chang_anlAvilable(bool val){this->anlAvilable =val;}
 
   /*void Chang_in_thch1(double val){thresholds[1]=val;changThreshold(1);}
@@ -97,9 +94,9 @@ public slots:
   void Chang_filtertype2(QString text){filtertypeSTR[2]=text; updatefiltertype(2);}
   void Chang_filtertype3(QString text){filtertypeSTR[3]=text; updatefiltertype(3);}
   void Chang_filtertype4(QString text){filtertypeSTR[4]=text; updatefiltertype(4);}
-  void Chang_filtertype5(QString text){filtertypeSTR[0]=text; updatefiltertype(0);}*/
+  void Chang_filtertype5(QString text){filtertypeSTR[0]=text; updatefiltertype(0);}
 
- /* void Chang_filtermask1_1(int state){if(state)ch_filtermask[1]|=0x1<<1;else ch_filtermask[1]&=!(0x1<<1);setfilter(1); }
+  void Chang_filtermask1_1(int state){if(state)ch_filtermask[1]|=0x1<<1;else ch_filtermask[1]&=!(0x1<<1);setfilter(1); }
   void Chang_filtermask1_2(int state){if(state)ch_filtermask[1]|=0x1<<2;else ch_filtermask[1]&=!(0x1<<2);setfilter(1); }
   void Chang_filtermask1_3(int state){if(state)ch_filtermask[1]|=0x1<<3;else ch_filtermask[1]&=!(0x1<<3);setfilter(1); }
   void Chang_filtermask1_4(int state){if(state)ch_filtermask[1]|=0x1<<4;else ch_filtermask[1]&=!(0x1<<4);setfilter(1); }
@@ -171,15 +168,6 @@ private:
     //double simPara[2] = { 1000., 1000. };
     float TOTAL_RATE;
 
-    //int adqclock;
-    //int notfirstrun = 0;
-    //int sleeptime = 10;
-
-    //int a = 0;
-
-    //int microsec = 10000; // length of time to sleep, in microseconds
-
-
     void lautrun();
     void getTimeStamps();
     void changThreshold(int);
@@ -207,12 +195,12 @@ public:
    clock_t begin, end;
    double cpu_time_used;
    bool initdone_bool = 0;
-   double thresholds[5];
+   double thresholds[NQUTAGCHANNELS];
    int in_cw;
-   int RoF[5];
-   int ch_filtermask[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
-   TDC_FilterType filtertype[5];
-   QString filtertypeSTR[5] = {"NONE", "NONE", "NONE", "NONE", "NONE"};
+   int RoF[NQUTAGCHANNELS];
+   int ch_filtermask[NQUTAGCHANNELS] = {0};
+   TDC_FilterType filtertype[NQUTAGCHANNELS];
+   QString filtertypeSTR[NQUTAGCHANNELS] = {"NONE", "NONE", "NONE", "NONE", "NONE"};
    int delays[8] = {0};
 
 private:

@@ -32,8 +32,8 @@ DBControl::~DBControl(){
 
 void DBControl::run(){
 
-    this->DBConnect("localhost", 3306, "INQNET_GUI", "GUI3", "Teleport1536!");
-    //this->DBConnect(server, port, database, user, passwd);
+    //this->DBConnect("localhost", 3306, "INQNET_GUI", "GUI3", "Teleport1536!");
+    this->DBConnect(server, port, database, user, passwd);
 
 }
 
