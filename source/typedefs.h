@@ -11,4 +11,9 @@ typedef QVector<bool> vectorBool;
 typedef QVector<int> vectorInt;
 
 
+#define MAX_QUBITS 1000
+#define MAX_WIN 7
+
+
+
 #endif // TYPEDEFS_H

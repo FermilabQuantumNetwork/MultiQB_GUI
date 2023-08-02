@@ -18,15 +18,15 @@
 //#define EXP_TIME    1000
 //#define AVGLENGTH   10
 
-#define THRESHOLD_STEP 0.1
-#define DELAY_STEP 100
-#define START_CHANNEL 5
+#define QUTAG_THRESHOLD_STEP 0.1
+#define QUTAG_DELAY_STEP 100
+#define QUTAG_START_CHANNEL 5
 
-#define TIMESTAMP_COUNT   150000  /* Timestamp buffer size */
-#define COLLECT_ROUNDS      100
+#define QUTAG_TIMESTAMP_COUNT   150000  /* Timestamp buffer size */
+//#define COLLECT_ROUNDS      100
 
-#define HIST_CH_MIN 1
-#define HIST_CH_MAX 4
+//#define HIST_CH_MIN 1
+//#define HIST_CH_MAX 4
 
 #define NQUTAGCHANNELS 5
 
@@ -164,8 +164,8 @@ private:
     bool _stop;
     int ret;
     Int32 rc, count, tooSmall, tooBig, tsValid, eventsA, eventsB, eventsC, eventsD, i, j, it, ch;
-    Int64 expTime, lastTimestamp = 0;    
-    Int8  channels[TIMESTAMP_COUNT];
+    Int64 expTime, lastTimestamp = 0;
+    Int8  channels[QUTAG_TIMESTAMP_COUNT];
     int   coincCnt[TDC_COINC_CHANNELS];
     double timeBase = 0.;
     //double simPara[2] = { 1000., 1000. };
@@ -192,7 +192,7 @@ private:
     Int32 *histodataB;
     Int32 *histodataC;
     Int32 *histodataD;
-    Int64 timestamps[TIMESTAMP_COUNT];
+    Int64 timestamps[QUTAG_TIMESTAMP_COUNT];
 
 
     /////////////////tab 1 variables///////////////

@@ -31,8 +31,7 @@
 #include "gui_param.h"
 #include "timetaggerultra.h"
 
-#define MAX_QUBITS 1000
-#define MAX_WIN 7
+
 
 
 

@@ -11,8 +11,8 @@
 
 qutagadq::qutagadq(){
 
-    timetags.reserve(TIMESTAMP_COUNT+1);
-    channelsTDC.reserve(TIMESTAMP_COUNT+1);
+    timetags.reserve(QUTAG_TIMESTAMP_COUNT+1);
+    channelsTDC.reserve(QUTAG_TIMESTAMP_COUNT+1);
     break_=false;
     adqpause_=false;
     histodataA=nullptr;
@@ -101,7 +101,7 @@ int qutagadq::filterset(){
      rc = TDC_enableChannels( 0xff );                     /* Use all channels */
      checkRc( "TDC_enableChannels", rc );
 
-     rc = TDC_setTimestampBufferSize( TIMESTAMP_COUNT );
+     rc = TDC_setTimestampBufferSize( QUTAG_TIMESTAMP_COUNT );
      checkRc( "TDC_setTimestampBufferSize", rc );
 
      rc = TDC_setExposureTime( 1000 );
@@ -254,7 +254,7 @@ int qutagadq::filterset(){
      std::cout<<"plot 2A  :  "<< in_PlotACh2<<std::endl;
 */
 
-    rc = TDC_getHistogram(START_CHANNEL, 1, 1, histodataA, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
+    rc = TDC_getHistogram(QUTAG_START_CHANNEL, 1, 1, histodataA, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
 //rc = TDC_getHistogram(1,START_CHANNEL, 1, histodataA, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
     checkRc( "TDC_getHistogram A", rc );
     count1=count;
@@ -266,7 +266,7 @@ int qutagadq::filterset(){
     }*/
     std::copy(histodataA,histodataA+in_binsinplot,std::back_inserter(dataA));
 
-    rc = TDC_getHistogram(START_CHANNEL, 2, 1, histodataB, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
+    rc = TDC_getHistogram(QUTAG_START_CHANNEL, 2, 1, histodataB, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
    // rc = TDC_getHistogram(2,START_CHANNEL, 1, histodataB, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
     checkRc( "TDC_getHistogram B", rc );
 
@@ -279,7 +279,7 @@ int qutagadq::filterset(){
      }*/
     std::copy(histodataB,histodataB+in_binsinplot,std::back_inserter(dataB));
 
-    rc = TDC_getHistogram(START_CHANNEL, 3, 1, histodataC, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
+    rc = TDC_getHistogram(QUTAG_START_CHANNEL, 3, 1, histodataC, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
     //rc = TDC_getHistogram(3,START_CHANNEL, 1, histodataC, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
     checkRc( "TDC_getHistogram C", rc );
     count3=count;
@@ -290,7 +290,7 @@ int qutagadq::filterset(){
     }*/
     std::copy(histodataC,histodataC+in_binsinplot,std::back_inserter(dataC));
 
-    rc = TDC_getHistogram(START_CHANNEL, 4, 1, histodataD, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
+    rc = TDC_getHistogram(QUTAG_START_CHANNEL, 4, 1, histodataD, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
     //rc = TDC_getHistogram(4,START_CHANNEL, 1, histodataD, &count, &tooSmall, &tooBig, &eventsA, &eventsB, &expTime );
     checkRc( "TDC_getHistogram D", rc );
 
@@ -339,7 +339,7 @@ int qutagadq::filterset(){
      //std::cout<<"TSValid: "<<tsValid<<std::endl;
      std::copy(timestamps, timestamps + int(tsValid*(float(TSpercentage)/100)), std::back_inserter(timetags));
      std::copy(channels, channels + int(tsValid*(float(TSpercentage)/100)), std::back_inserter(channelsTDC));
-     if(tsValid>=TIMESTAMP_COUNT)std::cout<<"qutag buffer saturated!!        "<<tsValid<<std::endl;
+     if(tsValid>=QUTAG_TIMESTAMP_COUNT)std::cout<<"qutag buffer saturated!!        "<<tsValid<<std::endl;
      if(tsValid>0 && anlAvilable){
      //if(tsValid>0){
          //std::cout<<"     channel :"<<(int)chann
@@ -358,13 +358,13 @@ int qutagadq::filterset(){
 
      /////////////create the histograms on the FPGA /////////////
 
-     rc = TDC_addHistogram(START_CHANNEL, 1, 1 );
+     rc = TDC_addHistogram(QUTAG_START_CHANNEL, 1, 1 );
      checkRc( "TDC_addHistogram", rc );
-     rc = TDC_addHistogram( START_CHANNEL, 2, 1 );
+     rc = TDC_addHistogram( QUTAG_START_CHANNEL, 2, 1 );
      checkRc( "TDC_addHistogram", rc );
-     rc = TDC_addHistogram( START_CHANNEL, 3, 1 );
+     rc = TDC_addHistogram( QUTAG_START_CHANNEL, 3, 1 );
      checkRc( "TDC_addHistogram", rc );
-     rc = TDC_addHistogram( START_CHANNEL, 4, 1 );
+     rc = TDC_addHistogram( QUTAG_START_CHANNEL, 4, 1 );
      checkRc( "TDC_addHistogram", rc );
      /*rc = TDC_addHistogram(1, START_CHANNEL, 1 );
           checkRc( "TDC_addHistogram", rc );

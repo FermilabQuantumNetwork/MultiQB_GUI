@@ -61,7 +61,7 @@ public:
 
     double clkdiffT;
     ////first plot////
-    int in_binsinplot, in_startChan=START_CHANNEL, in_histStart, in_binWidth;
+    int in_binsinplot, in_startChan=QUTAG_START_CHANNEL, in_histStart, in_binWidth;
     double in_adqtime;
     int in_PlotACh1, in_PlotACh2, in_PlotBCh1, in_PlotBCh2, in_PlotCCh1, in_PlotCCh2, in_PlotDCh1, in_PlotDCh2;
 

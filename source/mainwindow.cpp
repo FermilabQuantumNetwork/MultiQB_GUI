@@ -2118,7 +2118,7 @@ void MainWindow::qutag_paremetes_setup(){
         thch[i]->setMinimum(-3);
         thch[i]->setDecimals(3);
         thch[i]->setSuffix(" [V]");
-        thch[i]->setSingleStep(THRESHOLD_STEP);
+        thch[i]->setSingleStep(QUTAG_THRESHOLD_STEP);
         thch[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
         ui->Parameters_left->addRow(thchLab[i], thch[i]);
         QObject::connect(thch[i], &QDoubleSpinBox::valueChanged,[this, i](double thresh) {emit MWChang_qutagThresh(thresh, i);});
@@ -2175,7 +2175,7 @@ void MainWindow::qutag_paremetes_setup(){
         delaych[i]->setMinimum(-100000);
         delaych[i]->setDecimals(0);
         delaych[i]->setSuffix(" [ps]");
-        delaych[i]->setSingleStep(DELAY_STEP);
+        delaych[i]->setSingleStep(QUTAG_DELAY_STEP);
         delaych[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
         ui->Parameters_left->addRow(delLab[i], delaych[i]);
         QObject::connect(delaych[i], &QDoubleSpinBox::valueChanged,[this, i](double delay) {emit MWChang_qutag_delay(delay, i);});
@@ -2206,6 +2206,22 @@ void MainWindow::runQutag(bool a){
 }
 
 void MainWindow::TTU_paremetes_setup(){
+
+    QLabel *thchLab[NTTUCHANNELS];
+
+    for (int i=0;i<NTTUCHANNELS ;i++) {
+        thchLab[i] = new QLabel(tr("Threshold Channel ")+QString::number(i));
+        thchLab[i]->setStyleSheet("color: rgb(238, 238, 236)");
+        thch[i] = new QDoubleSpinBox();
+        thch[i]->setMaximum(3);
+        thch[i]->setMinimum(-3);
+        thch[i]->setDecimals(3);
+        thch[i]->setSuffix(" [V]");
+        thch[i]->setSingleStep(QUTAG_THRESHOLD_STEP);
+        thch[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+        ui->Parameters_left->addRow(thchLab[i], thch[i]);
+        QObject::connect(thch[i], &QDoubleSpinBox::valueChanged,[this, i](double thresh) {emit MWChang_qutagThresh(thresh, i);});
+    }
 
 }
 void MainWindow::runTTU(bool a){
