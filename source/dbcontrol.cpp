@@ -40,7 +40,7 @@ void DBControl::run(){
 void DBControl::DBConnect(QString server, int port, QString database, QString login, QString password){
 
     //this->DBConnect(server, port, database, user, passwd);
-    std::cout<<"server:"<<server.toStdString()<<"  port:"<<port<<std::endl;
+    std::cout<<"server:"<<server.toStdString()<<"  port:"<<port<<" user:"<<std::endl;
 
 
     db = QSqlDatabase::addDatabase("QMYSQL");
@@ -48,7 +48,10 @@ void DBControl::DBConnect(QString server, int port, QString database, QString lo
     db.setHostName(server);
     db.setUserName(login);
     db.setPassword(password);
+    db.setPort(port);
+
     connection_succesfull = db.open();
+    qDebug() << db.lastError();
     if(connection_succesfull){
         qDebug()<<"connection DB success";
        /* QStringList tables_names = db.tables();
@@ -62,7 +65,7 @@ void DBControl::DBConnect(QString server, int port, QString database, QString lo
 }
 
 
-bool DBControl::connectToServerMySQL(QString server, int port, QString database,
+/*bool DBControl::connectToServerMySQL(QString server, int port, QString database,
                                         QString login, QString password)
 {
     db.setHostName(server);
@@ -74,7 +77,7 @@ bool DBControl::connectToServerMySQL(QString server, int port, QString database,
     qDebug() << db.lastError();
     return ret;
 }
-
+*/
 void DBControl::SaveTab2Values(QVector<int> datatab2, float andTime, double delayline){
     //QString s= "insert into inqnet_gui_tab2gates_V3(and1,and2, and3, orgate, bsm1, bsm2, and_adqtime, delayline, datetime) values("+QString::number(and1)+","+QString::number(and2)+","+QString::number(and3)+","+QString::number(orgate)+","+QString::number(bsm1)+","+QString::number(bsm2)+","+QString::number(andTime)+","+QString::number(delayline)+","+"now());";
     QString s ="insert into "+currentTableTab2+"("+currentColumnstab2+"and_adqtime, delayline, datetime) values(";

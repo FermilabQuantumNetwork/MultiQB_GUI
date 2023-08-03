@@ -21,11 +21,11 @@ public:
     void disconnectFromServer();
     void DBConnect(QString server, int port, QString database, QString login, QString password);
     int numberOfLogicPlots = 0;
-
+    bool connection_succesfull;
 private:
     QSqlDatabase db;
-    bool connection_succesfull;
-    bool connectToServerMySQL(QString server, int port, QString database, QString login, QString password);
+
+    //bool connectToServerMySQL(QString server, int port, QString database, QString login, QString password);
     QString server, database, user, passwd;
     int port;
     QString currentTableTab2, currentColumnstab2, currentTableTab1, currentColumnstab1;

@@ -90,7 +90,7 @@ private slots:
   void Chang_adqtime_2(double val){in_adqtime_2=val;}
 
   void turnONDB(int val);
-
+  void createTablesDB();
   void SaveState(bool a);
   void LoadState(bool a);
   void SaveSeason(bool a);

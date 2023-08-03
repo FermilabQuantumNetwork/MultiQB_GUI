@@ -532,6 +532,8 @@ void MainWindow::setupsignalslot(){
 
 
     QObject::connect(ui->DBON, SIGNAL(valueChanged(int)), this, SLOT(turnONDB(int)));
+    QObject::connect(ui->CreateTables, SIGNAL(released()), this, SLOT(createTablesDB()));
+
 
     QObject::connect(ui->actionSave_state, SIGNAL(triggered(bool)), this, SLOT(SaveState(bool)));
     QObject::connect(ui->actionLoad_state, SIGNAL(triggered(bool)), this, SLOT(LoadState(bool)));
@@ -969,27 +971,31 @@ void MainWindow::turnONDB(int val){
     if(!dbc.isRunning()  && val==1){
         dbc.run();
         //dbrunning=val;
+        for (int i=0;i<in_QKD_pxqA;i++) {
+          trackA[i]->setEnabled(true);
+        }
+        for (int i=0;i<in_QKD_pxqB;i++) {
+          trackB[i]->setEnabled(true);
+        }
+        for (int i=0;i<in_QKD_pxqC;i++) {
+          trackC[i]->setEnabled(true);
+        }
+        for (int i=0;i<in_QKD_pxqD;i++) {
+          trackD[i]->setEnabled(true);
+        }
     }
     if(val==0){
         //dbrunning = val;
         dbc.disconnectFromServer();
         //while(dbc.isRunning())usleep(100);
         //dbc.~DBControl();
-        /*for (int i=0;i<in_QKD_pxqA;i++) {
-            trackA[i]->setEnabled(true);
-        }
-        for (int i=0;i<in_QKD_pxqB;i++) {
-            trackB[i]->setEnabled(true);
-        }
-        for (int i=0;i<in_QKD_pxqC;i++) {
-            trackC[i]->setEnabled(true);
-        }
-        for (int i=0;i<in_QKD_pxqD;i++) {
-            trackD[i]->setEnabled(true);
-        }*/
+        /**/
     }
    // dbrunning=val;
-    if(val){
+
+}
+void MainWindow::createTablesDB(){
+    if(dbc.connection_succesfull){
         QVector<int> ActiveChan;
         QVector<int> logicL;
         QVector<int> logicR;
@@ -998,37 +1004,37 @@ void MainWindow::turnONDB(int val){
         QVector<bool> gate;
 
         for (int i=0;i<MAX_LOGIC;i++) {
-            //qWarning()<<i;
-            if(trackTab2[i]){
-                //qWarning()<<i;
-                ActiveChan.append(i);
-                logicL.append(LSource[i]);
-                logicR.append(RSource[i]);
-                WinL.append(LWin[i]);
-                WinR.append(RWin[i]);
-                if(logicOP[i])gate.append(1);
-                else gate.append(0);
-            }
+          //qWarning()<<i;
+          if(trackTab2[i]){
+              //qWarning()<<i;
+              ActiveChan.append(i);
+              logicL.append(LSource[i]);
+              logicR.append(RSource[i]);
+              WinL.append(LWin[i]);
+              WinR.append(RWin[i]);
+              if(logicOP[i])gate.append(1);
+              else gate.append(0);
+          }
         }
 
         for (int i=0;i<in_QKD_pxqA;i++) {
-            trackA[i]->setEnabled(false);
+          trackA[i]->setEnabled(false);
         }
         for (int i=0;i<in_QKD_pxqB;i++) {
-            trackB[i]->setEnabled(false);
+          trackB[i]->setEnabled(false);
         }
         for (int i=0;i<in_QKD_pxqC;i++) {
-            trackC[i]->setEnabled(false);
+          trackC[i]->setEnabled(false);
         }
         for (int i=0;i<in_QKD_pxqD;i++) {
-            trackD[i]->setEnabled(false);
+          trackD[i]->setEnabled(false);
         }
+
 
         emit main_CreateTableTab1(in_QKD_pxqA,in_QKD_pxqB,in_QKD_pxqC,in_QKD_pxqD);
         emit main_CreateTableTab2(ActiveChan, logicL, logicR, WinL, WinR, gate);
-    }
+    }else error1("database not open yet");
 }
-
 void MainWindow::SaveState(bool a){
 //std::cout<<"debug"<<std::cout;
     QString fileName = QFileDialog::getSaveFileName(this,
