@@ -107,7 +107,7 @@ void qutaganl::timestampREC(const vectorInt64 &inconimg_vectorTimetags, const ve
     this->tsvalid=inconimg_tsvalid;
     //std::cout<<"TS  incoming: "<<inconimg_vectorTimetags.size()<<"   saved: "<<vectorTimetags.size()<< std::endl;
     anlbusy=true;*/
-//std::cout<<"REC"<<std::endl;
+std::cout<<"REC"<<std::endl;
 
    /* QFuture<int> future = QtConcurrent::run(this, &qutaganl::timestampANL,
                                             inconimg_vectorTimetags, inconimg_vectorChannels, inconimg_tsvalid,

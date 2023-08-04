@@ -6,8 +6,8 @@ timetaggerUltra::timetaggerUltra()
     //TTURes = Resolution::HighResA;
     TTURes = Resolution::Standard;
     break_=false;
-    timetags.reserve(EVENT_BUFFER_SIZE+1);
-    channelsTDC.reserve(EVENT_BUFFER_SIZE+1);
+    //timetags.reserve(EVENT_BUFFER_SIZE+1);
+    //channelsTDC.reserve(EVENT_BUFFER_SIZE+1);
 }
 
 
@@ -96,7 +96,7 @@ void timetaggerUltra::getTimeStampsTTU(){
     TimeTagStreamBuffer ttsb = tts->getData();
 
     //std::cout<<"gettimestanmps"<<std::endl;
-    timetags.clear();channelsTDC.clear();
+    //timetags.clear();channelsTDC.clear();
 
     //rc = TDC_getLastTimestamps( 1, timestamps, channels, &tsValid );
 
@@ -115,18 +115,23 @@ void timetaggerUltra::getTimeStampsTTU(){
         return timestamps.data();
     });
 
-    std::copy(timestamps.begin(), timestamps.begin() + int(ttsb.size*(float(TSpercentage)/100)), std::back_inserter(timetags));
-    std::copy(channels.begin(), channels.begin() + int(ttsb.size*(float(TSpercentage)/100)), std::back_inserter(channelsTDC));
+    QVector<int64_t> timetags = QVector<int64_t>(timestamps.begin(),timestamps.end());
+
+    QVector<int> channelsTDC = QVector<int>(channels.begin(),channels.end());
+
+   //std::copy(timestamps.begin(), timestamps.begin() + int(ttsb.size*(float(TSpercentage)/100)), std::back_inserter(timetags));
+    //std::copy(channels.begin(), channels.begin() + int(ttsb.size*(float(TSpercentage)/100)), std::back_inserter(channelsTDC));
 
     if(ttsb.size>=EVENT_BUFFER_SIZE)std::cout<<"timetaggerultra buffer saturated!!        "<<ttsb.size<<std::endl;
-    if(ttsb.size>0 && anlAvilable){
+    //if(ttsb.size>0 && anlAvilable){
+    if(ttsb.size>0 ){
         //if(tsValid>0){
         //std::cout<<"     channel :"<<(int)chann
         // QThread::msleep(1);
         /*for ( int i=0; i < 20; i++ ) {
          //   printf("channel original:  %hd",channels[i]);
            std::cout<<"     channel :"<<(int)channels[i]<<"\t TTS: "<<timestamps[i]<<"       "<<timestamps[i+1]-timestamps[i]<<std::endl;
-         }*/
+        }*/
         emit dataready(timetags, channelsTDC, int(ttsb.size*(float(TSpercentage)/100)));
     }
 }
