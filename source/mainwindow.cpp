@@ -109,6 +109,12 @@ void MainWindow::QUTAG_initdone(){
 
 void MainWindow::TTUinitdone(){
     TTU_paremetes_setup();
+    for (int i = 0;i<NTTUCHANNELS ;i++ ) {
+        threshTTU[i]->setValue(TTU1.thresholds[i]);
+       // qutagFilterType[i]->setCurrentText(qutag.filtertypeSTR[i]);
+       // delaych[i]->setValue(double(qutag.delays[i])/1000);
+        //if(qutag.RoF[i])qutagEdge[i]->setCurrentText("Rise");else qutagEdge[i]->setCurrentText("Fall");
+    }
 }
 
 void MainWindow::setup_histolines_QKD(){
@@ -526,6 +532,7 @@ void MainWindow::setupsignalslot(){
     QObject::connect(&anl, SIGNAL(anlongoing(bool)), &qutag, SLOT(adqpausechange(bool)));
 
     QObject::connect(&qutag, SIGNAL(qutaghist(vectorDouble, vectorDouble, vectorDouble, vectorDouble, int, int , int ,int )), this, SLOT(histoplot(vectorDouble, vectorDouble, vectorDouble, vectorDouble, int, int , int ,int )),Qt::QueuedConnection);
+    QObject::connect(&TTU1, SIGNAL(TTUhist(vectorDouble, vectorDouble, vectorDouble, vectorDouble, int, int , int ,int )), this, SLOT(histoplot(vectorDouble, vectorDouble, vectorDouble, vectorDouble, int, int , int ,int )),Qt::QueuedConnection);
 
 
     QObject::connect(&anl, SIGNAL(rates_tab2(vectorInt32, double)), this, SLOT(plotRates_tab2(vectorInt32, double)));
@@ -545,8 +552,8 @@ void MainWindow::setupsignalslot(){
     //QObject::connect(ui->delayline, SIGNAL(valueChanged(int)), this, SLOT(Chang_delayline(int)));
 
 
-    QObject::connect(this, SIGNAL(main_CreateTableTab1(int ,int ,int ,int )), &dbc, SLOT(CreateTableTab1(int ,int ,int ,int)));
-    QObject::connect(this, SIGNAL( main_CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool)), &dbc, SLOT(CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool)),Qt::QueuedConnection);
+    QObject::connect(this, SIGNAL(main_CreateTableTab1(int ,int ,int ,int , QLabel *)), &dbc, SLOT(CreateTableTab1(int ,int ,int ,int, QLabel *)));
+    QObject::connect(this, SIGNAL( main_CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool, QLabel*)), &dbc, SLOT(CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool, QLabel*)),Qt::QueuedConnection);
     QObject::connect(this, SIGNAL(main_SaveTab2Values(vectorInt32, float, double)), &dbc, SLOT(SaveTab2Values(vectorInt32, float, double)),Qt::QueuedConnection);
     QObject::connect(this, SIGNAL(main_SaveTab1Values(vectorInt32,vectorInt32,vectorInt32,vectorInt32,float)), &dbc, SLOT(SaveTab1Values(vectorInt32,vectorInt32,vectorInt32,vectorInt32,float)),Qt::QueuedConnection);
 
@@ -624,6 +631,9 @@ void MainWindow::setupsignalslot(){
     QObject::connect(ui->TSON, SIGNAL(valueChanged(int)), &qutag, SLOT(TSanl(int)));
     QObject::connect(ui->TSper, SIGNAL(valueChanged(int)), &qutag, SLOT(changTSper(int)));
 
+    QObject::connect(ui->TSON, SIGNAL(valueChanged(int)), &TTU1, SLOT(TSanl(int)));
+    QObject::connect(ui->TSper, SIGNAL(valueChanged(int)), &TTU1, SLOT(changTSper(int)));
+
     QObject::connect(this, SIGNAL(setOVDL(float)), &ovdl_1, SLOT(setDelay(float)));
 
     QObject::connect(ui->VDL_start, SIGNAL(valueChanged(double)), this, SLOT(chang_VDL_start(double)));
@@ -637,6 +647,7 @@ void MainWindow::setupsignalslot(){
     QObject::connect(this, SIGNAL(MWChang_qutag_filtermask(int, int, int)), &qutag, SLOT(Chang_qutag_filtermask(int, int, int)));
 
     QObject::connect(this, SIGNAL( MWChang_qutagThresh(double, int)), &qutag, SLOT(Chang_in_thch(double, int)));
+    QObject::connect(this, SIGNAL( MWChang_TTUThresh(double, int)), &TTU1, SLOT(Chang_in_thch(double, int)));
 
     QObject::connect(this, SIGNAL(MWChang_qutag_edge(QString, int)), &qutag, SLOT(Chang_rof(QString, int)));
 
@@ -645,7 +656,7 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(ui->actioninit_TTU, SIGNAL(triggered(bool)), this, SLOT(runTTU(bool)));
 
-    QObject::connect(ui->connect_OVDL, SIGNAL(released()), &ovdl_1, SLOT(ovdlconnect()));
+    QObject::connect(ui->connect_OVDL, SIGNAL(released()), this, SLOT(connectOVDLmw()));
 }
 
 void MainWindow::setupsignalslot2(){
@@ -840,6 +851,10 @@ void MainWindow::histoplot(const vectorDouble &datA, const vectorDouble &datB, c
     //std::cout<<"size x : "<<x.size()<<std::endl;
 //for (int i=in_histStart; i<in_histEnd; i++){
 
+    ui->plotAtsv->display(count1);
+    ui->plotBtsv->display(count2);
+    ui->plotCtsv->display(count3);
+    ui->plotDtsv->display(count4);
 
     for (int i=0; i<x.size(); ++i){
         x[i] = binwidth*i+in_histStart;
@@ -1031,8 +1046,8 @@ void MainWindow::createTablesDB(){
         }
 
 
-        emit main_CreateTableTab1(in_QKD_pxqA,in_QKD_pxqB,in_QKD_pxqC,in_QKD_pxqD);
-        emit main_CreateTableTab2(ActiveChan, logicL, logicR, WinL, WinR, gate);
+        emit main_CreateTableTab1(in_QKD_pxqA,in_QKD_pxqB,in_QKD_pxqC,in_QKD_pxqD, ui->tabledisplay1);
+        emit main_CreateTableTab2(ActiveChan, logicL, logicR, WinL, WinR, gate, ui->tabledisplay2);
     }else error1("database not open yet");
 }
 void MainWindow::SaveState(bool a){
@@ -1468,18 +1483,19 @@ void MainWindow::closeEvent(QCloseEvent *event){
    TTU1.Break();
    anl.Break();
    qutag.quit();
-   //anl.quit();
+
    dbc.quit();
-   //usleep(100);
-   //adq.~qutagadq();
-   //usleep(100e3);
+
    std::cout<<"destroy"<<std::endl;
-   //dbc.~DBControl();
 
 
-   while(qutag.isRunning())sleep(1);std::cout<<"adq"<<std::endl;
-   while(TTU1.isRunning())sleep(1);std::cout<<"TTU"<<std::endl;
-   while( dbc.isRunning())sleep(1);std::cout<<"dbc"<<std::endl;
+
+   while(qutag.isRunning())sleep(1);
+   std::cout<<"adq"<<std::endl;
+   while(TTU1.isRunning())sleep(1);
+   std::cout<<"TTU"<<std::endl;
+   while( dbc.isRunning())sleep(1);
+   std::cout<<"dbc"<<std::endl;
    //usleep(1000);
    event->accept();
 
@@ -2217,9 +2233,9 @@ void MainWindow::TTU_paremetes_setup(){
         thchLab[i] = new QLabel(tr("Threshold Channel ")+QString::number(i+1));
         thchLab[i]->setStyleSheet("color: rgb(238, 238, 236)");
         threshTTU[i] = new QDoubleSpinBox();
-        threshTTU[i]->setMaximum(3);
-        threshTTU[i]->setMinimum(-3);
-        threshTTU[i]->setDecimals(3);
+        threshTTU[i]->setMaximum(2.5);
+        threshTTU[i]->setMinimum(-2.5);
+        threshTTU[i]->setDecimals(2);
         threshTTU[i]->setSuffix(" [V]");
         threshTTU[i]->setSingleStep(QUTAG_THRESHOLD_STEP);
         threshTTU[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
@@ -2234,3 +2250,12 @@ void MainWindow::runTTU(bool a){
     }
 }
 
+void MainWindow::connectOVDLmw(){
+
+    QString ovdlport = QFileDialog::getOpenFileName(this, tr("Open File"), "/dev/", tr("Images (ttyUSB*)"));
+
+    if (ovdlport.isEmpty())return;
+    else {
+        ovdl_1.ovdlconnect(ovdlport);
+    }
+}

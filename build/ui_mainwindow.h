@@ -83,6 +83,8 @@ public:
     QFormLayout *trackFL_A;
     QLabel *label_17;
     QLabel *label_20;
+    QLabel *label_11;
+    QLCDNumber *plotAtsv;
     QSpacerItem *verticalSpacer_9;
     QWidget *plotBwid;
     QHBoxLayout *horizontalLayout_5;
@@ -93,6 +95,8 @@ public:
     QFormLayout *trackFL_B;
     QLabel *label_54;
     QLabel *label_55;
+    QLabel *label_13;
+    QLCDNumber *plotBtsv;
     QSpacerItem *verticalSpacer_8;
     QWidget *plotCwid_2;
     QHBoxLayout *horizontalLayout_28;
@@ -103,6 +107,8 @@ public:
     QFormLayout *trackFL_C;
     QLabel *label_85;
     QLabel *label_86;
+    QLabel *label_15;
+    QLCDNumber *plotCtsv;
     QSpacerItem *verticalSpacer_6;
     QWidget *plotDwid;
     QHBoxLayout *horizontalLayout_6;
@@ -113,6 +119,8 @@ public:
     QFormLayout *trackFL_D;
     QLabel *label_161;
     QLabel *label_162;
+    QLabel *label_14;
+    QLCDNumber *plotDtsv;
     QSpacerItem *verticalSpacer_7;
     QWidget *tab2;
     QVBoxLayout *verticalLayout_3;
@@ -164,6 +172,11 @@ public:
     QSlider *DBON;
     QPushButton *CreateTables;
     QSpacerItem *verticalSpacer_2;
+    QVBoxLayout *verticalLayout_22;
+    QLabel *label_10;
+    QLabel *tabledisplay1;
+    QLabel *tabledisplay2;
+    QSpacerItem *verticalSpacer_4;
     QSpacerItem *horizontalSpacer_2;
     QWidget *tab4;
     QVBoxLayout *verticalLayout_20;
@@ -589,6 +602,17 @@ public:
 
         trackFL_A->setWidget(0, QFormLayout::FieldRole, label_20);
 
+        label_11 = new QLabel(plotAwid);
+        label_11->setObjectName("label_11");
+        label_11->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        trackFL_A->setWidget(1, QFormLayout::LabelRole, label_11);
+
+        plotAtsv = new QLCDNumber(plotAwid);
+        plotAtsv->setObjectName("plotAtsv");
+
+        trackFL_A->setWidget(1, QFormLayout::FieldRole, plotAtsv);
+
 
         verticalLayout_13->addLayout(trackFL_A);
 
@@ -645,6 +669,17 @@ public:
 
         trackFL_B->setWidget(0, QFormLayout::FieldRole, label_55);
 
+        label_13 = new QLabel(plotBwid);
+        label_13->setObjectName("label_13");
+        label_13->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        trackFL_B->setWidget(1, QFormLayout::LabelRole, label_13);
+
+        plotBtsv = new QLCDNumber(plotBwid);
+        plotBtsv->setObjectName("plotBtsv");
+
+        trackFL_B->setWidget(1, QFormLayout::FieldRole, plotBtsv);
+
 
         verticalLayout_14->addLayout(trackFL_B);
 
@@ -700,6 +735,17 @@ public:
 
         trackFL_C->setWidget(0, QFormLayout::FieldRole, label_86);
 
+        label_15 = new QLabel(plotCwid_2);
+        label_15->setObjectName("label_15");
+        label_15->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        trackFL_C->setWidget(1, QFormLayout::LabelRole, label_15);
+
+        plotCtsv = new QLCDNumber(plotCwid_2);
+        plotCtsv->setObjectName("plotCtsv");
+
+        trackFL_C->setWidget(1, QFormLayout::FieldRole, plotCtsv);
+
 
         verticalLayout_37->addLayout(trackFL_C);
 
@@ -754,6 +800,17 @@ public:
         label_162->setStyleSheet(QString::fromUtf8("color: rgb(238, 238, 236);"));
 
         trackFL_D->setWidget(0, QFormLayout::FieldRole, label_162);
+
+        label_14 = new QLabel(plotDwid);
+        label_14->setObjectName("label_14");
+        label_14->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        trackFL_D->setWidget(1, QFormLayout::LabelRole, label_14);
+
+        plotDtsv = new QLCDNumber(plotDwid);
+        plotDtsv->setObjectName("plotDtsv");
+
+        trackFL_D->setWidget(1, QFormLayout::FieldRole, plotDtsv);
 
 
         verticalLayout_39->addLayout(trackFL_D);
@@ -1060,6 +1117,34 @@ public:
 
         horizontalLayout_8->addLayout(verticalLayout_16);
 
+        verticalLayout_22 = new QVBoxLayout();
+        verticalLayout_22->setSpacing(6);
+        verticalLayout_22->setObjectName("verticalLayout_22");
+        label_10 = new QLabel(verticalWidget);
+        label_10->setObjectName("label_10");
+        label_10->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        verticalLayout_22->addWidget(label_10);
+
+        tabledisplay1 = new QLabel(verticalWidget);
+        tabledisplay1->setObjectName("tabledisplay1");
+        tabledisplay1->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        verticalLayout_22->addWidget(tabledisplay1);
+
+        tabledisplay2 = new QLabel(verticalWidget);
+        tabledisplay2->setObjectName("tabledisplay2");
+        tabledisplay2->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        verticalLayout_22->addWidget(tabledisplay2);
+
+        verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_22->addItem(verticalSpacer_4);
+
+
+        horizontalLayout_8->addLayout(verticalLayout_22);
+
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_8->addItem(horizontalSpacer_2);
@@ -1257,15 +1342,19 @@ public:
         label_6->setText(QCoreApplication::translate("MainWindow", "Plot A", nullptr));
         label_17->setText(QCoreApplication::translate("MainWindow", "Counts", nullptr));
         label_20->setText(QCoreApplication::translate("MainWindow", "Track", nullptr));
+        label_11->setText(QCoreApplication::translate("MainWindow", "Total", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "Plot B", nullptr));
         label_54->setText(QCoreApplication::translate("MainWindow", "Counts", nullptr));
         label_55->setText(QCoreApplication::translate("MainWindow", "Track", nullptr));
+        label_13->setText(QCoreApplication::translate("MainWindow", "Total", nullptr));
         label_87->setText(QCoreApplication::translate("MainWindow", "Plot C", nullptr));
         label_85->setText(QCoreApplication::translate("MainWindow", "Counts", nullptr));
         label_86->setText(QCoreApplication::translate("MainWindow", "Track", nullptr));
+        label_15->setText(QCoreApplication::translate("MainWindow", "Total", nullptr));
         label_160->setText(QCoreApplication::translate("MainWindow", "Plot D", nullptr));
         label_161->setText(QCoreApplication::translate("MainWindow", "Counts", nullptr));
         label_162->setText(QCoreApplication::translate("MainWindow", "Track", nullptr));
+        label_14->setText(QCoreApplication::translate("MainWindow", "Total", nullptr));
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab1), QCoreApplication::translate("MainWindow", "Histograms", nullptr));
         saveLogic->setText(QCoreApplication::translate("MainWindow", "Save", nullptr));
         loadLogic->setText(QCoreApplication::translate("MainWindow", "Load", nullptr));
@@ -1283,6 +1372,9 @@ public:
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(conf), QCoreApplication::translate("MainWindow", "Parameters", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Connect to DB", nullptr));
         CreateTables->setText(QCoreApplication::translate("MainWindow", "Create tables", nullptr));
+        label_10->setText(QCoreApplication::translate("MainWindow", "Current tables:", nullptr));
+        tabledisplay1->setText(QString());
+        tabledisplay2->setText(QString());
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab), QCoreApplication::translate("MainWindow", "Database", nullptr));
         label_103->setText(QCoreApplication::translate("MainWindow", "Scan mode", nullptr));
         label_104->setText(QCoreApplication::translate("MainWindow", "Scan step Size", nullptr));

@@ -122,24 +122,7 @@ int qutagadq::filterset(){
 
      }
 
-/*
-     rc = TDC_getSignalConditioning(2, temp_edge,temp_thresh);
-     std::cout<<" ch2 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
-     thresholds[2] = *temp_thresh;
-     RoF[2] = bool(*temp_edge);
-     rc = TDC_getSignalConditioning(3, temp_edge,temp_thresh);
-     std::cout<<" ch3 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
-     thresholds[3] = *temp_thresh;
-     RoF[3] = bool(*temp_edge);
-     rc = TDC_getSignalConditioning(4, temp_edge,temp_thresh);
-     std::cout<<" ch4 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
-     thresholds[4] = *temp_thresh;
-     RoF[4] = bool(*temp_edge);
-     rc = TDC_getSignalConditioning(5, temp_edge,temp_thresh);
-     std::cout<<" ch5 edge : "<<*temp_edge<<"\t thresh"<<*temp_thresh<<std::endl;
-     thresholds[0] = *temp_thresh;
-     RoF[0] = bool(*temp_edge);
-*/
+
     //TDC_FilterType temp_filtertype[1];
      /////////////filters//////
      for(int i = 0 ; i<5; i++){

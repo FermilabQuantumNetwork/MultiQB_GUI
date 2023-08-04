@@ -116,7 +116,7 @@ void DBControl::SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<i
    }
 }
 
-void DBControl::CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate){
+void DBControl::CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate,  QLabel *lab){
     QString columnstocreate;
     for (int i=0;i<channels.size();i++) {
         currentColumnstab2+="ch"+QString::number(channels[i])+",";
@@ -126,6 +126,7 @@ void DBControl::CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVect
     QString formattedTime = date.toString("dd_MM_yyyy_hh_mm_ss");
     QByteArray formattedTimeMsg = formattedTime.toLocal8Bit();
     currentTableTab2 = "TAB2"+formattedTimeMsg;
+    lab->setText(currentTableTab2);
     QString st = "create table if not exists "+currentTableTab2+"(id int not null auto_increment primary key,"+columnstocreate+" and_adqtime float, delayline double, datetime datetime);";
 
     std::cout<<st.toStdString()<<std::endl;
@@ -159,7 +160,7 @@ void DBControl::CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVect
 }
 
 
-void DBControl::CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD ){
+void DBControl::CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD , QLabel *lab){
     QString columnstocreate;
     NTA=0;NTB=0;NTC=0;NTD=0;
     for (int i=0;i<PlotA;i++) {
@@ -186,6 +187,7 @@ void DBControl::CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD ){
     QString formattedTime = date.toString("dd_MM_yyyy_hh_mm_ss");
     QByteArray formattedTimeMsg = formattedTime.toLocal8Bit();
     currentTableTab1 = "TAB1"+formattedTimeMsg;
+    lab->setText(currentTableTab1);
     QString st = "create table if not exists "+currentTableTab1+"(id int not null auto_increment primary key,"+columnstocreate+" hist_adqtime float, datetime datetime);";
     std::cout<<st.toStdString()<<std::endl;
     QSqlQuery query(st, db);

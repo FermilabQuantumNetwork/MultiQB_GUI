@@ -192,6 +192,7 @@ private slots:
    void runQutag(bool a);
    void runTTU(bool a);
 
+   void connectOVDLmw();
 
 private:
 
@@ -336,8 +337,8 @@ private:
 signals:
 
     //void main_CreateTableTab1(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD );
-   void main_CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD  );
-    void main_CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate);
+   void main_CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD , QLabel *lab );
+    void main_CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate, QLabel *lab2);
     void main_SaveTab2Values(QVector<int> datatab2, float andTime, double delayline);
     void main_SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD, float hist_adqtime);
     //QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD

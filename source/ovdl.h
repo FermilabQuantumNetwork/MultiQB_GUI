@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSerialPort>
 #include <iostream>
+#include <QFileDialog>
 
 #define OVDL_PORT "ttyUSB0"
 
@@ -17,7 +18,7 @@ signals:
 
 public slots:
     void setDelay(float timeps);
-    void ovdlconnect();
+    void ovdlconnect(QString s);
 };
 
 #endif // OVDL_H

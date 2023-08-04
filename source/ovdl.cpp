@@ -17,8 +17,10 @@ void OVDL::setDelay(float timeps){
 
 }
 
-void OVDL::ovdlconnect(){
-    delaylineport = new QSerialPort(OVDL_PORT);
+void OVDL::ovdlconnect(QString s){
+
+    //delaylineport = new QSerialPort(OVDL_PORT);
+    delaylineport = new QSerialPort(s);
     delaylineport->setBaudRate(QSerialPort::Baud9600);
     delaylineport->setDataBits(QSerialPort::Data8);
     delaylineport->setStopBits(QSerialPort::OneStop);

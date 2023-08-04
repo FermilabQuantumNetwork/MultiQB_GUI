@@ -142,6 +142,7 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
     int qq;// current qubit within clk signals
     double diffh=0;
     //if(outputCounter.isEmpty()) outputCounter.resize(numberOfLogicPlots);
+    for(int i = 0 ; i<10; i++)std::cout<<"chan: "<< vectorChannels[i]<<"\t tts: "<<vectorTimetags[i]<<"\n";
     vectorInt32 threadCounter(numberOfLogicPlots,0);
     int ChannelIndex;
     int StopIndex;
