@@ -25,7 +25,7 @@ void timetaggerUltra::run(){
         std::cout << std::endl << "No time tagger found." << std::endl << "Please attach a Time Tagger." << std::endl;
         return;
     }
-    //int res = 0;
+
 
     // connect to a time tagger
 
@@ -80,12 +80,12 @@ without averaging. The number of channels available will be limited to the numbe
 
     while(!break_ && tts->isRunning()){
         current_time = QDateTime::currentDateTime().toMSecsSinceEpoch();
-        // std::cout<< current_time-previous_time <<std::endl;
+
         if((current_time-previous_time) > 1000*in_adqtime){
             getHisto();//TDC_clearAllHistograms ();
             previous_time = current_time;
         }
-        //if(anlAvilable && in_TSON)getTimeStamps();
+
         if(in_TSON)getTimeStampsTTU();
         QThread::msleep(1);
     }
@@ -119,15 +119,9 @@ void timetaggerUltra::getTimeStampsTTU(){
 
     QVector<int> channelsTDC = QVector<int>(channels.begin(),channels.end());
 
-   //std::copy(timestamps.begin(), timestamps.begin() + int(ttsb.size*(float(TSpercentage)/100)), std::back_inserter(timetags));
-    //std::copy(channels.begin(), channels.begin() + int(ttsb.size*(float(TSpercentage)/100)), std::back_inserter(channelsTDC));
-
     if(ttsb.size>=EVENT_BUFFER_SIZE)std::cout<<"timetaggerultra buffer saturated!!        "<<ttsb.size<<std::endl;
     //if(ttsb.size>0 && anlAvilable){
     if(ttsb.size>0 ){
-        //if(tsValid>0){
-        //std::cout<<"     channel :"<<(int)chann
-        // QThread::msleep(1);
         /*for ( int i=0; i < 20; i++ ) {
          //   printf("channel original:  %hd",channels[i]);
            std::cout<<"     channel :"<<(int)channels[i]<<"\t TTS: "<<timestamps[i]<<"       "<<timestamps[i+1]-timestamps[i]<<std::endl;
@@ -137,6 +131,7 @@ void timetaggerUltra::getTimeStampsTTU(){
 }
 
 void timetaggerUltra::getHisto(){
+    if(paramschange)setHistograms();
     //qDebug()<<"histottu";
     int count[NTTUCHANNELS];
     QVector<double> dataA, dataB, dataC, dataD;
@@ -146,7 +141,6 @@ void timetaggerUltra::getHisto(){
         return datac.data();
     });
     for(int i = 0; i<NTTUCHANNELS; i++){
-
         count[i]=(int)datac[i];
         std::vector<int32_t> histodata;
         ttuhisto[i]->getData([&histodata](size_t size1) {
@@ -168,21 +162,40 @@ void timetaggerUltra::getHisto(){
 }
 
 void timetaggerUltra::setHistograms(){
-
+    //qDebug()<<ttuhisto[0]->
     for(int i = 0; i<NTTUCHANNELS; i++){
+        if(ttuhisto[i] != NULL)delete ttuhisto[i];
         try{
             ttuhisto[i] = new Histogram(t, TTUChannelsinuse[i] , TTUSTARTCHANNEL, in_binWidth, in_nbins);
+            qDebug()<<"create histogram "<<i<< " channel: "<<TTUChannelsinuse[i]<<" width: "<<in_binWidth<<" nbins: "<<in_nbins;
         }
         catch (std::invalid_argument const& ex){
             std::cout << "#1: " << ex.what() << '\n';
         }
-        try{
-
-            ttuc = new Countrate(t, TTUChannels);
+        if(ttuc  == NULL){
+            try{
+                ttuc = new Countrate(t, TTUChannels);
+                qDebug()<<"create rate counters";
+            }
+            catch (std::invalid_argument const& ex){
+                std::cout << "#1: " << ex.what() << '\n';
+            }
         }
-        catch (std::invalid_argument const& ex){
-            std::cout << "#1: " << ex.what() << '\n';
-        }
-
     }
+    paramschange=false;
 }
+
+/*void timetaggerUltra::setHistogramsParam(){
+    for(int i = 0; i<NTTUCHANNELS; i++){
+        if(ttuhisto[i]->isRunning()){
+            ttuhisto[i]->
+            delete ttuhisto[i];
+            try{
+                ttuhisto[i] = new Histogram(t, TTUChannelsinuse[i] , TTUSTARTCHANNEL, in_binWidth, in_nbins);
+            }
+            catch (std::invalid_argument const& ex){
+                std::cout << "#1: " << ex.what() << '\n';
+            }
+        }
+    }
+}*/

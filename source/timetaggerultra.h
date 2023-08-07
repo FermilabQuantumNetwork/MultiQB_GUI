@@ -40,9 +40,9 @@ public:
 
 public slots:
 
-    void Chang_in_binsinplot(int val){this->in_binsinplot=val;paramschange=true;}
-    void Chang_in_binWidth(int val){this->in_binWidth=val;paramschange=true;}
-    void Chang_in_histStart(int val){in_histStart=val;}
+    void Chang_in_binsinplot(int val){this->in_binsinplot=val;this->paramschange=true;}
+    void Chang_in_binWidth(int val){this->in_binWidth=val;this->paramschange=true;}
+    void Chang_in_histStart(int val){this->in_histStart=val;}
     void Chang_in_adqtime(double val){this->in_adqtime=val;}
     void Chang_anlAvilable(bool val){this->anlAvilable =val;}
 
@@ -62,13 +62,7 @@ private:
     void getTimeStampsTTU();
     void getHisto();
     void setHistograms();
-   /* QVector<double> dataA;
-    QVector<double> dataB;
-    QVector<double> dataC;
-    QVector<double> dataD;*/
-
-
-
+    //void setHistogramsParam();
 signals:
          // void dataready(const vectorInt64 &TTdata, const channelsTDCPP &CHdata, int nevent); // sends to inputdata()
     void dataready(const vectorInt64 &vectorTimetags, const vectorInt &vectorChannels, int tsvalid);
