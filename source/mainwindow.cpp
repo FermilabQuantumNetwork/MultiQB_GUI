@@ -81,8 +81,18 @@ createQKDLinesC();
 createQKDLinesD();
 
 
-//trackFL_A();
-//AddLogicSelectorElement();
+/*
+QDialog * dlg = new QDialog();
+dlg->setGeometry( 100, 100, 260, 260);
+filtersTabScroll = new QScrollArea(dlg);
+filtersTabScroll->setWidgetResizable(true);
+filtersTabScroll->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+filtersTabScroll->setWidgetResizable( true );
+filtersTabScroll->setGeometry( 10, 10, 200, 200 );
+
+filtersTabScroll->setWidget( ui->filterlayoutwidget );
+*/
+
 }
 
 
@@ -553,7 +563,7 @@ void MainWindow::setupsignalslot(){
 
 
     QObject::connect(this, SIGNAL(main_CreateTableTab1(int ,int ,int ,int , QLabel *)), &dbc, SLOT(CreateTableTab1(int ,int ,int ,int, QLabel *)));
-    QObject::connect(this, SIGNAL( main_CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool, QLabel*)), &dbc, SLOT(CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool, QLabel*)),Qt::QueuedConnection);
+    QObject::connect(this, SIGNAL( main_CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool, int, QLabel*)), &dbc, SLOT(CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool, int, QLabel*)),Qt::QueuedConnection);
     QObject::connect(this, SIGNAL(main_SaveTab2Values(vectorInt32, float, double)), &dbc, SLOT(SaveTab2Values(vectorInt32, float, double)),Qt::QueuedConnection);
     QObject::connect(this, SIGNAL(main_SaveTab1Values(vectorInt32,vectorInt32,vectorInt32,vectorInt32,float)), &dbc, SLOT(SaveTab1Values(vectorInt32,vectorInt32,vectorInt32,vectorInt32,float)),Qt::QueuedConnection);
 
@@ -657,6 +667,20 @@ void MainWindow::setupsignalslot(){
     QObject::connect(ui->actioninit_TTU, SIGNAL(triggered(bool)), this, SLOT(runTTU(bool)));
 
     QObject::connect(ui->connect_OVDL, SIGNAL(released()), this, SLOT(connectOVDLmw()));
+
+    QObject::connect(ui->addfilter, SIGNAL(released()), this, SLOT(addfilterMW()));
+
+    QObject::connect(this, SIGNAL( MWfilterConnect(int) ), &EXFOfilters, SLOT( filterConnect(int) ) );
+    QObject::connect(this, SIGNAL( MWfilteripRet(QString , int) ), &EXFOfilters, SLOT( setIP(QString, int) ) );
+
+    QObject::connect(this, SIGNAL( MWFilterWLChange(double, int) ), &EXFOfilters, SLOT( setWavelength(double, int) ) );
+    QObject::connect(this, SIGNAL( MWFilterBWChange(int, int) ), &EXFOfilters, SLOT( setBandwidth(int, int) ) );
+
+    QObject::connect(this, SIGNAL( MWFilterWLChange(double, int) ), &dbc, SLOT( setfiltersWL(double, int) ) );
+    QObject::connect(this, SIGNAL( MWFilterBWChange(int, int) ), &dbc, SLOT( setfiltersBW(int, int) ) );
+
+    QObject::connect(&EXFOfilters, SIGNAL(DeviceWL(float, int)), this, SLOT(loadFilterWL(float, int)));
+    QObject::connect(&EXFOfilters, SIGNAL(DeviceBW(int, int)), this, SLOT(loadFilterBW(int, int)));
 }
 
 void MainWindow::setupsignalslot2(){
@@ -1009,6 +1033,7 @@ void MainWindow::turnONDB(int val){
    // dbrunning=val;
 
 }
+
 void MainWindow::createTablesDB(){
     if(dbc.connection_succesfull){
         QVector<int> ActiveChan;
@@ -1045,9 +1070,9 @@ void MainWindow::createTablesDB(){
           trackD[i]->setEnabled(false);
         }
 
-
         emit main_CreateTableTab1(in_QKD_pxqA,in_QKD_pxqB,in_QKD_pxqC,in_QKD_pxqD, ui->tabledisplay1);
-        emit main_CreateTableTab2(ActiveChan, logicL, logicR, WinL, WinR, gate, ui->tabledisplay2);
+        emit main_CreateTableTab2(ActiveChan, logicL, logicR, WinL, WinR, gate, numberOfFilters, ui->tabledisplay2);
+
     }else error1("database not open yet");
 }
 void MainWindow::SaveState(bool a){
@@ -1830,7 +1855,7 @@ void MainWindow::AddLogicSelectorElement(){
 
     numberOfLogicPlots++;
     anl.numberOfLogicPlots=this->numberOfLogicPlots;
-    dbc.numberOfLogicPlots=this->numberOfLogicPlots;
+    //dbc.numberOfLogicPlots=this->numberOfLogicPlots;
 }
 
 void MainWindow::AddLogicSelectorWindowsL(QString t, int index){
@@ -2257,5 +2282,242 @@ void MainWindow::connectOVDLmw(){
     if (ovdlport.isEmpty())return;
     else {
         ovdl_1.ovdlconnect(ovdlport);
+    }
+}
+
+
+void MainWindow::addfilterMW(){
+
+    if(numberOfFilters<MAX_N_FILTERS)numberOfFilters++;
+    else return;
+    int i = numberOfFilters-1;
+    ////main horizontal layouts for each filter (3 rows)
+
+    QHBoxLayout *filterParamsLayout = new QHBoxLayout();
+    ui->filtersLayout->addLayout(filterParamsLayout);
+    QHBoxLayout *filterWLscanLayout = new QHBoxLayout();
+    ui->filtersLayout->addLayout(filterWLscanLayout);
+    QHBoxLayout *filterBWscanLayout = new QHBoxLayout();
+    ui->filtersLayout->addLayout(filterBWscanLayout);
+    filterBWscanLayout->setContentsMargins(0,0,0,20);
+
+    ////tiles for the main horizontal layouts, these goes on the left of the screen
+
+    QLabel *filterTitle = new QLabel(tr("Filter ")+QString::number(numberOfFilters));// left of filterParamsLayout
+    filterTitle->setStyleSheet("color: rgb(238, 238, 236)");
+    filterParamsLayout->addWidget(filterTitle);
+    QLabel *filterWLtitle = new QLabel(tr("Scan WL ")+QString::number(numberOfFilters));
+    filterWLtitle->setStyleSheet("color: rgb(238, 238, 236)");
+    filterWLscanLayout->addWidget(filterWLtitle);
+    QLabel *filterBWtitle = new QLabel(tr("Scan BW ")+QString::number(numberOfFilters));
+    filterBWtitle->setStyleSheet("color: rgb(238, 238, 236)");
+    filterBWscanLayout->addWidget(filterBWtitle);
+
+    ////for the first row add 3 pairs, connectButton-ip, WLlabel-WLset, BWLabel-BWset
+    ///
+    /// connectButton-ip
+    ///
+    QGridLayout *FilterFormLayout = new QGridLayout();
+    filterconnect[i] = new QPushButton("connect");
+    filterconnect[i]->setStyleSheet("color: rgb(238, 238, 236)");
+    QObject::connect(filterconnect[i], &QPushButton::released,[this, i]() {emit MWfilterConnect(i);});
+    //QObject::connect(filterconnect[i], &QPushButton::clicked,[this](bool clickedd) {qDebug()<<clickedd;});
+    FilterFormLayout->addWidget(filterconnect[i],0,0);
+    filterip[i] = new QLineEdit(EXFOfilters.filterips[i]);
+    QObject::connect(filterip[i], &QLineEdit::returnPressed,[this, i]() {emit MWfilteripRet(filterip[i]->text(),i);});
+    filterip[i]->setStyleSheet("color: rgb(238, 238, 236)");
+    filterip[i]->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+    FilterFormLayout->addWidget(filterip[i],1,0);
+    filterParamsLayout->addLayout(FilterFormLayout);
+
+    ///WL label - WL set
+
+    QLabel *filterWLlabel = new QLabel("Walvelength");
+    filterWLlabel->setStyleSheet("color: rgb(238, 238, 236)");
+    FilterFormLayout->addWidget(filterWLlabel,0,1);
+    filterWavel[i] = new QDoubleSpinBox();
+    filterWavel[i]->setMaximum(1620);
+    filterWavel[i]->setMinimum(1480);
+    filterWavel[i]->setDecimals(3);
+    filterWavel[i]->setSuffix(" [nm]");
+    filterWavel[i]->setSingleStep(0.5);
+    filterWavel[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+    QObject::connect(filterWavel[i], &QDoubleSpinBox::valueChanged,[this, i](double wavel) {emit MWFilterWLChange(wavel, i);});
+    FilterFormLayout->addWidget(filterWavel[i],1,1);
+
+    ///BW label - BW set
+
+    QLabel *filterBWlabel = new QLabel("Bandwidth");
+    filterBWlabel->setStyleSheet("color: rgb(238, 238, 236)");
+    FilterFormLayout->addWidget(filterBWlabel,0,2);
+    filterBandw[i] = new QSpinBox();
+    filterBandw[i]->setMaximum(650);
+    filterBandw[i]->setMinimum(32);
+    filterBandw[i]->setSuffix(" [pm]");
+    filterBandw[i]->setSingleStep(1);
+    filterBandw[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+    QObject::connect(filterBandw[i], &QSpinBox::valueChanged,[this, i](int bandw) {emit MWFilterBWChange(bandw, i);});
+    FilterFormLayout->addWidget(filterBandw[i],1,2);
+
+    /////second row, WL scan with 5 elements (+labels): scanSlider, min, max,step, step duration
+    ///
+    ////labels:
+    QGridLayout *FilterWLGridLayout = new QGridLayout();
+    QLabel *WLscanLab = new QLabel("Scan");
+    WLscanLab->setStyleSheet("color: rgb(238, 238, 236)");
+    QLabel *WLscanMinLab = new QLabel("Min");
+    WLscanMinLab->setStyleSheet("color: rgb(238, 238, 236)");
+    QLabel *WLscanMaxLab = new QLabel("Max");
+    WLscanMaxLab->setStyleSheet("color: rgb(238, 238, 236)");
+    QLabel *WLscanStepSizeLab = new QLabel("Step Size");
+    WLscanStepSizeLab->setStyleSheet("color: rgb(238, 238, 236)");
+    QLabel *WLscanStepDurationLab = new QLabel("Step Duration");
+    WLscanStepDurationLab->setStyleSheet("color: rgb(238, 238, 236)");
+    FilterWLGridLayout->addWidget(WLscanLab, 0,0 );
+    FilterWLGridLayout->addWidget(WLscanMinLab, 0,1 );
+    FilterWLGridLayout->addWidget(WLscanMaxLab, 0,2 );
+    FilterWLGridLayout->addWidget(WLscanStepSizeLab, 0,3 );
+    FilterWLGridLayout->addWidget(WLscanStepDurationLab, 0,4 );
+
+    ////WL scan slider
+    WLscanON[i] = new QSlider(Qt::Orientation::Horizontal);
+    FilterWLGridLayout->addWidget(WLscanON[i],1,0);
+
+    ///WL scan min
+    WLscanMin[i] = new QDoubleSpinBox();
+    WLscanMin[i]->setStyleSheet("color: rgb(238, 238, 236)");
+    WLscanMin[i]->setMaximum(1620);
+    WLscanMin[i]->setMinimum(1480);
+    WLscanMin[i]->setSuffix(" [nm]");
+    WLscanMin[i]->setSingleStep(1);
+    WLscanMin[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+    FilterWLGridLayout->addWidget(WLscanMin[i],1,1);
+
+    /////WL scan max
+
+    WLscanMax[i] = new QDoubleSpinBox();
+    WLscanMax[i]->setStyleSheet("color: rgb(238, 238, 236)");
+    WLscanMax[i]->setMaximum(1620);
+    WLscanMax[i]->setMinimum(1480);
+    WLscanMax[i]->setSuffix(" [nm]");
+    WLscanMax[i]->setSingleStep(1);
+    WLscanMax[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+    FilterWLGridLayout->addWidget(WLscanMax[i],1,2);
+
+    ////WL scan step size
+
+    WLscanstepsize[i] = new QDoubleSpinBox();
+    WLscanstepsize[i]->setStyleSheet("color: rgb(238, 238, 236)");
+    WLscanstepsize[i]->setMaximum(140);
+    WLscanstepsize[i]->setMinimum(0.001);
+    WLscanstepsize[i]->setSuffix(" [nm]");
+    WLscanstepsize[i]->setSingleStep(1);
+    WLscanstepsize[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+    FilterWLGridLayout->addWidget(WLscanstepsize[i],1,3);
+
+    ///WL scan step duration
+
+    WLscanstepduration[i] = new QDoubleSpinBox();
+    WLscanstepduration[i]->setStyleSheet("color: rgb(238, 238, 236)");
+    WLscanstepduration[i]->setMaximum(86400);//one day
+    WLscanstepduration[i]->setMinimum(1);
+    WLscanstepduration[i]->setSuffix(" [s]");
+    WLscanstepduration[i]->setSingleStep(1);
+    WLscanstepduration[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+    FilterWLGridLayout->addWidget(WLscanstepduration[i],1,4);
+
+    ///add the grid layout with the scan elements to the secon row layout
+    filterWLscanLayout->addLayout(FilterWLGridLayout);
+
+    ///--------------------///
+
+
+    ///Thid row with the elements for BW scan: scanSlider, min, max,step, step duration
+    QGridLayout *FilterBWGridLayout = new QGridLayout();
+
+    ///labels:
+
+    QLabel *BWscanLab = new QLabel("Scan");
+    BWscanLab->setStyleSheet("color: rgb(238, 238, 236)");
+    QLabel *BWscanMinLab = new QLabel("Min");
+    BWscanMinLab->setStyleSheet("color: rgb(238, 238, 236)");
+    QLabel *BWscanMaxLab = new QLabel("Max");
+    BWscanMaxLab->setStyleSheet("color: rgb(238, 238, 236)");
+    QLabel *BWscanStepSizeLab = new QLabel("Step Size");
+    BWscanStepSizeLab->setStyleSheet("color: rgb(238, 238, 236)");
+    QLabel *BWscanStepDurationLab = new QLabel("Step Duration");
+    BWscanStepDurationLab->setStyleSheet("color: rgb(238, 238, 236)");
+    FilterBWGridLayout->addWidget(BWscanLab, 0,0 );
+    FilterBWGridLayout->addWidget(BWscanMinLab, 0,1 );
+    FilterBWGridLayout->addWidget(BWscanMaxLab, 0,2 );
+    FilterBWGridLayout->addWidget(BWscanStepSizeLab, 0,3 );
+    FilterBWGridLayout->addWidget(BWscanStepDurationLab, 0,4 );
+
+    ////BW scan slider
+    BWscanON[i] = new QSlider(Qt::Orientation::Horizontal);
+    FilterBWGridLayout->addWidget(BWscanON[i],1,0);
+
+    ///BW scan min
+    BWscanMin[i] = new QDoubleSpinBox();
+    BWscanMin[i]->setStyleSheet("color: rgb(238, 238, 236)");
+    BWscanMin[i]->setMaximum(650);
+    BWscanMin[i]->setMinimum(32);
+    BWscanMin[i]->setSuffix(" [pm]");
+    BWscanMin[i]->setSingleStep(1);
+    BWscanMin[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+    FilterBWGridLayout->addWidget(BWscanMin[i],1,1);
+
+    /////BW scan max
+
+    BWscanMax[i] = new QDoubleSpinBox();
+    BWscanMax[i]->setStyleSheet("color: rgb(238, 238, 236)");
+    BWscanMax[i]->setMaximum(650);
+    BWscanMax[i]->setMinimum(32);
+    BWscanMax[i]->setSuffix(" [pm]");
+    BWscanMax[i]->setSingleStep(1);
+    BWscanMax[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+    FilterBWGridLayout->addWidget(BWscanMax[i],1,2);
+
+    ////BW scan step size
+
+    BWscanstepsize[i] = new QDoubleSpinBox();
+    BWscanstepsize[i]->setStyleSheet("color: rgb(238, 238, 236)");
+    BWscanstepsize[i]->setMaximum(618);
+    BWscanstepsize[i]->setMinimum(1);
+    BWscanstepsize[i]->setSuffix(" [pm]");
+    BWscanstepsize[i]->setSingleStep(1);
+    BWscanstepsize[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+    FilterBWGridLayout->addWidget(BWscanstepsize[i],1,3);
+
+    ///BW scan step duration
+
+    BWscanstepduration[i] = new QDoubleSpinBox();
+    BWscanstepduration[i]->setStyleSheet("color: rgb(238, 238, 236)");
+    BWscanstepduration[i]->setMaximum(86400);//one day
+    BWscanstepduration[i]->setMinimum(1);
+    BWscanstepduration[i]->setSuffix(" [s]");
+    BWscanstepduration[i]->setSingleStep(1);
+    BWscanstepduration[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+    FilterBWGridLayout->addWidget(BWscanstepduration[i],1,4);
+
+    ///add the grid layout with the scan elements to the secon row layout
+    filterBWscanLayout->addLayout(FilterBWGridLayout);
+
+}
+
+void MainWindow::loadFilterWL(float val, int dev){
+
+    if(dev<numberOfFilters){
+        QSignalBlocker blocker(filterWavel[dev]);
+        filterWavel[dev]->setValue((double)val);
+        blocker.unblock();
+    }
+}
+
+void MainWindow::loadFilterBW(int val, int dev){
+    if(dev<numberOfFilters){
+        QSignalBlocker blocker(filterBandw[dev]);
+        filterBandw[dev]->setValue(val);
+        blocker.unblock();
     }
 }

@@ -21,7 +21,7 @@ public:
     ~DBControl();
     void disconnectFromServer();
     void DBConnect(QString server, int port, QString database, QString login, QString password);
-    int numberOfLogicPlots = 0;
+
     bool connection_succesfull;
 private:
     QSqlDatabase db;
@@ -31,12 +31,19 @@ private:
     int port;
     QString currentTableTab2, currentColumnstab2, currentTableTab1, currentColumnstab1;
     int NTA,NTB,NTC,NTD;
+    int DB_numberOfLogicPlots = 0;
+    int Noffilters = 0;
+    QVector<double> filtersWLcurrentValue;
+    QVector<int> filtersBWcurrentValue;
 signals:
 
 public slots:
     void SaveTab2Values(QVector<int> datatab2, float andTime, double delayline);
     void SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD , float hist_adqtime);
-    void CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate, QLabel *lab);
+    void CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate,int filters, QLabel *lab);
     void CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD, QLabel *lab );
+    void setfiltersBW(int bw, int n);
+    void setfiltersWL(double wavel, int n);
+
 };
 #endif // DBCONTROL_H

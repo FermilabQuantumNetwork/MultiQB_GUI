@@ -198,6 +198,22 @@ public:
     QPushButton *connect_OVDL;
     QPushButton *reset_delay;
     QSpacerItem *horizontalSpacer;
+    QWidget *tab_5;
+    QHBoxLayout *horizontalLayout_10;
+    QVBoxLayout *verticalLayout_23;
+    QWidget *tab5mainwidget;
+    QHBoxLayout *horizontalLayout_11;
+    QVBoxLayout *verticalLayout_24;
+    QWidget *layoutab5;
+    QVBoxLayout *filtersLayoutgh;
+    QHBoxLayout *horizontalLayout_12;
+    QPushButton *addfilter;
+    QPushButton *syncWLscan;
+    QPushButton *syncBWscan;
+    QWidget *filterlayoutwidget;
+    QVBoxLayout *filtersLayout;
+    QSpacerItem *verticalSpacer_5;
+    QSpacerItem *horizontalSpacer_3;
     QMenuBar *menuBar;
     QMenu *menuconfig_n;
     QMenu *menuEdit;
@@ -1284,6 +1300,87 @@ public:
         verticalLayout_20->addWidget(verticalWidget1);
 
         horizontalTabWidget->addTab(tab4, QString());
+        tab_5 = new QWidget();
+        tab_5->setObjectName("tab_5");
+        horizontalLayout_10 = new QHBoxLayout(tab_5);
+        horizontalLayout_10->setSpacing(6);
+        horizontalLayout_10->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_10->setObjectName("horizontalLayout_10");
+        horizontalLayout_10->setContentsMargins(0, 0, 0, 0);
+        verticalLayout_23 = new QVBoxLayout();
+        verticalLayout_23->setSpacing(6);
+        verticalLayout_23->setObjectName("verticalLayout_23");
+        tab5mainwidget = new QWidget(tab_5);
+        tab5mainwidget->setObjectName("tab5mainwidget");
+        tab5mainwidget->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255));"));
+        horizontalLayout_11 = new QHBoxLayout(tab5mainwidget);
+        horizontalLayout_11->setSpacing(6);
+        horizontalLayout_11->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_11->setObjectName("horizontalLayout_11");
+        verticalLayout_24 = new QVBoxLayout();
+        verticalLayout_24->setSpacing(6);
+        verticalLayout_24->setObjectName("verticalLayout_24");
+        layoutab5 = new QWidget(tab5mainwidget);
+        layoutab5->setObjectName("layoutab5");
+        layoutab5->setEnabled(true);
+        filtersLayoutgh = new QVBoxLayout(layoutab5);
+        filtersLayoutgh->setSpacing(6);
+        filtersLayoutgh->setContentsMargins(11, 11, 11, 11);
+        filtersLayoutgh->setObjectName("filtersLayoutgh");
+        horizontalLayout_12 = new QHBoxLayout();
+        horizontalLayout_12->setSpacing(6);
+        horizontalLayout_12->setObjectName("horizontalLayout_12");
+        addfilter = new QPushButton(layoutab5);
+        addfilter->setObjectName("addfilter");
+        addfilter->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        horizontalLayout_12->addWidget(addfilter);
+
+        syncWLscan = new QPushButton(layoutab5);
+        syncWLscan->setObjectName("syncWLscan");
+        syncWLscan->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        horizontalLayout_12->addWidget(syncWLscan);
+
+        syncBWscan = new QPushButton(layoutab5);
+        syncBWscan->setObjectName("syncBWscan");
+        syncBWscan->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        horizontalLayout_12->addWidget(syncBWscan);
+
+
+        filtersLayoutgh->addLayout(horizontalLayout_12);
+
+
+        verticalLayout_24->addWidget(layoutab5);
+
+        filterlayoutwidget = new QWidget(tab5mainwidget);
+        filterlayoutwidget->setObjectName("filterlayoutwidget");
+        filtersLayout = new QVBoxLayout(filterlayoutwidget);
+        filtersLayout->setSpacing(6);
+        filtersLayout->setContentsMargins(11, 11, 11, 11);
+        filtersLayout->setObjectName("filtersLayout");
+
+        verticalLayout_24->addWidget(filterlayoutwidget);
+
+        verticalSpacer_5 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_24->addItem(verticalSpacer_5);
+
+
+        horizontalLayout_11->addLayout(verticalLayout_24);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_11->addItem(horizontalSpacer_3);
+
+
+        verticalLayout_23->addWidget(tab5mainwidget);
+
+
+        horizontalLayout_10->addLayout(verticalLayout_23);
+
+        horizontalTabWidget->addTab(tab_5, QString());
 
         verticalLayout->addWidget(horizontalTabWidget);
 
@@ -1389,6 +1486,10 @@ public:
         connect_OVDL->setText(QCoreApplication::translate("MainWindow", "OVDL connect", nullptr));
         reset_delay->setText(QCoreApplication::translate("MainWindow", "Reset", nullptr));
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab4), QCoreApplication::translate("MainWindow", "OVDL", nullptr));
+        addfilter->setText(QCoreApplication::translate("MainWindow", "Add Filter", nullptr));
+        syncWLscan->setText(QCoreApplication::translate("MainWindow", "Sync Wavelenght Scan", nullptr));
+        syncBWscan->setText(QCoreApplication::translate("MainWindow", "Sync Bandwidth Scan", nullptr));
+        horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab_5), QCoreApplication::translate("MainWindow", "Filters", nullptr));
         menuconfig_n->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
         menuEdit->setTitle(QCoreApplication::translate("MainWindow", "Edit", nullptr));
     } // retranslateUi

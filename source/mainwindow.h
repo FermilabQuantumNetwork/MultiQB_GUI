@@ -30,7 +30,7 @@
 #include <math.h>
 #include "gui_param.h"
 #include "timetaggerultra.h"
-
+#include "exfo_filters.h"
 
 
 
@@ -194,10 +194,15 @@ private slots:
 
    void connectOVDLmw();
 
+   void addfilterMW();
+
+   void loadFilterWL(float val, int dev);
+
+   void loadFilterBW(int val, int dev);
 private:
 
   Ui::MainWindow *ui;
-    timetaggerUltra TTU1;
+  timetaggerUltra TTU1;
   qutagadq qutag;
   qutaganl anl;
   DBControl dbc;
@@ -205,6 +210,8 @@ private:
   QString demoName;
   QTimer dataTimer;
   GUI_param qkdparam;
+  EXFO_Filters EXFOfilters;
+
   QCPItemTracer *itemDemoPhaseTracer;
   int currentDemoIndex;
   double prom;
@@ -334,11 +341,30 @@ private:
    //QComboBox *qutagEdge[NQUTAGCHANNELS];
 
 
+   /////////////Filters Tab//////////////
+   QScrollArea *filtersTabScroll;
+   int numberOfFilters = 0;
+   QDoubleSpinBox *filterWavel[MAX_N_FILTERS];
+   QSpinBox *filterBandw[MAX_N_FILTERS];
+   QPushButton *filterconnect[MAX_N_FILTERS];
+   QLineEdit *filterip[MAX_N_FILTERS];
+   QSlider *WLscanON[MAX_N_FILTERS];
+   QDoubleSpinBox *WLscanMin[MAX_N_FILTERS];
+   QDoubleSpinBox *WLscanMax[MAX_N_FILTERS];
+   QDoubleSpinBox *WLscanstepsize[MAX_N_FILTERS];
+   QDoubleSpinBox *WLscanstepduration[MAX_N_FILTERS];
+
+   QSlider *BWscanON[MAX_N_FILTERS];
+   QDoubleSpinBox *BWscanMin[MAX_N_FILTERS];
+   QDoubleSpinBox *BWscanMax[MAX_N_FILTERS];
+   QDoubleSpinBox *BWscanstepsize[MAX_N_FILTERS];
+   QDoubleSpinBox *BWscanstepduration[MAX_N_FILTERS];
+
 signals:
 
     //void main_CreateTableTab1(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD );
    void main_CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD , QLabel *lab );
-    void main_CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate, QLabel *lab2);
+    void main_CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate, int filters, QLabel *lab2);
     void main_SaveTab2Values(QVector<int> datatab2, float andTime, double delayline);
     void main_SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD, float hist_adqtime);
     //QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD
@@ -350,6 +376,11 @@ signals:
     void MWChang_qutag_delay(double, int);
 
     void MWChang_TTUThresh(double, int);
+
+    void MWfilterConnect(int);
+    void MWFilterWLChange(double, int);
+    void MWFilterBWChange(int, int);
+    void MWfilteripRet(QString, int);
 };
 
 class Filtertype: public QWidget{

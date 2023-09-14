@@ -19,6 +19,7 @@ CONFIG += link_pkgconfig
 
 SOURCES += main.cpp\
            dbcontrol.cpp \
+    exfo_filters.cpp \
            gui_param.cpp \
            mainwindow.cpp \
            qcustomplot.cpp \
@@ -30,6 +31,7 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
             dbcontrol.h \
+    exfo_filters.h \
             gui_param.h \
             qcustomplot.h \
             qutag_adq.h \

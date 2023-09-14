@@ -6,22 +6,25 @@ DBControl::DBControl(){
     QString val;
     QFile file("databaseInfo.json");
     //file.setFileName;
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    val = file.readAll();
-    file.close();
 
-    QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
-    QJsonObject sett2 = d.object();
-    QJsonValue subobj1 = d["server"];
-    server = subobj1.toString();
-    QJsonValue subobj2 = d["port"];
-    port = subobj2.toInt();
-    QJsonValue subobj3 = d["DBName"];
-    database = subobj3.toString();
-    QJsonValue subobj4 = d["user"];
-    user = subobj4.toString();
-    QJsonValue subobj5 = d["pass"];
-    passwd = subobj5.toString();
+    if(file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        val = file.readAll();
+        file.close();
+
+        QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
+        QJsonObject sett2 = d.object();
+        QJsonValue subobj1 = d["server"];
+        server = subobj1.toString();
+        QJsonValue subobj2 = d["port"];
+        port = subobj2.toInt();
+        QJsonValue subobj3 = d["DBName"];
+        database = subobj3.toString();
+        QJsonValue subobj4 = d["user"];
+        user = subobj4.toString();
+        QJsonValue subobj5 = d["pass"];
+        passwd = subobj5.toString();
+    }
+    else qDebug()<<"unable to read database json file";
 
 }
 
@@ -31,7 +34,7 @@ DBControl::~DBControl(){
 }
 
 void DBControl::run(){
-
+    qDebug()<<"runnung db thread";
     //this->DBConnect("localhost", 3306, "INQNET_GUI", "GUI3", "Teleport1536!");
     this->DBConnect(server, port, database, user, passwd);
 
@@ -65,25 +68,15 @@ void DBControl::DBConnect(QString server, int port, QString database, QString lo
 }
 
 
-/*bool DBControl::connectToServerMySQL(QString server, int port, QString database,
-                                        QString login, QString password)
-{
-    db.setHostName(server);
-    db.setPort(port);
-    db.setDatabaseName(database);
-    db.setUserName(login);
-    db.setPassword(password);
-    bool ret =db.open();
-    qDebug() << db.lastError();
-    return ret;
-}
-*/
 void DBControl::SaveTab2Values(QVector<int> datatab2, float andTime, double delayline){
     //QString s= "insert into inqnet_gui_tab2gates_V3(and1,and2, and3, orgate, bsm1, bsm2, and_adqtime, delayline, datetime) values("+QString::number(and1)+","+QString::number(and2)+","+QString::number(and3)+","+QString::number(orgate)+","+QString::number(bsm1)+","+QString::number(bsm2)+","+QString::number(andTime)+","+QString::number(delayline)+","+"now());";
     QString s ="insert into "+currentTableTab2+"("+currentColumnstab2+"and_adqtime, delayline, datetime) values(";
     //for (int i=0;i<datatab2.size();i++) {
-    for (int i=0;i<numberOfLogicPlots;i++) {
-        s+=QString::number(datatab2[i])+",";
+    for (int i=0;i<DB_numberOfLogicPlots;i++) {
+        if(datatab2.size() >= DB_numberOfLogicPlots)s+=QString::number(datatab2[i])+",";
+    }
+    for(int i = 0 ; i<Noffilters-1; i++){
+       // if(filtersWLcurrentValue.size()>=Noffilters)s+=QString::number(filtersWLcurrentValue[i])+","+QString::number(filtersBWcurrentValue[i])+",";
     }
     s+=QString::number(double(andTime))+","+QString::number(delayline)+","+"now());";
     std::cout<<s.toStdString()<<std::endl;
@@ -116,11 +109,19 @@ void DBControl::SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<i
    }
 }
 
-void DBControl::CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate,  QLabel *lab){
+void DBControl::CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate, int filters,  QLabel *lab){
+    Noffilters = filters;
+    DB_numberOfLogicPlots = channels.size();
     QString columnstocreate;
-    for (int i=0;i<channels.size();i++) {
+    for (int i=0;i<DB_numberOfLogicPlots;i++) {
         currentColumnstab2+="ch"+QString::number(channels[i])+",";
         columnstocreate+="ch"+QString::number(channels[i])+" int,";
+    }
+    for(int i = 0 ; i<Noffilters; i++){
+        currentColumnstab2+="filter"+QString::number(i)+"WL,";
+        columnstocreate+="filter"+QString::number(i)+"WL float,";
+        currentColumnstab2+="filter"+QString::number(i)+"BW,";
+        columnstocreate+="filter"+QString::number(i)+"BW int,";
     }
     QDateTime date = QDateTime::currentDateTime();
     QString formattedTime = date.toString("dd_MM_yyyy_hh_mm_ss");
@@ -138,7 +139,7 @@ void DBControl::CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVect
     if(dblog.open(QIODevice::WriteOnly| QIODevice::Text | QIODevice::Append)){
         QTextStream out(&dblog);
         out<<formattedTimeMsg <<"\t Tab 2 \t";
-        for (int i=0;i<channels.size();i++) {
+        for (int i=0;i<DB_numberOfLogicPlots;i++) {
             out<<"channel"+QString::number(channels[i])<<"/Left_";
             if(logicL[i]==-1)out<<"PlotA/WinL"<<QString::number(WinL[i]);
             if(logicL[i]==-2)out<<"PlotB/WinL"<<QString::number(WinL[i]);
@@ -191,7 +192,7 @@ void DBControl::CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD , QL
     QString st = "create table if not exists "+currentTableTab1+"(id int not null auto_increment primary key,"+columnstocreate+" hist_adqtime float, datetime datetime);";
     std::cout<<st.toStdString()<<std::endl;
     QSqlQuery query(st, db);
-  /*  QString filename = "databaseLOG_Rates.txt";
+  /*  QString filename = "../databaseLOG_Rates.txt";
     QFile dblog(filename);
 
     if(dblog.open(QIODevice::WriteOnly| QIODevice::Text | QIODevice::Append)){
@@ -209,5 +210,14 @@ void DBControl::disconnectFromServer()
 {
     db.close();
 }
-
+void DBControl::setfiltersWL(double wavel, int n){
+    qDebug()<< "set filters WL :"<<wavel<<"  channel: "<<n;
+   /* if(filtersWLcurrentValue.size()<n+1)filtersWLcurrentValue.append(wavel);
+    else filtersWLcurrentValue[n]=wavel;*/
+}
+void DBControl::setfiltersBW(int bw, int n){
+     qDebug()<< "set filters WL :"<<bw<<"  channel: "<<n;
+  /*  if(filtersBWcurrentValue.size()<n+1)filtersBWcurrentValue.append(bw);
+    filtersBWcurrentValue[n]=bw;*/
+}
 
