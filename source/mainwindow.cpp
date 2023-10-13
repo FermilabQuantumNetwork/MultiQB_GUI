@@ -107,13 +107,25 @@ void MainWindow::QUTAG_initdone(){
 
     //for (int i=0;i<NQUTAGCHANNELS;i++)qutagEdge[i]=qutag.RoF[i];
 
-
     for (int i = 0;i<NQUTAGCHANNELS ;i++ ) {
         thch[i]->setValue(qutag.thresholds[i]);
         qutagFilterType[i]->setCurrentText(qutag.filtertypeSTR[i]);
-        delaych[i]->setValue(double(qutag.delays[i])/1000);
+        delaych[i]->setValue(double(qutag.delays[i]));
         if(qutag.RoF[i])qutagEdge[i]->setCurrentText("Rise");else qutagEdge[i]->setCurrentText("Fall");
+
     }
+    this->in_binsinplot=qutag.in_binsinplot;
+    anl.in_binsinplot=qutag.in_binsinplot;
+    QSignalBlocker blocker(ui->binsinplot);
+    ui->binsinplot->setValue(qutag.in_binsinplot);
+    blocker.unblock();
+
+    this->in_binWidth=qutag.in_binWidth;
+    anl.in_binWidth=qutag.in_binWidth;
+    QSignalBlocker blocker2(ui->binWidth);
+    ui->binWidth->setValue(qutag.in_binWidth);
+    blocker2.unblock();
+
 
 }
 

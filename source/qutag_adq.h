@@ -20,7 +20,7 @@
 
 #define QUTAG_THRESHOLD_STEP 0.1
 #define QUTAG_DELAY_STEP 100
-#define QUTAG_START_CHANNEL 5
+#define QUTAG_START_CHANNEL 0
 
 #define QUTAG_TIMESTAMP_COUNT   150000  /* Timestamp buffer size */
 //#define COLLECT_ROUNDS      100
@@ -184,13 +184,14 @@ private:
 
 
     /////////////////tab 1 variables///////////////
-    int in_binsinplot, in_histStart, in_binWidth;
+
     double in_adqtime;
 
    int in_TSON=0;
 
 
 public:
+   int in_binsinplot, in_histStart, in_binWidth;
    int TSpercentage=10;
    clock_t begin, end;
    double cpu_time_used;
@@ -202,6 +203,7 @@ public:
    TDC_FilterType filtertype[NQUTAGCHANNELS];
    QString filtertypeSTR[NQUTAGCHANNELS] = {"NONE", "NONE", "NONE", "NONE", "NONE"};
    int delays[8] = {0};
+
 
 private:
 
