@@ -40,7 +40,7 @@ void qutagadq::checkRc( const char * fctname, int rc ){
     QString errormessage= "error >>>" + QString(fctname) + ": " + QString(TDC_perror( rc ));
     if(rc == TDC_NotConnected)emit TDCerror("TDC not initialized, is disconnected or another instance is running");
     else emit TDCerror(errormessage);
-    break_=true;
+    //break_=true;
   }
 }
 
@@ -114,8 +114,9 @@ int qutagadq::filterset(){
      double *temp_thresh = nullptr;*/
 
      for(int i = 0 ; i<NQUTAGCHANNELS; i++){
-         if(i==0)rc = TDC_getSignalConditioning(5, RoF,thresholds );
-         else rc = TDC_getSignalConditioning(i, RoF+i,thresholds+i );
+         //if(i==0)rc = TDC_getSignalConditioning(5, RoF,thresholds );
+         //else
+         rc = TDC_getSignalConditioning(i, RoF+i,thresholds+i );
          checkRc( "TDC_getSignalConditioning", rc );
          std::cout<<" ch "<<i<<" edge : "<<RoF[i]<<"\t thresh"<<thresholds[i] <<std::endl;
 
@@ -303,10 +304,11 @@ int qutagadq::filterset(){
         dataD.resize(in_binsinplot);
         dataD.fill(0);
     }*/
-    //std::cout<<count1<<"\t"<<count2<<"\t"<<count3<<"\t"<<count4<<"\t"<<std::endl;
-    //std::cout<<dataA.size()<<"\t"<<dataB.size()<<"\t"<<dataC.size()<<"\t"<<dataD.size()<<"\t"<<std::endl;
+    std::cout<<count1<<"\t"<<count2<<"\t"<<count3<<"\t"<<count4<<"\t"<<std::endl;
+    std::cout<<dataA.size()<<"\t"<<dataB.size()<<"\t"<<dataC.size()<<"\t"<<dataD.size()<<"\t"<<std::endl;
 
-     if(count1 != 0 || count2 !=0 || count3 !=0|| count4 !=0) emit qutaghist(dataA, dataB, dataC, dataD,  count1, count2, count3, count4);
+    if(count1 != 0 || count2 !=0 || count3 !=0|| count4 !=0) emit qutaghist(dataA, dataB, dataC, dataD,  count1, count2, count3, count4);
+    //emit qutaghist(dataA, dataB, dataC, dataD,  count1, count2, count3, count4);
     //QVector<int8_t> channelsTDC;
        dataA.clear();
        dataB.clear();

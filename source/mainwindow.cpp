@@ -2427,7 +2427,7 @@ void MainWindow::addfilterMW(){
     FilterWLGridLayout->addWidget(WLscanstepduration[i],1,4);
 
     ///add the grid layout with the scan elements to the secon row layout
-    filterWLscanLayout->addLayout(FilterWLGridLayout);
+    //filterWLscanLayout->addLayout(FilterWLGridLayout);
 
     ///--------------------///
 
@@ -2501,7 +2501,7 @@ void MainWindow::addfilterMW(){
     FilterBWGridLayout->addWidget(BWscanstepduration[i],1,4);
 
     ///add the grid layout with the scan elements to the secon row layout
-    filterBWscanLayout->addLayout(FilterBWGridLayout);
+    //filterBWscanLayout->addLayout(FilterBWGridLayout);
 
 }
 

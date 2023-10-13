@@ -166,8 +166,8 @@ void timetaggerUltra::setHistograms(){
     for(int i = 0; i<NTTUCHANNELS; i++){
         if(ttuhisto[i] != NULL)delete ttuhisto[i];
         try{
-            ttuhisto[i] = new Histogram(t, TTUChannelsinuse[i] , TTUSTARTCHANNEL, in_binWidth, in_nbins);
-            qDebug()<<"create histogram "<<i<< " channel: "<<TTUChannelsinuse[i]<<" width: "<<in_binWidth<<" nbins: "<<in_nbins;
+            ttuhisto[i] = new Histogram(t, TTUChannelsinuse[i] , TTUSTARTCHANNEL, this->in_binWidth, this->in_binsinplot);
+            qDebug()<<"create histogram "<<i<< " channel: "<<TTUChannelsinuse[i]<<" width: "<<in_binWidth<<" nbins: "<<this->in_binsinplot;
         }
         catch (std::invalid_argument const& ex){
             std::cout << "#1: " << ex.what() << '\n';

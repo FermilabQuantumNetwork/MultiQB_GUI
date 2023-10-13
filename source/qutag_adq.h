@@ -86,7 +86,7 @@ public slots:
   void Chang_delay3(double val){delays[3]=int(1000*val);set_delays();}
   void Chang_delay4(double val){delays[4]=int(1000*val);set_delays();}
   void Chang_delay5(double val){delays[0]=int(1000*val);set_delays();}*/
-  void Chang_delay(double val, int ch){delays[ch]=int(1000*val);set_delays();}
+  void Chang_delay(double val, int ch){delays[ch]=int(val);set_delays();}
 
 
 

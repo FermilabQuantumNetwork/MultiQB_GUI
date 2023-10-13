@@ -34,7 +34,7 @@ public:
 
     int TSpercentage=10;
     int in_binwidth=1;
-    int in_nbins=1000;
+    //int in_nbins=1000;
     bool paramschange = false;
     double thresholds[NTTUCHANNELS];
 
