@@ -51,8 +51,6 @@ if(LoadPrevoiusSeason(1)){
     ui->Max_delayd->setValue(500);
     ui->homscan_timed->setValue(10);
     ui->stepduration->setValue(30);
-
-
 }
 
 lastPointKey_tab1 = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
@@ -112,9 +110,8 @@ void MainWindow::QUTAG_initdone(){
         qutagFilterType[i]->setCurrentText(qutag.filtertypeSTR[i]);
         delaych[i]->setValue(double(qutag.delays[i]));
         if(qutag.RoF[i])qutagEdge[i]->setCurrentText("Rise");else qutagEdge[i]->setCurrentText("Fall");
-
     }
-    this->in_binsinplot=qutag.in_binsinplot;
+  /*  this->in_binsinplot=qutag.in_binsinplot;
     anl.in_binsinplot=qutag.in_binsinplot;
     QSignalBlocker blocker(ui->binsinplot);
     ui->binsinplot->setValue(qutag.in_binsinplot);
@@ -124,7 +121,7 @@ void MainWindow::QUTAG_initdone(){
     anl.in_binWidth=qutag.in_binWidth;
     QSignalBlocker blocker2(ui->binWidth);
     ui->binWidth->setValue(qutag.in_binWidth);
-    blocker2.unblock();
+    blocker2.unblock();*/
 
 
 }
@@ -1598,29 +1595,7 @@ void MainWindow::setup_log_plot(QCustomPlot *histo){
 
 }
 
-void MainWindow::QUTAG_setup_comboboxes(){
 
- /*   ui->rof1->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
-    ui->rof2->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
-    ui->rof3->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
-    ui->rof4->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
-    ui->rof5->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
-
-
-
-    ui->rof1->addItem(tr("Rise"));
-    ui->rof1->addItem(tr("Fall"));
-    ui->rof2->addItem(tr("Rise"));
-    ui->rof2->addItem(tr("Fall"));
-    ui->rof3->addItem(tr("Rise"));
-    ui->rof3->addItem(tr("Fall"));
-    ui->rof4->addItem(tr("Rise"));
-    ui->rof4->addItem(tr("Fall"));
-    ui->rof5->addItem(tr("Rise"));
-    ui->rof5->addItem(tr("Fall"));
-*/
-   // tab2buttongroup.setExclusive(0);
-}
 
 void MainWindow::createQKDLinesA(){
 
@@ -1630,14 +1605,14 @@ void MainWindow::createQKDLinesA(){
                 LinesPlotA[j][i]->setVisible(1);
                 LinesPlotA[j][i]->point1->setCoords(i/2*in_QKD_time+in_QKD_zeroA+j*in_QKD_phA,0);
                 LinesPlotA[j][i]->point2->setCoords(i/2*in_QKD_time+in_QKD_zeroA+j*in_QKD_phA,1);
-                //if(i==0 && WindowAlist.size()<i/2)WindowAlist<<(QString("w")+QString::number(i/2));
+
             }
             else{
                 LinesPlotA[j][i]->setVisible(1);
                 LinesPlotA[j][i]->point1->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroA+in_QKD_iwA+j*in_QKD_phA,0);
                 LinesPlotA[j][i]->point2->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroA+in_QKD_iwA+j*in_QKD_phA,1);
             }
-        //if(i==0 && QubitsAlist.size()<j)QubitsAlist<<(QString("q")+QString::number(j));
+
         }
     }
 

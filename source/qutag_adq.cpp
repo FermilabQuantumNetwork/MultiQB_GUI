@@ -23,7 +23,6 @@ qutagadq::qutagadq(){
     HIST_BINWIDTH=10;
     HIST_BINCOUNT=100;
 
-
 }
 
 void qutagadq::run(){
@@ -127,8 +126,9 @@ int qutagadq::filterset(){
     //TDC_FilterType temp_filtertype[1];
      /////////////filters//////
      for(int i = 0 ; i<5; i++){
-         if(i==0) rc = TDC_getFilter(5, filtertype, ch_filtermask);
-         else  rc = TDC_getFilter(i, filtertype+i, ch_filtermask+i);
+         //if(i==0) rc = TDC_getFilter(5, filtertype, ch_filtermask);
+         //else
+         rc = TDC_getFilter(i, filtertype+i, ch_filtermask+i);
      }
      /*
 
@@ -156,10 +156,8 @@ int qutagadq::filterset(){
      loadtdcfiltertype();
 
      /////delays//////
-     ///
-     rc = TDC_getChannelDelays(delays);
 
-     //std::cout<<"ADQ  rof"<<RoF[1]<<"rof"<<RoF[2]<<"rof"<<RoF[3]<<"rof"<<RoF[4]<<std::endl;
+     rc = TDC_getChannelDelays(delays);
      //rc = TDC_enableMarkers(0);        //WHY IS THIS NOT WORKING??
      //checkRc( "TDC_enableMarkers", rc);
      //rc = TDC_setExposureTime( EXP_TIME );
@@ -167,17 +165,15 @@ int qutagadq::filterset(){
 
      //rc = TDC_setCoincidenceWindow( 90000 ); /* 30ns */
     // checkRc( "TDC_setCoincidenceWindow", rc );
-
-
      fflush(stdout);
 
    /////histograms//////
 
    rc = TDC_enableStartStop( 1 );
    checkRc( "TDC_enableStartStop", rc );
-   rc = TDC_getHistogramParams(&in_binWidth, &in_binsinplot);
+  // rc = TDC_getHistogramParams(&in_binWidth, &in_binsinplot);
+  // std::cout<<"bin width: "<<in_binWidth<<"     n of bins:  "<<in_binsinplot;
    setHistograms();
-
    emit initdone();
    initdone_bool =1;
 
@@ -359,6 +355,7 @@ int qutagadq::filterset(){
           checkRc( "TDC_addHistogram", rc );
           rc = TDC_addHistogram(4, START_CHANNEL, 1 );
           checkRc( "TDC_addHistogram", rc );*/
+    // setHistogramsParam();
  }
 
   void qutagadq::setHistogramsParam(){
