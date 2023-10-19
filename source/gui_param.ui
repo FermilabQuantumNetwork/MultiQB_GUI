@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1162</width>
+    <width>1179</width>
     <height>300</height>
    </rect>
   </property>
@@ -110,7 +110,7 @@
           <string notr="true">color: rgb(255, 255, 255);</string>
          </property>
          <property name="minimum">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="maximum">
           <number>7</number>
@@ -248,7 +248,7 @@
           <string notr="true">color: rgb(255, 255, 255);</string>
          </property>
          <property name="minimum">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="maximum">
           <number>7</number>
@@ -383,7 +383,7 @@
           <string notr="true">color: rgb(255, 255, 255);</string>
          </property>
          <property name="minimum">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="maximum">
           <number>7</number>
@@ -522,7 +522,7 @@
           <string notr="true">color: rgb(255, 255, 255);</string>
          </property>
          <property name="minimum">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="maximum">
           <number>7</number>
@@ -604,7 +604,7 @@
           <string notr="true">color: rgb(255, 255, 255);</string>
          </property>
          <property name="minimum">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="maximum">
           <number>500</number>

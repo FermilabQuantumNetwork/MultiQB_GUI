@@ -973,7 +973,7 @@
                      </widget>
                     </item>
                     <item>
-                     <layout class="QFormLayout" name="trackFL_A">
+                     <layout class="QFormLayout" name="_trackFL_A">
                       <item row="0" column="0">
                        <widget class="QLabel" name="label_17">
                         <property name="styleSheet">
@@ -1008,6 +1008,9 @@
                        <widget class="QLCDNumber" name="plotAtsv"/>
                       </item>
                      </layout>
+                    </item>
+                    <item>
+                     <layout class="QFormLayout" name="trackFL_A"/>
                     </item>
                     <item>
                      <spacer name="verticalSpacer_9">
@@ -1069,7 +1072,7 @@
                      </widget>
                     </item>
                     <item>
-                     <layout class="QFormLayout" name="trackFL_B">
+                     <layout class="QFormLayout" name="_trackFL_B">
                       <item row="0" column="0">
                        <widget class="QLabel" name="label_54">
                         <property name="styleSheet">
@@ -1104,6 +1107,9 @@
                        <widget class="QLCDNumber" name="plotBtsv"/>
                       </item>
                      </layout>
+                    </item>
+                    <item>
+                     <layout class="QFormLayout" name="trackFL_B"/>
                     </item>
                     <item>
                      <spacer name="verticalSpacer_8">
@@ -1162,7 +1168,7 @@
                      </widget>
                     </item>
                     <item>
-                     <layout class="QFormLayout" name="trackFL_C">
+                     <layout class="QFormLayout" name="_trackFL_C">
                       <item row="0" column="0">
                        <widget class="QLabel" name="label_85">
                         <property name="styleSheet">
@@ -1197,6 +1203,9 @@
                        <widget class="QLCDNumber" name="plotCtsv"/>
                       </item>
                      </layout>
+                    </item>
+                    <item>
+                     <layout class="QFormLayout" name="trackFL_C"/>
                     </item>
                     <item>
                      <spacer name="verticalSpacer_6">
@@ -1255,7 +1264,7 @@
                      </widget>
                     </item>
                     <item>
-                     <layout class="QFormLayout" name="trackFL_D">
+                     <layout class="QFormLayout" name="_trackFL_D">
                       <item row="0" column="0">
                        <widget class="QLabel" name="label_161">
                         <property name="styleSheet">
@@ -1290,6 +1299,9 @@
                        <widget class="QLCDNumber" name="plotDtsv"/>
                       </item>
                      </layout>
+                    </item>
+                    <item>
+                     <layout class="QFormLayout" name="trackFL_D"/>
                     </item>
                     <item>
                      <spacer name="verticalSpacer_7">

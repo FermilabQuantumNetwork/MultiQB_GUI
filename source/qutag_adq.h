@@ -90,37 +90,6 @@ public slots:
 
 
 
-  /*void Chang_filtertype1(QString text){filtertypeSTR[1]=text; updatefiltertype(1);}
-  void Chang_filtertype2(QString text){filtertypeSTR[2]=text; updatefiltertype(2);}
-  void Chang_filtertype3(QString text){filtertypeSTR[3]=text; updatefiltertype(3);}
-  void Chang_filtertype4(QString text){filtertypeSTR[4]=text; updatefiltertype(4);}
-  void Chang_filtertype5(QString text){filtertypeSTR[0]=text; updatefiltertype(0);}
-
-  void Chang_filtermask1_1(int state){if(state)ch_filtermask[1]|=0x1<<1;else ch_filtermask[1]&=!(0x1<<1);setfilter(1); }
-  void Chang_filtermask1_2(int state){if(state)ch_filtermask[1]|=0x1<<2;else ch_filtermask[1]&=!(0x1<<2);setfilter(1); }
-  void Chang_filtermask1_3(int state){if(state)ch_filtermask[1]|=0x1<<3;else ch_filtermask[1]&=!(0x1<<3);setfilter(1); }
-  void Chang_filtermask1_4(int state){if(state)ch_filtermask[1]|=0x1<<4;else ch_filtermask[1]&=!(0x1<<4);setfilter(1); }
-
-  void Chang_filtermask2_1(int state){if(state)ch_filtermask[2]|=0x1<<1;else ch_filtermask[2]&=!(0x1<<1);setfilter(2); }
-  void Chang_filtermask2_2(int state){if(state)ch_filtermask[2]|=0x1<<2;else ch_filtermask[2]&=!(0x1<<2);setfilter(2); }
-  void Chang_filtermask2_3(int state){if(state)ch_filtermask[2]|=0x1<<3;else ch_filtermask[2]&=!(0x1<<3);setfilter(2); }
-  void Chang_filtermask2_4(int state){if(state)ch_filtermask[2]|=0x1<<4;else ch_filtermask[2]&=!(0x1<<4);setfilter(2); }
-
-  void Chang_filtermask3_1(int state){if(state)ch_filtermask[3]|=0x1<<1;else ch_filtermask[3]&=!(0x1<<1);setfilter(3); }
-  void Chang_filtermask3_2(int state){if(state)ch_filtermask[3]|=0x1<<2;else ch_filtermask[3]&=!(0x1<<2);setfilter(3); }
-  void Chang_filtermask3_3(int state){if(state)ch_filtermask[3]|=0x1<<3;else ch_filtermask[3]&=!(0x1<<3);setfilter(3); }
-  void Chang_filtermask3_4(int state){if(state)ch_filtermask[3]|=0x1<<4;else ch_filtermask[3]&=!(0x1<<4);setfilter(3); }
-
-  void Chang_filtermask4_1(int state){if(state)ch_filtermask[4]|=0x1<<1;else ch_filtermask[4]&=!(0x1<<1);setfilter(4); }
-  void Chang_filtermask4_2(int state){if(state)ch_filtermask[4]|=0x1<<2;else ch_filtermask[4]&=!(0x1<<2);setfilter(4); }
-  void Chang_filtermask4_3(int state){if(state)ch_filtermask[4]|=0x1<<3;else ch_filtermask[4]&=!(0x1<<3);setfilter(4); }
-  void Chang_filtermask4_4(int state){if(state)ch_filtermask[4]|=0x1<<4;else ch_filtermask[4]&=!(0x1<<4);setfilter(4); }
-
-  void Chang_filtermask5_1(int state){if(state)ch_filtermask[0]|=0x1<<1;else ch_filtermask[0]&=!(0x1<<1);setfilter(0); }
-  void Chang_filtermask5_2(int state){if(state)ch_filtermask[0]|=0x1<<2;else ch_filtermask[0]&=!(0x1<<2);setfilter(0); }
-  void Chang_filtermask5_3(int state){if(state)ch_filtermask[0]|=0x1<<3;else ch_filtermask[0]&=!(0x1<<3);setfilter(0); }
-  void Chang_filtermask5_4(int state){if(state)ch_filtermask[0]|=0x1<<4;else ch_filtermask[0]&=!(0x1<<4);setfilter(0); }
-*/
   void TSanl(int val){this->in_TSON=val;}
   void changTSper(int val){this->TSpercentage=val;}
 

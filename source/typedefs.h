@@ -10,10 +10,12 @@ typedef QVector<Int32> vectorInt32;
 typedef QVector<bool> vectorBool;
 typedef QVector<int> vectorInt;
 
-
-#define MAX_QUBITS 1000
-#define MAX_WIN 7
-
+#define MAX_QUBITS  1000
+#define MAX_WIN  7
+#define MAX_PHASE   10000
+#define MAX_LINES_OFFSET    100000
+#define MAX_INT_WIN 10000
+#define MAX_QUBIT_TIME  100000
 
 
 #endif // TYPEDEFS_H

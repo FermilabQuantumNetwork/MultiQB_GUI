@@ -33,8 +33,6 @@
 #include "exfo_filters.h"
 
 
-
-
 namespace Ui {
 class MainWindow;
 }
@@ -272,10 +270,10 @@ private:
 
  //////lines///////////////
 
-   QCPItemStraightLine *LinesPlotA[MAX_WIN][MAX_QUBITS];
-   QCPItemStraightLine *LinesPlotB[MAX_WIN][MAX_QUBITS];
-   QCPItemStraightLine *LinesPlotC[MAX_WIN][MAX_QUBITS];
-   QCPItemStraightLine *LinesPlotD[MAX_WIN][MAX_QUBITS];
+   QCPItemStraightLine *LinesPlotA[MAX_WIN][MAX_QUBITS*2];
+   QCPItemStraightLine *LinesPlotB[MAX_WIN][MAX_QUBITS*2];
+   QCPItemStraightLine *LinesPlotC[MAX_WIN][MAX_QUBITS*2];
+   QCPItemStraightLine *LinesPlotD[MAX_WIN][MAX_QUBITS*2];
 
    int   in_QKD_phA=50, in_QKD_iwA=45, in_QKD_pxqA=0, in_QKD_zeroA=1;
    int   in_QKD_phB=50, in_QKD_iwB=45, in_QKD_pxqB=0, in_QKD_zeroB=1;

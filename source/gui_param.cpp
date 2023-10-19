@@ -10,15 +10,7 @@ GUI_param::GUI_param(QWidget *parent) :
     QApplication::connect(ui->QKD_time, SIGNAL(valueChanged(double)), this, SLOT(slot_QKD_time(double)));
     QApplication::connect(ui->QKD_numb, SIGNAL(valueChanged(int)), this, SLOT(slot_QKD_numb(int)));
 
-    /*QApplication::connect(ui->QKD_timeA, SIGNAL(valueChanged(double)), this, SLOT(slot_QKD_timeA(double)));
-    QApplication::connect(ui->QKD_timeB, SIGNAL(valueChanged(double)), this, SLOT(slot_QKD_timeB(double)));
-    QApplication::connect(ui->QKD_timeC, SIGNAL(valueChanged(double)), this, SLOT(slot_QKD_timeC(double)));
-    QApplication::connect(ui->QKD_timeD, SIGNAL(valueChanged(double)), this, SLOT(slot_QKD_timeD(double)));
 
-    QApplication::connect(ui->QKD_numbA, SIGNAL(valueChanged(int)), this, SLOT(slot_QKD_numbA(int)));
-    QApplication::connect(ui->QKD_numbB, SIGNAL(valueChanged(int)), this, SLOT(slot_QKD_numbB(int)));
-    QApplication::connect(ui->QKD_numbC, SIGNAL(valueChanged(int)), this, SLOT(slot_QKD_numbC(int)));
-    QApplication::connect(ui->QKD_numbD, SIGNAL(valueChanged(int)), this, SLOT(slot_QKD_numbD(int)));*/
 
     QApplication::connect(ui->QKD_phA, SIGNAL(valueChanged(int)), this, SLOT(slot_QKD_phA(int)));
     QApplication::connect(ui->QKD_phB, SIGNAL(valueChanged(int)), this, SLOT(slot_QKD_phB(int)));
@@ -51,6 +43,31 @@ GUI_param::GUI_param(QWidget *parent) :
 
     this->setWindowFlags(Qt::WindowStaysOnTopHint);
 
+    ui->QKD_time->setMaximum(MAX_QUBIT_TIME);
+    ui->QKD_numb->setMaximum(MAX_QUBITS);
+    ui->QKD_numb->setMinimum(0);
+
+    ui->QKD_phA->setMaximum(MAX_PHASE);
+    ui->QKD_phB->setMaximum(MAX_PHASE);
+    ui->QKD_phC->setMaximum(MAX_PHASE);
+    ui->QKD_phD->setMaximum(MAX_PHASE);
+
+    ui->QKD_iwA->setMaximum(MAX_INT_WIN);
+    ui->QKD_iwB->setMaximum(MAX_INT_WIN);
+    ui->QKD_iwC->setMaximum(MAX_INT_WIN);
+    ui->QKD_iwD->setMaximum(MAX_INT_WIN);
+
+    ui->QKD_pxqA->setMaximum(MAX_WIN);
+    ui->QKD_pxqB->setMaximum(MAX_WIN);
+    ui->QKD_pxqC->setMaximum(MAX_WIN);
+    ui->QKD_pxqD->setMaximum(MAX_WIN);
+
+    ui->QKD_zeroA->setMaximum(MAX_LINES_OFFSET);
+    ui->QKD_zeroB->setMaximum(MAX_LINES_OFFSET);
+    ui->QKD_zeroC->setMaximum(MAX_LINES_OFFSET);
+    ui->QKD_zeroD->setMaximum(MAX_LINES_OFFSET);
+
+
 }
 
 void GUI_param::QKD_setDefault(){
@@ -59,29 +76,29 @@ void GUI_param::QKD_setDefault(){
         ui->QKD_numb->setValue(10);
 
         ui->QKD_phA->setValue(2000);
-        ui->QKD_iwA->setValue(1900);
-        ui->QKD_pxqA->setValue(2);
-        ui->QKD_zeroA->setValue(80);
-
-
         ui->QKD_phB->setValue(2000);
         ui->QKD_phC->setValue(2000);
+        ui->QKD_phD->setValue(2000);
+
+        ui->QKD_iwA->setValue(1900);
         ui->QKD_iwB->setValue(1900);
         ui->QKD_iwC->setValue(1900);
+        ui->QKD_iwD->setValue(1900);
+
+        ui->QKD_pxqA->setValue(2);
         ui->QKD_pxqB->setValue(2);
         ui->QKD_pxqC->setValue(2);
+        ui->QKD_pxqD->setValue(2);
+
+        ui->QKD_zeroA->setValue(80);
         ui->QKD_zeroB->setValue(0);
         ui->QKD_zeroC->setValue(0);
-
-        ui->QKD_phD->setValue(2000);
-        ui->QKD_iwD->setValue(1900);
-        ui->QKD_pxqD->setValue(2);
         ui->QKD_zeroD->setValue(0);
     }
 }
 
 bool GUI_param::LoadPrevoiusSeason(bool a){
-    //std::cout<<"loading previous season parameters"<<std::endl;
+    std::cout<<"loading previous season parameters <<qubits>>"<<std::endl;
     QString fileName = "LastSeasonVariables.conf";
     if (fileName.isEmpty())return 1;
 
@@ -95,14 +112,14 @@ bool GUI_param::LoadPrevoiusSeason(bool a){
     QMap<QString, int> mapintout;
     QMap<QString, double> mapdoubleout;
     QDataStream in(&file);
-    in.setVersion(QDataStream::Qt_4_5);
+    //in.setVersion(QDataStream::Qt_4_5);
     in>>mapintout;
 
 
     QMapIterator<QString,int>i(mapintout);
     while (i.hasNext()) {
         i.next();
-       // std::cout<< i.key().toStdString() <<  ": " << i.value() << std::endl;
+       //std::cout<< i.key().toStdString() <<  ": " << i.value() << std::endl;
     }
     in>>mapdoubleout;
     QMapIterator<QString,double>j(mapdoubleout);

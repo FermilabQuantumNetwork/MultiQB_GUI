@@ -65,8 +65,9 @@ tab2buttongroup.setExclusive(0);
 
 //while(adq.isRunning())usleep(100);
 
+//qkdparam.QKD_setDefault();
 
-qkdparam.QKD_setDefault();
+qkdparam.LoadPrevoiusSeason(1);
 
 setupsignalslot2();
 
@@ -138,7 +139,7 @@ void MainWindow::TTUinitdone(){
 
 void MainWindow::setup_histolines_QKD(){
 
-    for (int i = 0 ; i<MAX_QUBITS ; i++) {
+    for (int i = 0 ; i<MAX_QUBITS*2 ; i++) {
         for (int j=0; j<MAX_WIN; j++) {
             LinesPlotA[j][i] = new QCPItemStraightLine(ui->PlotA);
             LinesPlotA[j][i]->setPen(QPen(QColor::fromHsv( j*(360/MAX_WIN), 255, 255, 255  )));
@@ -146,21 +147,21 @@ void MainWindow::setup_histolines_QKD(){
         }
     }
 
-        for (int i = 0 ; i<MAX_QUBITS ; i++) {
+        for (int i = 0 ; i<MAX_QUBITS*2 ; i++) {
             for (int j=0; j<MAX_WIN; j++) {
                 LinesPlotB[j][i] = new QCPItemStraightLine(ui->PlotB);
                 LinesPlotB[j][i]->setPen(QPen(QColor::fromHsv( j*(360/MAX_WIN), 255, 255, 255  )));
                 LinesPlotB[j][i]->setVisible(0);
             }
     }
-        for (int i = 0 ; i<MAX_QUBITS ; i++) {
+        for (int i = 0 ; i<MAX_QUBITS*2 ; i++) {
             for (int j=0; j<MAX_WIN; j++) {
                 LinesPlotC[j][i] = new QCPItemStraightLine(ui->PlotC);
                 LinesPlotC[j][i]->setPen(QPen(QColor::fromHsv( j*(360/MAX_WIN), 255, 255, 255  )));
                 LinesPlotC[j][i]->setVisible(0);
             }
     }
-        for (int i = 0 ; i<MAX_QUBITS ; i++) {
+        for (int i = 0 ; i<MAX_QUBITS*2 ; i++) {
             for (int j=0; j<MAX_WIN; j++) {
                 LinesPlotD[j][i] = new QCPItemStraightLine(ui->PlotD);
                 LinesPlotD[j][i]->setPen(QPen(QColor::fromHsv( j*(360/MAX_WIN), 255, 255, 255  )));
@@ -483,26 +484,7 @@ title1->setTextColor(Qt::white);
   histograma->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 
 
-  for (int i=0;i<MAX_WIN;i++) {
-      trackA[i] = new QRadioButton(QString(QString::number(i)));
-      trackB[i] = new QRadioButton(QString(QString::number(i)));
-      trackC[i] = new QRadioButton(QString(QString::number(i)));
-      trackD[i] = new QRadioButton(QString(QString::number(i)));
-      plotAtrackG.addButton(trackA[i]);
-      plotBtrackG.addButton(trackB[i]);
-      plotCtrackG.addButton(trackC[i]);
-      plotDtrackG.addButton(trackD[i]);
 
-      trackA[i]->setStyleSheet("background-color: rgb(238, 238, 236)");
-      trackB[i]->setStyleSheet("background-color: rgb(238, 238, 236)");
-      trackC[i]->setStyleSheet("background-color: rgb(238, 238, 236)");
-      trackD[i]->setStyleSheet("background-color: rgb(238, 238, 236)");
-
-      counterA[i] = new QLCDNumber(7);
-      counterB[i] = new QLCDNumber(7);
-      counterC[i] = new QLCDNumber(7);
-      counterD[i] = new QLCDNumber(7);
-  }
 
 }
 
@@ -695,58 +677,65 @@ void MainWindow::setupsignalslot(){
 void MainWindow::setupsignalslot2(){
 
     for (int i=0;i<MAX_WIN;i++) {
-        QObject::connect(trackA[i], SIGNAL(toggled(bool)), this, SLOT(Chang_trackA(bool)));
+     //qDebug()<<"prev"<<i;
+     trackA[i] = new QRadioButton(QString(QString::number(i)));
+     QObject::connect(trackA[i], SIGNAL(toggled(bool)), this, SLOT(Chang_trackA(bool)));
+
+
+     trackB[i] = new QRadioButton(QString(QString::number(i)));
+     QObject::connect(trackB[i], SIGNAL(toggled(bool)), this, SLOT(Chang_trackB(bool)));
+
+
+     trackC[i] = new QRadioButton(QString(QString::number(i)));
+     QObject::connect(trackC[i], SIGNAL(toggled(bool)), this, SLOT(Chang_trackC(bool)));
+
+
+     trackD[i] = new QRadioButton(QString(QString::number(i)));
+     QObject::connect(trackD[i], SIGNAL(toggled(bool)), this, SLOT(Chang_trackD(bool)));
+
+
+     plotAtrackG.addButton(trackA[i]);
+     plotBtrackG.addButton(trackB[i]);
+     plotCtrackG.addButton(trackC[i]);
+     plotDtrackG.addButton(trackD[i]);
+
+     trackA[i]->setStyleSheet("background-color: rgb(238, 238, 236)");
+     trackB[i]->setStyleSheet("background-color: rgb(238, 238, 236)");
+     trackC[i]->setStyleSheet("background-color: rgb(238, 238, 236)");
+     trackD[i]->setStyleSheet("background-color: rgb(238, 238, 236)");
+
+     counterA[i] = new QLCDNumber(7);
+     counterB[i] = new QLCDNumber(7);
+     counterC[i] = new QLCDNumber(7);
+     counterD[i] = new QLCDNumber(7);
+
+
+    ui->trackFL_A->addRow(counterA[i],trackA[i]);
+    ui->trackFL_A->setRowVisible(i,false);
+
+    ui->trackFL_B->addRow(counterB[i],trackB[i]);
+    ui->trackFL_B->setRowVisible(i,false);
+
+    ui->trackFL_C->addRow(counterC[i],trackC[i]);
+    ui->trackFL_C->setRowVisible(i,false);
+
+    ui->trackFL_D->addRow(counterD[i],trackD[i]);
+    ui->trackFL_D->setRowVisible(i,false);
+    }
+    //for (int i=MAX_WIN-1;i>=0;i--) {
+     for (int i=0;i<MAX_WIN;i++) {
+      /*  QObject::connect(trackA[i], SIGNAL(toggled(bool)), this, SLOT(Chang_trackA(bool)));
         if(i<in_QKD_pxqA)ui->trackFL_A->addRow(counterA[i],trackA[i]);
         QObject::connect(trackB[i], SIGNAL(toggled(bool)), this, SLOT(Chang_trackB(bool)));
         if(i<in_QKD_pxqB)ui->trackFL_B->addRow(counterB[i],trackB[i]);
         QObject::connect(trackC[i], SIGNAL(toggled(bool)), this, SLOT(Chang_trackC(bool)));
         if(i<in_QKD_pxqC)ui->trackFL_C->addRow(counterC[i],trackC[i]);
         QObject::connect(trackD[i], SIGNAL(toggled(bool)), this, SLOT(Chang_trackD(bool)));
-        if(i<in_QKD_pxqD)ui->trackFL_D->addRow(counterD[i],trackD[i]);
+        if(i<in_QKD_pxqD)ui->trackFL_D->addRow(counterD[i],trackD[i]);*/
+    // qDebug()<<i;
+
     }
 
-    /*QObject::connect(&plotAtrackG, SIGNAL(ididToggled(int, bool)), this, SLOT(Chang_trackA(int, bool)));
-    QObject::connect(&plotBtrackG, SIGNAL(ididToggled(int, bool)), this, SLOT(Chang_trackB(int, bool)));
-    QObject::connect(&plotCtrackG, SIGNAL(ididToggled(int, bool)), this, SLOT(Chang_trackC(int, bool)));
-    QObject::connect(&plotDtrackG, SIGNAL(ididToggled(int, bool)), this, SLOT(Chang_trackD(int, bool)));*/
-
-    /*QObject::connect(ui->rof1, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof1(QString)));
-    QObject::connect(ui->rof2, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof2(QString)));
-    QObject::connect(ui->rof3, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof3(QString)));
-    QObject::connect(ui->rof4, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof4(QString)));
-    QObject::connect(ui->rof5, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_rof5(QString)));*/
-
-  /*  QObject::connect(ui->FilterType1, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype1(QString)));
-    QObject::connect(ui->FilterType2, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype2(QString)));
-    QObject::connect(ui->FilterType3, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype3(QString)));
-    QObject::connect(ui->FilterType4, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype4(QString)));
-    QObject::connect(ui->FilterType5, SIGNAL(currentTextChanged(QString)), &qutag, SLOT(Chang_filtertype5(QString)));
-
-    QObject::connect(ui->Filter1_1, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask1_1(int)));
-    QObject::connect(ui->Filter1_2, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask1_2(int)));
-    QObject::connect(ui->Filter1_3, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask1_3(int)));
-    QObject::connect(ui->Filter1_4, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask1_4(int)));
-
-
-    QObject::connect(ui->Filter2_1, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask2_1(int)));
-    QObject::connect(ui->Filter2_2, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask2_2(int)));
-    QObject::connect(ui->Filter2_3, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask2_3(int)));
-    QObject::connect(ui->Filter2_4, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask2_4(int)));
-
-    QObject::connect(ui->Filter3_1, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask3_1(int)));
-    QObject::connect(ui->Filter3_2, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask3_2(int)));
-    QObject::connect(ui->Filter3_3, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask3_3(int)));
-    QObject::connect(ui->Filter3_4, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask3_4(int)));
-
-    QObject::connect(ui->Filter4_1, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask4_1(int)));
-    QObject::connect(ui->Filter4_2, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask4_2(int)));
-    QObject::connect(ui->Filter4_3, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask4_3(int)));
-    QObject::connect(ui->Filter4_4, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask4_4(int)));
-
-    QObject::connect(ui->Filter5_1, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask5_1(int)));
-    QObject::connect(ui->Filter5_2, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask5_2(int)));
-    QObject::connect(ui->Filter5_3, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask5_3(int)));
-    QObject::connect(ui->Filter5_4, SIGNAL(stateChanged(int)), &qutag, SLOT(Chang_filtermask5_4(int)));*/
 }
 
 //////////////////////////////////////////////////////////
@@ -1215,24 +1204,14 @@ bool MainWindow::LoadPrevoiusSeason(bool a){
     if(mapintout.contains("homscan_time"))ui->homscan_timed->setValue(mapintout.value("homscan_time"));
     else ui->homscan_timed->setValue(1);
 
+    if(mapdoubleout.contains("QKD_time"))ui->Max_delayd->setValue(mapdoubleout.value("Max_delay"));
+    else ui->Max_delayd->setValue(500);
+
+
     if(mapintout.contains("TSper"))ui->TSper->setValue(mapintout.value("TSper"));
     else ui->TSper->setValue(10);
 
 
-/*
-       QMapIterator<QString,int>i(mapintout);
-       while (i.hasNext()) {
-           i.next();
-           std::cout<< i.key().toStdString() <<  ": " << i.value() << std::endl;
-       }
-       in>>mapdoubleout;
-       QMapIterator<QString,double>j(mapdoubleout);
-       while (j.hasNext()) {
-           j.next();
-           std::cout<< j.key().toStdString() <<  ": " << j.value() << std::endl;
-       }
-
-*/
      std::cout<<"parameters loaded"<<std::endl;
     return 0;
 }
@@ -1250,7 +1229,7 @@ void MainWindow::SaveSeason(bool a){
 
     QDataStream out(&file);
 
-    out.setVersion(QDataStream::Qt_4_5);
+    //out.setVersion(QDataStream::Qt_4_5);
     QMap<QString, int> mapint;
     QMap<QString, double> mapdouble;
 
@@ -1263,7 +1242,6 @@ void MainWindow::SaveSeason(bool a){
 
     mapdouble.insert("in_adqtime", in_adqtime);
     mapdouble.insert("in_adqtime_2", double(in_adqtime_2));
-
 
     mapdouble.insert("QKD_time",in_QKD_time);
     mapint.insert("QKD_numb",in_QKD_numb);
@@ -1598,7 +1576,8 @@ void MainWindow::setup_log_plot(QCustomPlot *histo){
 
 
 void MainWindow::createQKDLinesA(){
-
+    //qDebug()<<"show me the lines, in_QKD_numb="<<in_QKD_numb;
+/*
     for(int i=0; i<in_QKD_numb*2; i++){
         for (int j=0;j<in_QKD_pxqA;j++) {
             if((i+1)%2){
@@ -1612,76 +1591,86 @@ void MainWindow::createQKDLinesA(){
                 LinesPlotA[j][i]->point1->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroA+in_QKD_iwA+j*in_QKD_phA,0);
                 LinesPlotA[j][i]->point2->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroA+in_QKD_iwA+j*in_QKD_phA,1);
             }
-
         }
     }
+*/
+    for(int i=0; i<MAX_QUBITS*2; i++){
+        for (int j=0;j<MAX_WIN;j++) {
+            if((i+1)%2){
+                LinesPlotA[j][i]->point1->setCoords(i/2*in_QKD_time+in_QKD_zeroA+j*in_QKD_phA,0);
+                LinesPlotA[j][i]->point2->setCoords(i/2*in_QKD_time+in_QKD_zeroA+j*in_QKD_phA,1);
 
-
-    if(in_QKD_pxqA > ui->trackFL_A->rowCount()-1)ui->trackFL_A->addRow(counterA[in_QKD_pxqA-1],trackA[in_QKD_pxqA-1]);
+            }
+            else{
+                //if(i<in_QKD_numb*2 && j<in_QKD_pxqA)LinesPlotA[j][i]->setVisible(1);
+                LinesPlotA[j][i]->point1->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroA+in_QKD_iwA+j*in_QKD_phA,0);
+                LinesPlotA[j][i]->point2->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroA+in_QKD_iwA+j*in_QKD_phA,1);
+            }
+            if(i<in_QKD_numb*2 && j<in_QKD_pxqA)LinesPlotA[j][i]->setVisible(1);
+        }
+    }
+    for (int j=0;j<MAX_WIN;j++)if(j<in_QKD_pxqA)ui->trackFL_A->setRowVisible(j,true);
+    //if(in_QKD_pxqA > ui->trackFL_A->rowCount()-1)ui->trackFL_A->addRow(counterA[in_QKD_pxqA-1],trackA[in_QKD_pxqA-1]);
     ui->PlotA->replot();
 }
 void MainWindow::createQKDLinesB(){
-    for(int i=0; i<in_QKD_numb*2; i++){
-        for (int j=0;j<in_QKD_pxqB;j++) {
+    for(int i=0; i<MAX_QUBITS*2; i++){
+        for (int j=0;j<MAX_WIN;j++) {
             if((i+1)%2){
-               LinesPlotB[j][i]->setVisible(1);
+
                LinesPlotB[j][i]->point1->setCoords(i/2*in_QKD_time+in_QKD_zeroB+j*in_QKD_phB,0);
                LinesPlotB[j][i]->point2->setCoords(i/2*in_QKD_time+in_QKD_zeroB+j*in_QKD_phB,1);
                //if(j==0 && WindowBlist.size()<i/2)WindowBlist<<QString::number(i/2);
             }
             else{
-               LinesPlotB[j][i]->setVisible(1);
                LinesPlotB[j][i]->point1->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroB+in_QKD_iwB+j*in_QKD_phB,0);
                LinesPlotB[j][i]->point2->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroB+in_QKD_iwB+j*in_QKD_phB,1);
-
             }
+            if(i<in_QKD_numb*2 && j<in_QKD_pxqB)LinesPlotB[j][i]->setVisible(1);
         }
     }
-
-    if(in_QKD_pxqB > ui->trackFL_B->rowCount()-1)ui->trackFL_B->addRow(counterB[in_QKD_pxqB-1],trackB[in_QKD_pxqB-1]);
+    for (int j=0;j<MAX_WIN;j++)if(j<in_QKD_pxqB)ui->trackFL_B->setRowVisible(j,true);
+    //if(in_QKD_pxqB > ui->trackFL_B->rowCount()-1)ui->trackFL_B->addRow(counterB[in_QKD_pxqB-1],trackB[in_QKD_pxqB-1]);
     ui->PlotB->replot();
 }
 void MainWindow::createQKDLinesC(){
-    for(int i=0; i<in_QKD_numb*2; i++){
-        for (int j=0;j<in_QKD_pxqC;j++) {
+    for(int i=0; i<MAX_QUBITS*2; i++){
+        for (int j=0;j<MAX_WIN;j++) {
             if((i+1)%2){
-               LinesPlotC[j][i]->setVisible(1);
+               //LinesPlotC[j][i]->setVisible(1);
                LinesPlotC[j][i]->point1->setCoords(i/2*in_QKD_time+in_QKD_zeroC+j*in_QKD_phC,0);
                LinesPlotC[j][i]->point2->setCoords(i/2*in_QKD_time+in_QKD_zeroC+j*in_QKD_phC,1);
                //if(j==0 && WindowClist.size()<i/2)WindowClist<<QString::number(i/2);
 
             }
             else{
-               LinesPlotC[j][i]->setVisible(1);
+               //LinesPlotC[j][i]->setVisible(1);
                LinesPlotC[j][i]->point1->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroC+in_QKD_iwC+j*in_QKD_phC,0);
                LinesPlotC[j][i]->point2->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroC+in_QKD_iwC+j*in_QKD_phC,1);
-
             }
+            if(i<in_QKD_numb*2 && j<in_QKD_pxqC)LinesPlotC[j][i]->setVisible(1);
         }
     }
-
-    if(in_QKD_pxqC > ui->trackFL_C->rowCount()-1)ui->trackFL_C->addRow(counterC[in_QKD_pxqC-1],trackC[in_QKD_pxqC-1]);
+    for (int j=0;j<MAX_WIN;j++)if(j<in_QKD_pxqC)ui->trackFL_C->setRowVisible(j,true);
+    //if(in_QKD_pxqC > ui->trackFL_C->rowCount()-1)ui->trackFL_C->addRow(counterC[in_QKD_pxqC-1],trackC[in_QKD_pxqC-1]);
     ui->PlotC->replot();
 }
 void MainWindow::createQKDLinesD(){
-    for(int i=0; i<in_QKD_numb*2; i++){
-        for (int j=0;j<in_QKD_pxqD;j++) {
+    for(int i=0; i<MAX_QUBITS*2; i++){
+        for (int j=0;j<MAX_WIN;j++) {
             if((i+1)%2){
-               LinesPlotD[j][i]->setVisible(1);
                LinesPlotD[j][i]->point1->setCoords(i/2*in_QKD_time+in_QKD_zeroD+j*in_QKD_phD,0);
                LinesPlotD[j][i]->point2->setCoords(i/2*in_QKD_time+in_QKD_zeroD+j*in_QKD_phD,1);
-
             }
             else{
-               LinesPlotD[j][i]->setVisible(1);
                LinesPlotD[j][i]->point1->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroD+in_QKD_iwD+j*in_QKD_phD,0);
                LinesPlotD[j][i]->point2->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroD+in_QKD_iwD+j*in_QKD_phD,1);
-
             }
+            if(i<in_QKD_numb*2 && j<in_QKD_pxqD)LinesPlotD[j][i]->setVisible(1);
         }
     }
-
-    if(in_QKD_pxqD > ui->trackFL_D->rowCount()-1)ui->trackFL_D->addRow(counterD[in_QKD_pxqD-1],trackD[in_QKD_pxqD-1]);
+    for (int j=0;j<MAX_WIN;j++)if(j<in_QKD_pxqD)ui->trackFL_D->setRowVisible(j,true);
+   // if(in_QKD_pxqD > ui->trackFL_D->rowCount()-1)ui->trackFL_D->addRow(counterD[in_QKD_pxqD-1],trackD[in_QKD_pxqD-1]);
     ui->PlotD->replot();
 }
 
@@ -1695,17 +1684,11 @@ void MainWindow::hidelinesQ_A(int qubits){
     }   
 }
 void MainWindow::hidelinesW_A(int win){
-
+    //qDebug()<<"number of elements in trackFL_A: "<<ui->trackFL_A->rowCount();
+    for (int j=win;j<in_QKD_pxqA;j++)ui->trackFL_A->setRowVisible(j, false);
     for (int i=0;i<2*in_QKD_numb;i++) {
         for (int j=win;j<in_QKD_pxqA;j++) {
             LinesPlotA[j][i]->setVisible(0);
-            if(i==0){
-                ui->trackFL_A->removeRow(j+1);
-                trackA[j] = new QRadioButton(QString(QString::number(j)));
-                plotAtrackG.addButton(trackA[j]);
-                trackA[j]->setStyleSheet("background-color: rgb(238, 238, 236)");
-                counterA[j] = new QLCDNumber(7);
-            }
         }
 
     }
@@ -1721,19 +1704,15 @@ void MainWindow::hidelinesQ_B(int qubits){
 }
 void MainWindow::hidelinesW_B(int win){
 
- for (int i=0;i<2*in_QKD_numb;i++) {
-    for (int j=win;j<in_QKD_pxqB;j++) {
-        LinesPlotB[j][i]->setVisible(0);
-        if(i==0){
-            ui->trackFL_B->removeRow(j+1);
-            trackB[j] = new QRadioButton(QString(QString::number(j)));
-            plotBtrackG.addButton(trackB[j]);
-            trackB[j]->setStyleSheet("background-color: rgb(238, 238, 236)");
-            counterB[j] = new QLCDNumber(7);
+    for (int i=0;i<2*in_QKD_numb;i++) {
+        for (int j=win;j<in_QKD_pxqB;j++)ui->trackFL_B->setRowVisible(j, false);
+        for (int i=0;i<2*in_QKD_numb;i++) {
+            for (int j=win;j<in_QKD_pxqB;j++) {
+               LinesPlotB[j][i]->setVisible(0);
+            }
         }
-     }
 
-  }
+    }
 
 }
 void MainWindow::hidelinesQ_C(int qubits){
@@ -1746,15 +1725,12 @@ void MainWindow::hidelinesQ_C(int qubits){
 }
 void MainWindow::hidelinesW_C(int win){
 
+
     for (int i=0;i<2*in_QKD_numb;i++) {
-        for (int j=win;j<in_QKD_pxqC;j++) {
-           LinesPlotC[j][i]->setVisible(0);
-           if(i==0){
-              ui->trackFL_C->removeRow(j+1);
-              trackC[j] = new QRadioButton(QString(QString::number(j)));
-              plotCtrackG.addButton(trackC[j]);
-              trackC[j]->setStyleSheet("background-color: rgb(238, 238, 236)");
-              counterC[j] = new QLCDNumber(7);
+        for (int j=win;j<in_QKD_pxqC;j++)ui->trackFL_C->setRowVisible(j, false);
+        for (int i=0;i<2*in_QKD_numb;i++) {
+            for (int j=win;j<in_QKD_pxqC;j++) {
+               LinesPlotC[j][i]->setVisible(0);
             }
         }
 
@@ -1771,21 +1747,16 @@ void MainWindow::hidelinesQ_D(int qubits){
 }
 void MainWindow::hidelinesW_D(int win){
 
- for (int i=0;i<2*in_QKD_numb;i++) {
-    for (int j=win;j<in_QKD_pxqD;j++) {
-        LinesPlotD[j][i]->setVisible(0);
-        if(i==0){
-           ui->trackFL_D->removeRow(j+1);
-           trackD[j] = new QRadioButton(QString(QString::number(j)));
-           plotDtrackG.addButton(trackD[j]);
-           trackD[j]->setStyleSheet("background-color: rgb(238, 238, 236)");
-           counterD[j] = new QLCDNumber(7);
-         }
+
+    for (int i=0;i<2*in_QKD_numb;i++) {
+        for (int j=win;j<in_QKD_pxqD;j++)ui->trackFL_D->setRowVisible(j, false);
+        for (int i=0;i<2*in_QKD_numb;i++) {
+            for (int j=win;j<in_QKD_pxqD;j++) {
+               LinesPlotD[j][i]->setVisible(0);
+            }
         }
     }
-
 }
-
 void MainWindow::AddLogicSelectorElement(){
 
     int i = numberOfLogicPlots;
@@ -1961,6 +1932,9 @@ void MainWindow::chang_QKD_time(double val){
     }
 }
 void MainWindow::chang_QKD_numb(int val){
+
+    //qDebug()<<"new in_QKD_numb   "<<val;
+
     if(in_QKD_numb>val){
         hidelinesQ_A(val);
         hidelinesQ_B(val);
@@ -1968,6 +1942,7 @@ void MainWindow::chang_QKD_numb(int val){
         hidelinesQ_D(val);
     }
     in_QKD_numb=val;
+
     createQKDLinesA();
     createQKDLinesB();
     createQKDLinesC();

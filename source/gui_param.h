@@ -6,6 +6,7 @@
 #include <QtCore>
 #include <iostream>//entradas y salidas por consola
 #include <fstream>//archivos.txt
+#include "typedefs.h"
 
 namespace Ui {
 class GUI_param;
@@ -80,9 +81,6 @@ public slots:
     void slot_QKD_timeD(double a){emit sig_QKD_timeD(a);}*/
 
     void slot_QKD_numb(int a){emit sig_QKD_numb(a);}
-    /*void slot_QKD_numbB(int a){emit sig_QKD_numbB(a);}
-    void slot_QKD_numbC(int a){emit sig_QKD_numbC(a);}
-    void slot_QKD_numbD(int a){emit sig_QKD_numbD(a);}*/
 
     void slot_QKD_phA(int a){emit sig_QKD_phA(a);}
     void slot_QKD_phB(int a){emit sig_QKD_phB(a);}
@@ -111,6 +109,8 @@ public slots:
     void slot_PlotB_log(int a){emit sig_PlotB_log(a);}
     void slot_PlotC_log(int a){emit sig_PlotC_log(a);}
     void slot_PlotD_log(int a){emit sig_PlotD_log(a);}
+
+
 };
 
 #endif // GUI_PARAM_H

@@ -103,7 +103,7 @@ public:
     {
         if (GUI_param->objectName().isEmpty())
             GUI_param->setObjectName("GUI_param");
-        GUI_param->resize(1162, 300);
+        GUI_param->resize(1179, 300);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -166,7 +166,7 @@ public:
         QKD_pxqA = new QSpinBox(GUI_param);
         QKD_pxqA->setObjectName("QKD_pxqA");
         QKD_pxqA->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-        QKD_pxqA->setMinimum(1);
+        QKD_pxqA->setMinimum(0);
         QKD_pxqA->setMaximum(7);
 
         horizontalLayout_5->addWidget(QKD_pxqA);
@@ -260,7 +260,7 @@ public:
         QKD_pxqB = new QSpinBox(GUI_param);
         QKD_pxqB->setObjectName("QKD_pxqB");
         QKD_pxqB->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-        QKD_pxqB->setMinimum(1);
+        QKD_pxqB->setMinimum(0);
         QKD_pxqB->setMaximum(7);
 
         horizontalLayout_12->addWidget(QKD_pxqB);
@@ -353,7 +353,7 @@ public:
         QKD_pxqC = new QSpinBox(GUI_param);
         QKD_pxqC->setObjectName("QKD_pxqC");
         QKD_pxqC->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-        QKD_pxqC->setMinimum(1);
+        QKD_pxqC->setMinimum(0);
         QKD_pxqC->setMaximum(7);
 
         horizontalLayout_13->addWidget(QKD_pxqC);
@@ -448,7 +448,7 @@ public:
         QKD_pxqD = new QSpinBox(GUI_param);
         QKD_pxqD->setObjectName("QKD_pxqD");
         QKD_pxqD->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-        QKD_pxqD->setMinimum(1);
+        QKD_pxqD->setMinimum(0);
         QKD_pxqD->setMaximum(7);
 
         horizontalLayout_28->addWidget(QKD_pxqD);
@@ -508,7 +508,7 @@ public:
         QKD_numb = new QSpinBox(GUI_param);
         QKD_numb->setObjectName("QKD_numb");
         QKD_numb->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-        QKD_numb->setMinimum(1);
+        QKD_numb->setMinimum(0);
         QKD_numb->setMaximum(500);
 
         formLayout->setWidget(1, QFormLayout::FieldRole, QKD_numb);
