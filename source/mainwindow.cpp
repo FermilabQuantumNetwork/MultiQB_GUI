@@ -123,7 +123,7 @@ void MainWindow::QUTAG_initdone(){
     QSignalBlocker blocker2(ui->binWidth);
     ui->binWidth->setValue(qutag.in_binWidth);
     blocker2.unblock();*/
-
+    anl.Chang_in_startChan(QUTAG_START_CHANNEL);
 
 }
 
@@ -135,6 +135,7 @@ void MainWindow::TTUinitdone(){
        // delaych[i]->setValue(double(qutag.delays[i])/1000);
         //if(qutag.RoF[i])qutagEdge[i]->setCurrentText("Rise");else qutagEdge[i]->setCurrentText("Fall");
     }
+    anl.Chang_in_startChan(TTUSTARTCHANNEL);
 }
 
 void MainWindow::setup_histolines_QKD(){

@@ -107,7 +107,7 @@ void qutaganl::timestampREC(const vectorInt64 &inconimg_vectorTimetags, const ve
     this->tsvalid=inconimg_tsvalid;
     //std::cout<<"TS  incoming: "<<inconimg_vectorTimetags.size()<<"   saved: "<<vectorTimetags.size()<< std::endl;
     anlbusy=true;*/
-std::cout<<"REC"<<std::endl;
+//std::cout<<"REC"<<std::endl;
 
    /* QFuture<int> future = QtConcurrent::run(this, &qutaganl::timestampANL,
                                             inconimg_vectorTimetags, inconimg_vectorChannels, inconimg_tsvalid,
@@ -119,7 +119,7 @@ std::cout<<"REC"<<std::endl;
                                             logicOP );*/
 
    emit timestampANL(inconimg_vectorTimetags, inconimg_vectorChannels, inconimg_tsvalid,
-                      numberOfLogicPlots, in_startChan,
+                  numberOfLogicPlots, this->in_startChan,
                       in_QKD_numb, in_QKD_time,  clkdiffT,
                       LSource, RSource,
                       LWin,RWin,
@@ -142,7 +142,7 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
     int qq;// current qubit within clk signals
     double diffh=0;
     //if(outputCounter.isEmpty()) outputCounter.resize(numberOfLogicPlots);
-    for(int i = 0 ; i<10; i++)std::cout<<"chan: "<< vectorChannels[i]<<"\t tts: "<<vectorTimetags[i]<<"\n";
+    //for(int i = 0 ; i<10; i++)std::cout<<"chan: "<< vectorChannels[i]<<"\t tts: "<<vectorTimetags[i]<<"\n";
     vectorInt32 threadCounter(numberOfLogicPlots,0);
     int ChannelIndex;
     int StopIndex;
