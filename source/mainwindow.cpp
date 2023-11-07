@@ -652,8 +652,10 @@ void MainWindow::setupsignalslot(){
     QObject::connect(this, SIGNAL( MWChang_TTUThresh(double, int)), &TTU1, SLOT(Chang_in_thch(double, int)));
 
     QObject::connect(this, SIGNAL(MWChang_qutag_edge(QString, int)), &qutag, SLOT(Chang_rof(QString, int)));
+    QObject::connect(this, SIGNAL(MWChang_TTU_edge(QString, int)), &TTU1, SLOT(Chang_rof(QString, int)));
 
     QObject::connect(this, SIGNAL( MWChang_qutag_delay(double, int)), &qutag, SLOT(Chang_delay(double, int)));
+    QObject::connect(this, SIGNAL( MWChang_TTU_delay(double, int)), &TTU1, SLOT(Chang_delay(double, int)));
 
 
     QObject::connect(ui->actioninit_TTU, SIGNAL(triggered(bool)), this, SLOT(runTTU(bool)));
@@ -2215,6 +2217,8 @@ void MainWindow::runQutag(bool a){
 
 void MainWindow::TTU_paremetes_setup(){
 
+    ///thresholds/////
+
     QLabel *thchLab[NTTUCHANNELS];
 
     for (int i=0;i<NTTUCHANNELS ;i++) {
@@ -2229,6 +2233,38 @@ void MainWindow::TTU_paremetes_setup(){
         threshTTU[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
         ui->Parameters_left->addRow(thchLab[i], threshTTU[i]);
         QObject::connect(threshTTU[i], &QDoubleSpinBox::valueChanged,[this, i](double thresh) {emit MWChang_TTUThresh(thresh, i);});
+    }
+
+    /////rise or fall////
+    QLabel *edgeLabTTU[NTTUCHANNELS];
+    for (int i=0;i<NTTUCHANNELS ;i++) {
+        edgeLabTTU[i] = new QLabel(tr("Trigger polarity ch ")+QString::number(i));
+        edgeLabTTU[i]->setStyleSheet("color: rgb(238, 238, 236)");
+        TTUEdge[i] = new QComboBox();
+        TTUEdge[i]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
+        TTUEdge[i] ->addItem(tr("RISE"));
+        TTUEdge[i] ->addItem(tr("FALL"));
+
+        QObject::connect(TTUEdge[i], &QComboBox::currentTextChanged,[this, i](const QString text) {emit MWChang_TTU_edge(text, i);});
+
+        ui->parameters_R->addRow(edgeLabTTU[i], TTUEdge[i]);
+    }
+    /*********Delays**********/
+
+
+    QLabel *delLabTTU[NTTUCHANNELS];
+    for (int i=0;i<NTTUCHANNELS ;i++) {
+        delLabTTU[i] = new QLabel(tr("Delay ch ")+QString::number(i));
+        delLabTTU[i]->setStyleSheet("color: rgb(238, 238, 236)");
+        delayTTU[i] = new QDoubleSpinBox();
+        delayTTU[i]->setMaximum(100000);
+        delayTTU[i]->setMinimum(-100000);
+        delayTTU[i]->setDecimals(0);
+        delayTTU[i]->setSuffix(" [ps]");
+        delayTTU[i]->setSingleStep(QUTAG_DELAY_STEP);
+        delayTTU[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
+        ui->Parameters_left->addRow(delLabTTU[i], delaych[i]);
+        QObject::connect(delaych[i], &QDoubleSpinBox::valueChanged,[this, i](double delay) {emit MWChang_TTU_delay(delay, i);});
     }
 }
 

@@ -336,7 +336,7 @@ private:
    QCheckBox *TTUtriggerfilter[NTTUCHANNELS];
    QCheckBox *TTUfilter[NTTUCHANNELS];
    //QComboBox *qutagFilterType[NQUTAGCHANNELS];
-   //QComboBox *qutagEdge[NQUTAGCHANNELS];
+   QComboBox *TTUEdge[NTTUCHANNELS];
 
 
    /////////////Filters Tab//////////////
@@ -374,6 +374,8 @@ signals:
     void MWChang_qutag_delay(double, int);
 
     void MWChang_TTUThresh(double, int);
+    void MWChang_TTU_edge(QString, int);
+    void MWChang_TTU_delay(double, int);
 
     void MWfilterConnect(int);
     void MWFilterWLChange(double, int);

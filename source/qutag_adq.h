@@ -63,29 +63,17 @@ public slots:
   void Chang_in_adqtime(double val){this->in_adqtime=val;}
   void Chang_anlAvilable(bool val){this->anlAvilable =val;}
 
-  /*void Chang_in_thch1(double val){thresholds[1]=val;changThreshold(1);}
-  void Chang_in_thch2(double val){thresholds[2]=val;changThreshold(2);}
-  void Chang_in_thch3(double val){thresholds[3]=val;changThreshold(3);}
-  void Chang_in_thch4(double val){thresholds[4]=val;changThreshold(4);}
-  void Chang_in_thch5(double val){thresholds[0]=val;changThreshold(0);}*/
+
 
   void Chang_in_thch(double val, int ch){thresholds[ch]=val;changThreshold(ch);}
 
   void Chang_in_cw(int val){this->in_cw=val; TDC_setCoincidenceWindow(val);}
 
-  /*void Chang_rof1(QString text){if(text=="Rise")RoF[1]=1;else RoF[1]=0;changThreshold(1);}
-  void Chang_rof2(QString text){if(text=="Rise")RoF[2]=1;else RoF[2]=0;changThreshold(2);}
-  void Chang_rof3(QString text){if(text=="Rise")RoF[3]=1;else RoF[3]=0;changThreshold(3);}
-  void Chang_rof4(QString text){if(text=="Rise")RoF[4]=1;else RoF[4]=0;changThreshold(4);}
-  void Chang_rof5(QString text){if(text=="Rise")RoF[0]=1;else RoF[0]=0;changThreshold(0);}*/
+
 
   void Chang_rof(QString text, int ch){if(text=="Rise")RoF[ch]=1;else RoF[ch]=0;changThreshold(ch);}
 
-  /*void Chang_delay1(double val){delays[1]=int(1000*val);set_delays();}
-  void Chang_delay2(double val){delays[2]=int(1000*val);set_delays();}
-  void Chang_delay3(double val){delays[3]=int(1000*val);set_delays();}
-  void Chang_delay4(double val){delays[4]=int(1000*val);set_delays();}
-  void Chang_delay5(double val){delays[0]=int(1000*val);set_delays();}*/
+
   void Chang_delay(double val, int ch){delays[ch]=int(val);set_delays();}
 
 

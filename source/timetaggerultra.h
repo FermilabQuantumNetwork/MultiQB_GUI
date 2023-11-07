@@ -37,6 +37,7 @@ public:
     //int in_nbins=1000;
     bool paramschange = false;
     double thresholds[NTTUCHANNELS];
+    int RoF[NTTUCHANNELS];
 
 public slots:
 
@@ -51,6 +52,8 @@ public slots:
     void Break(){break_= true;}
 
     void Chang_in_thch(double voltage, int channel){t->setTriggerLevel(TTUChannelsinuse[channel],voltage);thresholds[channel]=voltage;}
+    void Chang_rof(QString text, int ch){if(text=="Rise")RoF[ch]=1;else RoF[ch]=-1;}
+    void Chang_delay(double d, int ch){t->setInputDelay(ch, d);}
 
 private:
     TimeTagger *t;
