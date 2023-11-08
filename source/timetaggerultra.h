@@ -52,7 +52,7 @@ public slots:
     void Break(){break_= true;}
 
     void Chang_in_thch(double voltage, int channel){t->setTriggerLevel(TTUChannelsinuse[channel],voltage);thresholds[channel]=voltage;}
-    void Chang_rof(QString text, int ch){if(text=="Rise")RoF[ch]=1;else RoF[ch]=-1;}
+    void Chang_rof(QString text, int ch){if(text=="Rise")RoF[ch]=1;else RoF[ch]=-1;updateStream();}
     void Chang_delay(double d, int ch){t->setInputDelay(ch, d);}
 
 private:
@@ -65,6 +65,7 @@ private:
     void getTimeStampsTTU();
     void getHisto();
     void setHistograms();
+    void updateStream();
     //void setHistogramsParam();
 signals:
          // void dataready(const vectorInt64 &TTdata, const channelsTDCPP &CHdata, int nevent); // sends to inputdata()

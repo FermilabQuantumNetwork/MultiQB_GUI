@@ -48,11 +48,10 @@ without averaging. The number of channels available will be limited to the numbe
         std::cout << "#1: " << ex.what() << '\n';
     }
 
-    if(TTURes == Resolution::HighResA)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=i*2+1;//{1,3,5,7}
-    if(TTURes == Resolution::Standard)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=i+1;//{1,2,3,4}
 
+    updateStream();
 
-    for(int i = 0; i< NTTUCHANNELS; i++){
+    /*for(int i = 0; i< NTTUCHANNELS; i++){
 
         try{
             thresholds[i]=t->getTriggerLevel(TTUChannelsinuse[i]);
@@ -60,18 +59,9 @@ without averaging. The number of channels available will be limited to the numbe
         catch (std::invalid_argument const& ex){
             std::cout << "#1: " << ex.what() << '\n';
         }
-    }
+    }*/
     //stored values extracted from the device, ready to load them on the screen
     emit ttuinitdone();
-
-    //copy the channels on a std vector
-    int n = sizeof(TTUChannelsinuse) / sizeof(TTUChannelsinuse[0]);
-    TTUChannels = std::vector<int>(TTUChannelsinuse, TTUChannelsinuse+n);
-
-    long buffersize = EVENT_BUFFER_SIZE;
-
-    tts = new TimeTagStream(t,buffersize , TTUChannels );
-    tts->start();
 
     setHistograms();
 
@@ -90,6 +80,22 @@ without averaging. The number of channels available will be limited to the numbe
         QThread::msleep(1);
     }
 
+}
+
+void timetaggerUltra::updateStream(){
+
+    if(TTURes == Resolution::HighResA)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{1,3,5,7}
+    if(TTURes == Resolution::Standard)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*i+1;//{1,2,3,4}
+
+    //copy the channels on a std vector
+    int n = sizeof(TTUChannelsinuse) / sizeof(TTUChannelsinuse[0]);
+    TTUChannels = std::vector<int>(TTUChannelsinuse, TTUChannelsinuse+n);
+
+    long buffersize = EVENT_BUFFER_SIZE;
+
+    delete tts;
+    tts = new TimeTagStream(t,buffersize , TTUChannels );
+    tts->start();
 }
 
 void timetaggerUltra::getTimeStampsTTU(){
