@@ -6,6 +6,7 @@ timetaggerUltra::timetaggerUltra()
     //TTURes = Resolution::HighResA;
     TTURes = Resolution::Standard;
     break_=false;
+    for(int i = 0; i<NTTUCHANNELS; i++)RoF[i] = 1;
     //timetags.reserve(EVENT_BUFFER_SIZE+1);
     //channelsTDC.reserve(EVENT_BUFFER_SIZE+1);
 }
@@ -48,7 +49,7 @@ without averaging. The number of channels available will be limited to the numbe
         std::cout << "#1: " << ex.what() << '\n';
     }
 
-
+    updateChannels();
     updateStream();
 
     /*for(int i = 0; i< NTTUCHANNELS; i++){
@@ -60,15 +61,16 @@ without averaging. The number of channels available will be limited to the numbe
             std::cout << "#1: " << ex.what() << '\n';
         }
     }*/
-    //stored values extracted from the device, ready to load them on the screen
+
     emit ttuinitdone();
+
 
     setHistograms();
 
     double previous_time = QDateTime::currentDateTime().toMSecsSinceEpoch();
     double current_time;
 
-    while(!break_ && tts->isRunning()){
+   while(!break_ && tts->isRunning()){
         current_time = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
         if((current_time-previous_time) > 1000*in_adqtime){
@@ -79,26 +81,29 @@ without averaging. The number of channels available will be limited to the numbe
         if(in_TSON)getTimeStampsTTU();
         QThread::msleep(1);
     }
-
 }
 
 void timetaggerUltra::updateStream(){
 
-    if(TTURes == Resolution::HighResA)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{1,3,5,7}
-    if(TTURes == Resolution::Standard)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*i+1;//{1,2,3,4}
-
-    //copy the channels on a std vector
-    int n = sizeof(TTUChannelsinuse) / sizeof(TTUChannelsinuse[0]);
-    TTUChannels = std::vector<int>(TTUChannelsinuse, TTUChannelsinuse+n);
-
     long buffersize = EVENT_BUFFER_SIZE;
 
+
     delete tts;
-    tts = new TimeTagStream(t,buffersize , TTUChannels );
+    try{
+        tts = new TimeTagStream(t,buffersize , TTUChannels );
+    }
+    catch (std::invalid_argument const& ex){
+        std::cout << "#1: " << ex.what() << '\n';
+    }
+
     tts->start();
+    paramschange=false;
 }
 
 void timetaggerUltra::getTimeStampsTTU(){
+
+    if(paramschange)updateStream();
+
     TimeTagStreamBuffer ttsb = tts->getData();
 
     //std::cout<<"gettimestanmps"<<std::endl;
@@ -150,16 +155,30 @@ void timetaggerUltra::getHisto(){
         count[i]=(int)datac[i];
         std::vector<int32_t> histodata;
         ttuhisto[i]->getData([&histodata](size_t size1) {
-        histodata.resize(size1);
-        return histodata.data();
-        });
-        if(i==0){dataA = QVector<double>(histodata.begin(), histodata.end());ttuhisto[i]->clear();}
-        if(i==1){dataB = QVector<double>(histodata.begin(), histodata.end());ttuhisto[i]->clear();}
-        if(i==2){dataC = QVector<double>(histodata.begin(), histodata.end());ttuhisto[i]->clear();}
-        if(i==3){dataD = QVector<double>(histodata.begin(), histodata.end());ttuhisto[i]->clear();}
+            histodata.resize(size1);
+            return histodata.data();
+            });
+        if(i==0){
+            dataA = QVector<double>(histodata.begin(), histodata.end());
+            ttuhisto[i]->clear();
+        }
+        if(i==1){
+            dataB = QVector<double>(histodata.begin(), histodata.end());
+            ttuhisto[i]->clear();
+        }
+        if(i==2){
+            dataC = QVector<double>(histodata.begin(), histodata.end());
+            ttuhisto[i]->clear();
+        }
+        if(i==3){
+            dataD = QVector<double>(histodata.begin(), histodata.end());
+            ttuhisto[i]->clear();
+        }
     }
+
     datac.clear();
     if(!dataA.isEmpty() || !dataB.isEmpty() || !dataC.isEmpty() || !dataD.isEmpty() ) emit TTUhist(dataA, dataB, dataC, dataD,  count[0], count[1], count[2], count[3]);
+    //if(count[0]>0 || count[1]>0 || count[2]>0 || count[3]>0) emit TTUhist(dataA, dataB, dataC, dataD,  count[0], count[1], count[2], count[3]);
     else qDebug()<<"TTU histograms empty";
     /*dataA.clear();
     dataB.clear();
@@ -190,6 +209,20 @@ void timetaggerUltra::setHistograms(){
     }
     paramschange=false;
 }
+
+
+void timetaggerUltra::updateChannels(){
+
+    if(TTURes == Resolution::HighResA)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{1,3,5,7}
+    if(TTURes == Resolution::Standard)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i+1);//{1,2,3,4}
+    for(int i = 0; i< NTTUCHANNELS; i++)std::cout<<TTUChannelsinuse[i]<<std::endl;
+
+    //copy the channels on a std vector
+    int n = sizeof(TTUChannelsinuse) / sizeof(TTUChannelsinuse[0]);
+    TTUChannels = std::vector<int>(TTUChannelsinuse, TTUChannelsinuse+n);
+
+}
+
 
 /*void timetaggerUltra::setHistogramsParam(){
     for(int i = 0; i<NTTUCHANNELS; i++){

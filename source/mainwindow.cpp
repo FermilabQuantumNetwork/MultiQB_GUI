@@ -2263,8 +2263,8 @@ void MainWindow::TTU_paremetes_setup(){
         delayTTU[i]->setSuffix(" [ps]");
         delayTTU[i]->setSingleStep(QUTAG_DELAY_STEP);
         delayTTU[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
-        ui->Parameters_left->addRow(delLabTTU[i], delaych[i]);
-        QObject::connect(delaych[i], &QDoubleSpinBox::valueChanged,[this, i](double delay) {emit MWChang_TTU_delay(delay, i);});
+        ui->Parameters_left->addRow(delLabTTU[i], delayTTU[i]);
+        QObject::connect(delayTTU[i], &QDoubleSpinBox::valueChanged,[this, i](double delay) {emit MWChang_TTU_delay(delay, i);});
     }
 }
 
