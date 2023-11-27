@@ -675,6 +675,8 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(&EXFOfilters, SIGNAL(DeviceWL(float, int)), this, SLOT(loadFilterWL(float, int)));
     QObject::connect(&EXFOfilters, SIGNAL(DeviceBW(int, int)), this, SLOT(loadFilterBW(int, int)));
+    QObject::connect(ui->rawtssave, SIGNAL(valueChanged(int)), &anl, SLOT(saveRawTSon(int)));
+
 }
 
 void MainWindow::setupsignalslot2(){
@@ -821,7 +823,7 @@ void MainWindow::plotRates_tab2(const vectorInt32 &counters, double key){
         }
     }
 
-    if(dbrunning){
+    if(dbrunning && dbc.connection_succesfull ){
         if(in_homscan && prev_homscan<=in_Max_delay){
             del_key = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
 
@@ -834,6 +836,7 @@ void MainWindow::plotRates_tab2(const vectorInt32 &counters, double key){
             }
 
         }
+
         emit main_SaveTab2Values(counters, float(in_adqtime_2), prev_homscan);
     }
    ui->PlotTab2->xAxis->setRange(key-lastPointKey_tab2, double(xrange), Qt::AlignRight);
@@ -1001,7 +1004,7 @@ void MainWindow::histoplot(const vectorDouble &datA, const vectorDouble &datB, c
       P_R[3][i]=0;
   }
 
-    if(dbrunning)emit main_SaveTab1Values(A, B, C ,D , in_adqtime);
+    if(dbrunning && dbc.connection_succesfull)emit main_SaveTab1Values(A, B, C ,D , in_adqtime);
   x.clear();
 
 	
@@ -1073,7 +1076,7 @@ void MainWindow::createTablesDB(){
 
         emit main_CreateTableTab1(in_QKD_pxqA,in_QKD_pxqB,in_QKD_pxqC,in_QKD_pxqD, ui->tabledisplay1);
         emit main_CreateTableTab2(ActiveChan, logicL, logicR, WinL, WinR, gate, numberOfFilters, ui->tabledisplay2);
-
+        dbrunning=true;
     }else error1("database not open yet");
 }
 void MainWindow::SaveState(bool a){

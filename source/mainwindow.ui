@@ -45,7 +45,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab1">
        <attribute name="title">
@@ -1505,6 +1505,12 @@
                   </item>
                   <item row="2" column="1">
                    <widget class="QSlider" name="TSON">
+                    <property name="maximum">
+                     <number>1</number>
+                    </property>
+                    <property name="pageStep">
+                     <number>1</number>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -1561,6 +1567,29 @@
                   <property name="rightMargin">
                    <number>0</number>
                   </property>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_16">
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(255, 255, 255);</string>
+                    </property>
+                    <property name="text">
+                     <string>Raw TS &quot;&amp;gates&quot;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QSlider" name="rawtssave">
+                    <property name="maximum">
+                     <number>1</number>
+                    </property>
+                    <property name="pageStep">
+                     <number>1</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </item>
                 <item>

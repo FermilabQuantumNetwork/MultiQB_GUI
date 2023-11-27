@@ -300,8 +300,8 @@ int qutagadq::filterset(){
         dataD.resize(in_binsinplot);
         dataD.fill(0);
     }*/
-    std::cout<<count1<<"\t"<<count2<<"\t"<<count3<<"\t"<<count4<<"\t"<<std::endl;
-    std::cout<<dataA.size()<<"\t"<<dataB.size()<<"\t"<<dataC.size()<<"\t"<<dataD.size()<<"\t"<<std::endl;
+   // std::cout<<count1<<"\t"<<count2<<"\t"<<count3<<"\t"<<count4<<"\t"<<std::endl;
+   // std::cout<<dataA.size()<<"\t"<<dataB.size()<<"\t"<<dataC.size()<<"\t"<<dataD.size()<<"\t"<<std::endl;
 
     if(count1 != 0 || count2 !=0 || count3 !=0|| count4 !=0) emit qutaghist(dataA, dataB, dataC, dataD,  count1, count2, count3, count4);
     //emit qutaghist(dataA, dataB, dataC, dataD,  count1, count2, count3, count4);

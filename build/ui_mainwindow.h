@@ -149,6 +149,8 @@ public:
     QLabel *label_7;
     QSpinBox *TSper;
     QFormLayout *formLayout_5;
+    QLabel *label_16;
+    QSlider *rawtssave;
     QSpacerItem *verticalSpacer_3;
     QVBoxLayout *verticalLayout_6;
     QHBoxLayout *horizontalLayout_3;
@@ -984,6 +986,8 @@ public:
 
         TSON = new QSlider(horizontalWidget);
         TSON->setObjectName("TSON");
+        TSON->setMaximum(1);
+        TSON->setPageStep(1);
         TSON->setOrientation(Qt::Horizontal);
 
         formLayout_3->setWidget(2, QFormLayout::FieldRole, TSON);
@@ -1013,6 +1017,20 @@ public:
         formLayout_5->setHorizontalSpacing(17);
         formLayout_5->setVerticalSpacing(1);
         formLayout_5->setContentsMargins(2, 12, 0, -1);
+        label_16 = new QLabel(horizontalWidget);
+        label_16->setObjectName("label_16");
+        label_16->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        formLayout_5->setWidget(0, QFormLayout::LabelRole, label_16);
+
+        rawtssave = new QSlider(horizontalWidget);
+        rawtssave->setObjectName("rawtssave");
+        rawtssave->setMaximum(1);
+        rawtssave->setPageStep(1);
+        rawtssave->setOrientation(Qt::Horizontal);
+
+        formLayout_5->setWidget(0, QFormLayout::FieldRole, rawtssave);
+
 
         verticalLayout_5->addLayout(formLayout_5);
 
@@ -1439,7 +1457,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        horizontalTabWidget->setCurrentIndex(0);
+        horizontalTabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1493,6 +1511,7 @@ public:
         label_3->setText(QCoreApplication::translate("MainWindow", "TS Anlalysis", nullptr));
         label_7->setText(QCoreApplication::translate("MainWindow", "Data %", nullptr));
         TSper->setSuffix(QCoreApplication::translate("MainWindow", " [%]", nullptr));
+        label_16->setText(QCoreApplication::translate("MainWindow", "Raw TS \"&gates\"", nullptr));
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab2), QCoreApplication::translate("MainWindow", "AND gates", nullptr));
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(conf), QCoreApplication::translate("MainWindow", "Parameters", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Connect to DB", nullptr));

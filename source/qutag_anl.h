@@ -91,7 +91,7 @@ public:
 public slots:
 
 
-  
+
   void timestampREC(const vectorInt64 &inconimg_vectorTimetags, const vectorInt &inconimg_vectorChannels, int inconimg_tsvalid);
 
   void Chang_in_startChan(int starchan){this->in_startChan=starchan;}
@@ -138,7 +138,9 @@ public slots:
     void Break(){break_= true;}
 
     void TScumulator(const vectorInt32 &counter);
+    void saveRawTSon(int a);
 
+    void saveTTondisk(long clk, long tt);
 
 signals:
 
@@ -153,12 +155,14 @@ signals:
                                         const vectorInt &LSource, const vectorInt &RSource,
                                         const vectorInt &LWin,const vectorInt &RWin,
                                         const vectorInt &in_QKD_ph, const vectorInt &in_QKD_zero, const vectorInt &in_QKD_iw,
-                                        const vectorBool &logicOP);
+                                        const vectorBool &logicOP, bool saveTSon);
 private:
+ QFile *rawTT;
+ QTextStream *outTSstream;
  bool break_=false;
   QVector<double> histo1data;
   std::ofstream file;
-
+  bool saveTSon =false;
   int ChannelIndex=0, StopIndex=0;//, counterplot[6]={0};
   QVector<int> counterplot;
   //int flag[6][3]= {{0}};
@@ -212,11 +216,16 @@ signals:
     void chang_LogicWinR(QString t, int index);
     void chang_LogicOP(QString t, int index);
     void trackTab2_change(bool c, int index);
+
 };
 
 class timestampProcess : public QObject
 {
     Q_OBJECT
+public:
+    timestampProcess();
+    ~timestampProcess();
+
 public slots:
     void timestampANL(const vectorInt64 &vectorTimetags, const vectorInt &vectorChannels, int tsvalid,
                                         int numberOfLogicPlots, int in_startChan,
@@ -224,9 +233,11 @@ public slots:
                                         const vectorInt &LSource, const vectorInt &RSource,
                                         const vectorInt &LWin,const vectorInt &RWin,
                                         const vectorInt &in_QKD_ph, const vectorInt &in_QKD_zero, const vectorInt &in_QKD_iw,
-                                        const vectorBool &logicOP);
+                                        const vectorBool &logicOP, bool saveTSon);
+
 signals:
     void TScumulator_fromThread(const vectorInt32 &counter);
+    void saveTTondisk_(long clk, long tt);
 };
 
 #endif

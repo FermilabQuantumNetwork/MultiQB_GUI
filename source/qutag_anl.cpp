@@ -5,6 +5,9 @@
 #define SLEEP(x) usleep(x)
 
 qutaganl::qutaganl(){
+
+
+
     previouskey = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
     cumulative = QVector<int>(5,0);
     flagaux = QVector<int>(3);
@@ -60,18 +63,19 @@ qutaganl::qutaganl(){
                                           vectorInt , vectorInt ,
                                           vectorInt ,vectorInt ,
                                           vectorInt , vectorInt , vectorInt ,
-                                          vectorBool )),
+                                          vectorBool, bool )),
             analisis, SLOT(timestampANL(vectorInt64 , vectorInt , int ,
                                            int , int,
                                            int , double , double ,
                                            vectorInt , vectorInt ,
                                            vectorInt ,vectorInt ,
                                            vectorInt , vectorInt , vectorInt ,
-                                           vectorBool)),
+                                           vectorBool, bool)),
             Qt::QueuedConnection);
 
     connect(analisis, SIGNAL(TScumulator_fromThread(vectorInt32)),
             this, SLOT(TScumulator(vectorInt32)), Qt::QueuedConnection);
+    connect(analisis, SIGNAL(saveTTondisk_(long, long)), this, SLOT(saveTTondisk(long, long)));
     anlWorker1.start();
 
 }
@@ -92,6 +96,7 @@ qutaganl::qutaganl(){
 }
 */
 qutaganl::~qutaganl(){
+ if(rawTT->isOpen())rawTT->close();
  anlWorker1.quit();
  anlWorker1.wait();
 }
@@ -124,7 +129,7 @@ void qutaganl::timestampREC(const vectorInt64 &inconimg_vectorTimetags, const ve
                       LSource, RSource,
                       LWin,RWin,
                       in_QKD_ph,in_QKD_zero, in_QKD_iw,
-                      logicOP);
+                      logicOP, saveTSon);
 }
 
 
@@ -135,7 +140,7 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
                                     const vectorInt &LSource, const vectorInt &RSource,
                                     const vectorInt &LWin,const vectorInt &RWin,
                                     const vectorInt &in_QKD_ph, const vectorInt &in_QKD_zero, const vectorInt &in_QKD_iw,
-                                    const vectorBool &logicOP){
+                                    const vectorBool &logicOP, bool saveTSon_){
     //std::cout<<"tsvalid on thread: "<<tsvalid<<std::endl;
     //cumulativeTS+=tsvalid;
     int j;  //current element of the vector index
@@ -212,7 +217,11 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
                 if( (diffh>=(qq+1)*in_QKD_time+in_QKD_zero[StopIndex-1] || StopIndex==in_startChan) && qq+1<=in_QKD_numb){
                     qq++;
                     for (int k=0;k<numberOfLogicPlots;k++) {
-                        if(logicOP[k] && (flagL[k] && flagR[k])) threadCounter[k]++;
+                        if(logicOP[k] && (flagL[k] && flagR[k])){
+
+                            if(saveTSon_)emit saveTTondisk_(vectorTimetags[i], vectorTimetags[j-1]);
+                            threadCounter[k]++;
+                        }
                         if(!logicOP[k] && (flagL[k] || flagR[k])) threadCounter[k]++;
                         flagL[k]=false;
                         flagR[k]=false;
@@ -297,6 +306,38 @@ void qutaganl::chang_LogicOP(QString t, int index){
     if(t.compare("AND")==0)logicOP[index]=true;
     if(t.compare("OR")==0)logicOP[index]=false;
 }
+timestampProcess::timestampProcess(){
 
+}
 
+timestampProcess::~timestampProcess(){
 
+}
+void qutaganl::saveTTondisk(long clk, long tt){
+
+    if(outTSstream != NULL)*outTSstream<< clk << "\t"<< tt << "\n";
+}
+void qutaganl::saveRawTSon(int a){
+    if(a){
+        QDateTime date = QDateTime::currentDateTime();
+        QString formattedTime = date.toString("dd_MM_yyyy_hh_mm_ss");
+        QByteArray formattedTimeMsg = formattedTime.toLocal8Bit();
+        QString filename = "RawTS_"+formattedTimeMsg;
+
+        rawTT = new QFile(filename);
+        if (!rawTT->open(QIODevice::WriteOnly | QIODevice::Text))
+            return;
+
+        outTSstream = new QTextStream(rawTT);
+        saveTSon=true;
+
+    }
+    else{
+        if(rawTT->isOpen()){
+            rawTT->close();
+            delete rawTT;
+            delete outTSstream;
+        }
+        saveTSon=false;
+    }
+}

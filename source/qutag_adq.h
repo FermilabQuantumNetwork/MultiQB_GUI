@@ -20,7 +20,7 @@
 
 #define QUTAG_THRESHOLD_STEP 0.1
 #define QUTAG_DELAY_STEP 100
-#define QUTAG_START_CHANNEL 0
+#define QUTAG_START_CHANNEL 5
 
 #define QUTAG_TIMESTAMP_COUNT   150000  /* Timestamp buffer size */
 //#define COLLECT_ROUNDS      100

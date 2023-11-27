@@ -179,3 +179,6 @@
 14_09_2023_14_05_25	 Tab 2 	
 14_09_2023_14_22_35	 Tab 2 	
 14_09_2023_15_32_00	 Tab 2 	
+13_11_2023_16_47_01	 Tab 2 	channel0/Left_PlotA/WinL0/AND/Right_PlotB/WinR0	
+13_11_2023_16_58_09	 Tab 2 	channel0/Left_PlotA/WinL0/AND/Right_PlotB/WinR0	
+13_11_2023_17_02_47	 Tab 2 	channel0/Left_PlotA/WinL0/AND/Right_PlotB/WinR0	
