@@ -97,22 +97,15 @@ void timetaggerUltra::updateStream(){
     }
 
     tts->start();
-    paramschange=false;
+    GoUpdateStream=false;
 }
 
 void timetaggerUltra::getTimeStampsTTU(){
 
-    if(paramschange)updateStream();
+    if(GoUpdateStream)updateStream();
 
     TimeTagStreamBuffer ttsb = tts->getData();
 
-    //std::cout<<"gettimestanmps"<<std::endl;
-    //timetags.clear();channelsTDC.clear();
-
-    //rc = TDC_getLastTimestamps( 1, timestamps, channels, &tsValid );
-
-    //checkRc( "TDC_getLastTimestamps", rc );
-    //std::cout<<"TSValid: "<<tsValid<<std::endl;
     std::vector<int>channels;
     std::vector<long long>timestamps;
 
@@ -142,7 +135,7 @@ void timetaggerUltra::getTimeStampsTTU(){
 }
 
 void timetaggerUltra::getHisto(){
-    if(paramschange)setHistograms();
+    if(GoUpdateHisto)setHistograms();
     //qDebug()<<"histottu";
     int count[NTTUCHANNELS];
     QVector<double> dataA, dataB, dataC, dataD;
@@ -207,7 +200,7 @@ void timetaggerUltra::setHistograms(){
             }
         }
     }
-    paramschange=false;
+    GoUpdateHisto=false;
 }
 
 
@@ -220,7 +213,8 @@ void timetaggerUltra::updateChannels(){
     //copy the channels on a std vector
     int n = sizeof(TTUChannelsinuse) / sizeof(TTUChannelsinuse[0]);
     TTUChannels = std::vector<int>(TTUChannelsinuse, TTUChannelsinuse+n);
-
+    //updateStream();
+    //setHistograms();
 }
 
 

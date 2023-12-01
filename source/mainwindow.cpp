@@ -2230,7 +2230,7 @@ void MainWindow::TTU_paremetes_setup(){
         threshTTU[i] = new QDoubleSpinBox();
         threshTTU[i]->setMaximum(2.5);
         threshTTU[i]->setMinimum(-2.5);
-        threshTTU[i]->setDecimals(2);
+        threshTTU[i]->setDecimals(3);
         threshTTU[i]->setSuffix(" [V]");
         threshTTU[i]->setSingleStep(QUTAG_THRESHOLD_STEP);
         threshTTU[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");

@@ -161,12 +161,12 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
     /// LSource[] and RSource[], stores which source you use for logic, from 0 and ahead are the previous results, -1 to -4 correspond to the 4 histograms
 
     for ( int i=0 ; i<tsvalid; i++) {  // iterate across all the ts comming
-        ChannelIndex = int(vectorChannels[i]); // check the channel of the current i
+        ChannelIndex = abs(int(vectorChannels[i])); // check the channel of the current i
         if(ChannelIndex == in_startChan){ //found the start channel (5)
             qq=0;//starts from the first qubit (of 10 in the current case)
             j=i+1; //next element on the vector after the start channel
             if(j>=tsvalid)break; //next element is actualy out of the array - STOP
-            StopIndex=int(vectorChannels[j]); // check the channel for j element, starts from i+1 and keep increasing iside the while
+            StopIndex= abs(int(vectorChannels[j])); // check the channel for j element, starts from i+1 and keep increasing iside the while
             //if(StopIndex!=in_startChan)diffh = vectorTimetags[j]-vectorTimetags[i];
             //if(StopIndex!=in_startChan)diffh = vectorTimetags[j]-vectorTimetags[i]-in_QKD_zero[StopIndex];
             //if(diffh<0)break;
@@ -212,7 +212,7 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
 
                 j++;
                 if(j>=tsvalid)break;
-                StopIndex=int(vectorChannels[j]);
+                StopIndex= abs(int(vectorChannels[j]));
                 diffh=vectorTimetags[j]-vectorTimetags[i];
                 if( (diffh>=(qq+1)*in_QKD_time+in_QKD_zero[StopIndex-1] || StopIndex==in_startChan) && qq+1<=in_QKD_numb){
                     qq++;

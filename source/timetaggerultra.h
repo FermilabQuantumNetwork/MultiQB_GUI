@@ -35,14 +35,15 @@ public:
     int TSpercentage=10;
     int in_binwidth=1;
     //int in_nbins=1000;
-    bool paramschange = false;
+    bool GoUpdateStream = false;
+    bool GoUpdateHisto =false;
     double thresholds[NTTUCHANNELS];
     int RoF[NTTUCHANNELS];
 
 public slots:
 
-    void Chang_in_binsinplot(int val){this->in_binsinplot=val;this->paramschange=true;}
-    void Chang_in_binWidth(int val){this->in_binWidth=val;this->paramschange=true;}
+    void Chang_in_binsinplot(int val){this->in_binsinplot=val;this->GoUpdateHisto=true;}
+    void Chang_in_binWidth(int val){this->in_binWidth=val;this->GoUpdateHisto=true;}
     void Chang_in_histStart(int val){this->in_histStart=val;}
     void Chang_in_adqtime(double val){this->in_adqtime=val;}
     void Chang_anlAvilable(bool val){this->anlAvilable =val;}
@@ -52,7 +53,7 @@ public slots:
     void Break(){break_= true;}
 
     void Chang_in_thch(double voltage, int channel){t->setTriggerLevel(TTUChannelsinuse[channel],voltage);thresholds[channel]=voltage;}
-    void Chang_rof(QString text, int ch){if(text=="Rise")RoF[ch]=1;else RoF[ch]=-1;updateChannels();this->paramschange=true;}
+    void Chang_rof(QString text, int ch){if(text=="RISE")RoF[ch]=1;else RoF[ch]=-1;updateChannels();this->GoUpdateHisto=true;GoUpdateStream =true;}
     void Chang_delay(double d, int ch){t->setInputDelay(TTUChannelsinuse[ch], d);}
 
 private:
