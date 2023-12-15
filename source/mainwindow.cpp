@@ -128,12 +128,13 @@ void MainWindow::QUTAG_initdone(){
 }
 
 void MainWindow::TTUinitdone(){
+
     TTU_paremetes_setup();
+
     for (int i = 0;i<NTTUCHANNELS ;i++ ) {
-        threshTTU[i]->setValue(TTU1.thresholds[i]);
-       // qutagFilterType[i]->setCurrentText(qutag.filtertypeSTR[i]);
-       // delaych[i]->setValue(double(qutag.delays[i])/1000);
-        //if(qutag.RoF[i])qutagEdge[i]->setCurrentText("Rise");else qutagEdge[i]->setCurrentText("Fall");
+        threshTTU[i]->setValue(TTUThresh[i]);
+        delayTTU[i]->setValue(TTUdelays[i]);
+        TTUEdge[i]->setCurrentText(rofMW[i]);
     }
     anl.Chang_in_startChan(TTUSTARTCHANNEL);
 }
@@ -650,13 +651,15 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(this, SIGNAL( MWChang_qutagThresh(double, int)), &qutag, SLOT(Chang_in_thch(double, int)));
     QObject::connect(this, SIGNAL( MWChang_TTUThresh(double, int)), &TTU1, SLOT(Chang_in_thch(double, int)));
+    QObject::connect(this, SIGNAL( MWChang_TTUThresh(double, int)), this, SLOT(Chang_MW_TTUThresh(double, int)));
 
     QObject::connect(this, SIGNAL(MWChang_qutag_edge(QString, int)), &qutag, SLOT(Chang_rof(QString, int)));
     QObject::connect(this, SIGNAL(MWChang_TTU_edge(QString, int)), &TTU1, SLOT(Chang_rof(QString, int)));
+    QObject::connect(this, SIGNAL(MWChang_TTU_edge(QString, int)), this, SLOT(Chang_MWTTU_rof(QString, int)));
 
     QObject::connect(this, SIGNAL( MWChang_qutag_delay(double, int)), &qutag, SLOT(Chang_delay(double, int)));
     QObject::connect(this, SIGNAL( MWChang_TTU_delay(double, int)), &TTU1, SLOT(Chang_delay(double, int)));
-
+    QObject::connect(this, SIGNAL( MWChang_TTU_delay(double, int)), this, SLOT(Chang_delayTTUMain(double, int)));
 
     QObject::connect(ui->actioninit_TTU, SIGNAL(triggered(bool)), this, SLOT(runTTU(bool)));
 
@@ -1175,9 +1178,13 @@ bool MainWindow::LoadPrevoiusSeason(bool a){
 
     QMap<QString, int> mapintout;
     QMap<QString, double> mapdoubleout;
+    QMap<QString, QString> mapstringout;
+
     QDataStream in(&file);
     in.setVersion(QDataStream::Qt_4_5);
     in>>mapintout;
+    in>>mapdoubleout;
+    in>>mapstringout;
 
 
     QMapIterator<QString,int>i(mapintout);
@@ -1185,7 +1192,6 @@ bool MainWindow::LoadPrevoiusSeason(bool a){
         i.next();
        // std::cout<< i.key().toStdString() <<  ": " << i.value() << std::endl;
     }
-    in>>mapdoubleout;
     QMapIterator<QString,double>j(mapdoubleout);
     while (j.hasNext()) {
         j.next();
@@ -1217,6 +1223,20 @@ bool MainWindow::LoadPrevoiusSeason(bool a){
     if(mapintout.contains("TSper"))ui->TSper->setValue(mapintout.value("TSper"));
     else ui->TSper->setValue(10);
 
+    if(mapdoubleout.contains("QKD_time"))ui->Max_delayd->setValue(mapdoubleout.value("Max_delay"));
+    else ui->Max_delayd->setValue(500);
+
+
+    for(int i = 0; i<NTTUCHANNELS; i++){
+        QString wordTTUThresh = "TTUThresh" + QString::number(i);
+        if(mapdoubleout.contains(wordTTUThresh))TTUThresh[i]=mapdoubleout.value(wordTTUThresh);
+
+        QString wordTTUdelays = "TTUdelays" + QString::number(i);
+        if(mapdoubleout.contains(wordTTUdelays))TTUdelays[i]=mapdoubleout.value(wordTTUdelays);
+
+        QString wordrofMW = "rofMW"+ QString::number(i);
+        if(mapstringout.contains(wordrofMW))rofMW[i]=mapstringout.value(wordrofMW);
+    }
 
      std::cout<<"parameters loaded"<<std::endl;
     return 0;
@@ -1238,6 +1258,7 @@ void MainWindow::SaveSeason(bool a){
     //out.setVersion(QDataStream::Qt_4_5);
     QMap<QString, int> mapint;
     QMap<QString, double> mapdouble;
+    QMap<QString, QString> mapstring;
 
 
     mapint.insert("in_startChan",in_startChan);
@@ -1279,10 +1300,19 @@ void MainWindow::SaveSeason(bool a){
     mapdouble.insert("Max_delay",in_Max_delay);
     mapdouble.insert("homscan_time",in_homscan_time);
     mapint.insert("stepduration",in_stepduration);
-
+   //double TTUThresh[NTTUCHANNELS];   double TTUdelays[NTTUCHANNELS];  QString rofMW[NTTUCHANNELS];
+   for(int i = 0; i<NTTUCHANNELS; i++){
+        QString wordTTUThresh = "TTUThresh" + QString::number(i);
+        mapdouble.insert(wordTTUThresh,TTUThresh[i]);
+        QString wordTTUdelays = "TTUdelays" + QString::number(i);
+        mapdouble.insert(wordTTUdelays,TTUdelays[i]);
+        QString wordrofMW = "rofMW"+ QString::number(i);
+        mapstring.insert(wordrofMW, rofMW[i]);
+   }
 
     out<<mapint;
     out<<mapdouble;
+    out<<mapstring;
 
    // LoadState(1);
 }
@@ -1319,28 +1349,6 @@ void MainWindow::LoadState(bool a){
 
             if(mapdoubleout.contains("in_adqtime"))ui->adqtime->setValue(mapdoubleout.value("in_adqtime"));
             if(mapdoubleout.contains("in_adqtime_2"))ui->adqtime_2->setValue(mapdoubleout.value("in_adqtime_2"));
-
-
-            /*if(mapintout.contains("RoF1")){
-                if(mapintout.value("RoF1"))ui->rof1->setCurrentText("Rise");
-            }
-            else ui->rof1->setCurrentText("Fall");
-
-            if(mapintout.contains("RoF2")){
-                if(mapintout.value("RoF2"))ui->rof2->setCurrentText("Rise");
-            }
-            else ui->rof2->setCurrentText("Fall");
-
-            if(mapintout.contains("RoF3")){
-                if(mapintout.value("RoF3"))ui->rof3->setCurrentText("Rise");
-            }
-            else ui->rof3->setCurrentText("Fall");
-
-            if(mapintout.contains("RoF4")){
-                if(mapintout.value("RoF4"))ui->rof4->setCurrentText("Rise");
-            }
-            else ui->rof4->setCurrentText("Fall");
-*/
 
 
                QMapIterator<QString,int>i(mapintout);
@@ -1582,24 +1590,7 @@ void MainWindow::setup_log_plot(QCustomPlot *histo){
 
 
 void MainWindow::createQKDLinesA(){
-    //qDebug()<<"show me the lines, in_QKD_numb="<<in_QKD_numb;
-/*
-    for(int i=0; i<in_QKD_numb*2; i++){
-        for (int j=0;j<in_QKD_pxqA;j++) {
-            if((i+1)%2){
-                LinesPlotA[j][i]->setVisible(1);
-                LinesPlotA[j][i]->point1->setCoords(i/2*in_QKD_time+in_QKD_zeroA+j*in_QKD_phA,0);
-                LinesPlotA[j][i]->point2->setCoords(i/2*in_QKD_time+in_QKD_zeroA+j*in_QKD_phA,1);
 
-            }
-            else{
-                LinesPlotA[j][i]->setVisible(1);
-                LinesPlotA[j][i]->point1->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroA+in_QKD_iwA+j*in_QKD_phA,0);
-                LinesPlotA[j][i]->point2->setCoords((i-1)/2*in_QKD_time+in_QKD_zeroA+in_QKD_iwA+j*in_QKD_phA,1);
-            }
-        }
-    }
-*/
     for(int i=0; i<MAX_QUBITS*2; i++){
         for (int j=0;j<MAX_WIN;j++) {
             if((i+1)%2){
@@ -2260,8 +2251,8 @@ void MainWindow::TTU_paremetes_setup(){
         delLabTTU[i] = new QLabel(tr("Delay ch ")+QString::number(i));
         delLabTTU[i]->setStyleSheet("color: rgb(238, 238, 236)");
         delayTTU[i] = new QDoubleSpinBox();
-        delayTTU[i]->setMaximum(100000);
-        delayTTU[i]->setMinimum(-100000);
+        delayTTU[i]->setMaximum(1000000);
+        delayTTU[i]->setMinimum(-1000000);
         delayTTU[i]->setDecimals(0);
         delayTTU[i]->setSuffix(" [ps]");
         delayTTU[i]->setSingleStep(QUTAG_DELAY_STEP);

@@ -197,6 +197,10 @@ private slots:
    void loadFilterWL(float val, int dev);
 
    void loadFilterBW(int val, int dev);
+
+   void Chang_delayTTUMain(double delay, int channel){TTUdelays[channel]=delay;}
+   void Chang_MW_TTUThresh(double threshold, int channel){TTUThresh[channel]=threshold;}
+   void Chang_MWTTU_rof(QString rof, int channel){rofMW[channel] = rof;}
 private:
 
   Ui::MainWindow *ui;
@@ -332,12 +336,13 @@ private:
    QComboBox *qutagEdge[NQUTAGCHANNELS];
 
    QDoubleSpinBox *threshTTU[NTTUCHANNELS];
+   double TTUThresh[NTTUCHANNELS];
    QDoubleSpinBox *delayTTU[NTTUCHANNELS];
+   double TTUdelays[NTTUCHANNELS];
    QCheckBox *TTUtriggerfilter[NTTUCHANNELS];
    QCheckBox *TTUfilter[NTTUCHANNELS];
-   //QComboBox *qutagFilterType[NQUTAGCHANNELS];
    QComboBox *TTUEdge[NTTUCHANNELS];
-
+   QString rofMW[NTTUCHANNELS];
 
    /////////////Filters Tab//////////////
    QScrollArea *filtersTabScroll;
