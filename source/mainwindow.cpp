@@ -331,39 +331,6 @@ QCPAxisRect *wideAxisRect = new QCPAxisRect(scope);
      graphtab2[i] = new QCPGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft));
      graphtab2[i]->setPen(QPen(QColor::fromHsv( i*(360/MAX_LOGIC), 255, 255, 255  )));
  }
- /* QCPGraph *graph1 = scope->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft));
-  graph1->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(128,0,0), 1), QBrush(QColor(240,128,128)),4));
-  //graph1->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(200, 0, 0), 1), QBrush(QColor(128,0,0)),4));
-  graph1->setPen(QPen(QColor(200, 0, 0), 2));
-
-  QCPGraph *graph2 = scope->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft));
-  graph2->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(0,100,0), 1), QBrush(QColor(144,238,144)),4));
-  //graph2->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(0, 200, 0), 1), QBrush(QColor(0,128,0)),4));
-  graph2->setPen(QPen(QColor(0, 200, 0), 2));
-
-  QCPGraph *graph3 = scope->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft));
-  graph3->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(189,183,107), 1), QBrush(QColor(255,255,0)),4));
-  //graph3->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(200, 200, 0), 1), QBrush(QColor(255,255,0)),4));
-  graph3->setPen(QPen(QColor(200, 200, 0), 2));
-
-
-  QCPGraph *graph4 = scope->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft));
-  graph4->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(72,61,139), 1), QBrush(QColor(230,230,250)),4));
-  //graph4->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(173, 127, 168), 1), QBrush(QColor(138,43,226)),4));
-  graph4->setPen(QPen(QColor(63, 211, 249), 2));
-
-  QCPGraph *graph5 = scope->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft));
-  graph5->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(0,0,139), 1), QBrush(QColor(135,206,250)),4));
-  //graph5->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(63, 211, 249), 1), QBrush(QColor(30,144,255)),4));
-  graph5->setPen(QPen(QColor(173, 127, 168), 2));
-
-  QCPGraph *graph6 = scope->addGraph(wideAxisRect->axis(QCPAxis::atBottom), wideAxisRect->axis(QCPAxis::atLeft));
-  graph6->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(0,0,139), 1), QBrush(QColor(51,51,255)),4));
-  //graph5->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(QColor(63, 211, 249), 1), QBrush(QColor(30,144,255)),4));
-  graph6->setPen(QPen(QColor(130, 170, 120), 2));
-
-
-*/
 
 
 
@@ -679,6 +646,10 @@ void MainWindow::setupsignalslot(){
     QObject::connect(&EXFOfilters, SIGNAL(DeviceWL(float, int)), this, SLOT(loadFilterWL(float, int)));
     QObject::connect(&EXFOfilters, SIGNAL(DeviceBW(int, int)), this, SLOT(loadFilterBW(int, int)));
     QObject::connect(ui->rawtssave, SIGNAL(valueChanged(int)), &anl, SLOT(saveRawTSon(int)));
+
+    QObject::connect(this, SIGNAL( BWscanONsignal(int, int) ), this, SLOT( BWfilterscanslot(int, int) ) );
+    QObject::connect(this, SIGNAL( WLscanONsignal(int, int) ), this, SLOT( WLfilterscanslot(int, int) ) );
+
 
 }
 
@@ -2374,6 +2345,8 @@ void MainWindow::addfilterMW(){
 
     ////WL scan slider
     WLscanON[i] = new QSlider(Qt::Orientation::Horizontal);
+    WLscanON[i]->setMaximum(1);
+    QObject::connect(WLscanON[i], &QSlider::valueChanged,[this, i](int s) {emit WLscanONsignal(s, i);});
     FilterWLGridLayout->addWidget(WLscanON[i],1,0);
 
     ///WL scan min
@@ -2420,7 +2393,7 @@ void MainWindow::addfilterMW(){
     FilterWLGridLayout->addWidget(WLscanstepduration[i],1,4);
 
     ///add the grid layout with the scan elements to the secon row layout
-    //filterWLscanLayout->addLayout(FilterWLGridLayout);
+    filterWLscanLayout->addLayout(FilterWLGridLayout);
 
     ///--------------------///
 
@@ -2448,6 +2421,8 @@ void MainWindow::addfilterMW(){
 
     ////BW scan slider
     BWscanON[i] = new QSlider(Qt::Orientation::Horizontal);
+    BWscanON[i]->setMaximum(1);
+    QObject::connect(BWscanON[i], &QSlider::valueChanged,[this, i](int s) {emit BWscanONsignal(s, i);});
     FilterBWGridLayout->addWidget(BWscanON[i],1,0);
 
     ///BW scan min
@@ -2494,7 +2469,7 @@ void MainWindow::addfilterMW(){
     FilterBWGridLayout->addWidget(BWscanstepduration[i],1,4);
 
     ///add the grid layout with the scan elements to the secon row layout
-    //filterBWscanLayout->addLayout(FilterBWGridLayout);
+    filterBWscanLayout->addLayout(FilterBWGridLayout);
 
 }
 
@@ -2512,5 +2487,57 @@ void MainWindow::loadFilterBW(int val, int dev){
         QSignalBlocker blocker(filterBandw[dev]);
         filterBandw[dev]->setValue(val);
         blocker.unblock();
+    }
+}
+
+void MainWindow::BWfilterscanslot(int signal, int i){
+    filterBandw[i]->setValue(BWscanMin[i]->value());
+    if(BWscantimer[i]!=nullptr && signal==0){
+        BWscantimer[i]->stop();
+        delete BWscantimer[i];
+    }
+    if(BWscantimer[i]==nullptr && signal){
+        BWscantimer[i] = new QTimer(this);
+        connect(BWscantimer[i], &QTimer::timeout, [this,i]() {BWscanstep(i);});
+    }
+
+    if(BWscantimer[i]!=nullptr && signal )BWscantimer[i]->start(BWscanstepduration[i]->value()*1000);
+
+
+}
+
+void MainWindow::WLfilterscanslot(int signal, int i){
+
+    filterWavel[i]->setValue(WLscanMin[i]->value());
+    if(WLscantimer[i]!=nullptr && signal==0){
+        WLscantimer[i]->stop();
+        delete WLscantimer[i];
+    }
+    if(WLscantimer[i]==nullptr && signal){
+        WLscantimer[i] = new QTimer(this);
+        connect(WLscantimer[i], &QTimer::timeout, [this,i]() {WLscanstep(i);});
+    }
+
+    if(WLscantimer[i]!=nullptr && signal )WLscantimer[i]->start(WLscanstepduration[i]->value()*1000);
+}
+
+
+void MainWindow::BWscanstep(int i){
+    if(filterBandw[i]->value() < BWscanMax[i]->value()){
+        qDebug()<<"bwstep";
+        filterBandw[i]->setValue(filterBandw[i]->value()+BWscanstepsize[i]->value());
+    }else{
+        qDebug()<<"bw scan end";
+        BWscantimer[i]->stop();
+    }
+}
+
+void MainWindow::WLscanstep(int i){
+    if(filterWavel[i]->value() < WLscanMax[i]->value()){
+        qDebug()<<"wlstep";
+        filterWavel[i]->setValue(filterWavel[i]->value()+WLscanstepsize[i]->value());
+    }else{
+        qDebug()<<"wl scan end";
+        WLscantimer[i]->stop();
     }
 }

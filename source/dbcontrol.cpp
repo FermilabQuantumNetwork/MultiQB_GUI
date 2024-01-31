@@ -75,15 +75,14 @@ void DBControl::SaveTab2Values(QVector<int> datatab2, float andTime, double dela
     for (int i=0;i<DB_numberOfLogicPlots;i++) {
         if(datatab2.size() >= DB_numberOfLogicPlots)s+=QString::number(datatab2[i])+",";
     }
-    for(int i = 0 ; i<Noffilters-1; i++){
-       // if(filtersWLcurrentValue.size()>=Noffilters)s+=QString::number(filtersWLcurrentValue[i])+","+QString::number(filtersBWcurrentValue[i])+",";
+    for(int i = 0 ; i<Noffilters; i++){
+       s+=QString::number(filtersWLcurrentValue[i])+","+QString::number(filtersBWcurrentValue[i])+",";
     }
     s+=QString::number(double(andTime))+","+QString::number(delayline)+","+"now());";
     std::cout<<s.toStdString()<<std::endl;
     if(connection_succesfull){
         QSqlQuery query(s,db);
     }
-
 }
 
 void DBControl::SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD , float hist_adqtime){
@@ -210,14 +209,17 @@ void DBControl::disconnectFromServer()
 {
     db.close();
 }
-void DBControl::setfiltersWL(double wavel, int n){
+
+/*
+  void DBControl::setfiltersWL(double wavel, int n){
     qDebug()<< "set filters WL :"<<wavel<<"  channel: "<<n;
-   /* if(filtersWLcurrentValue.size()<n+1)filtersWLcurrentValue.append(wavel);
-    else filtersWLcurrentValue[n]=wavel;*/
+
+    if(filtersWLcurrentValue.size()<n+1)filtersWLcurrentValue.append(wavel);
+    else filtersWLcurrentValue[n]=wavel;
 }
 void DBControl::setfiltersBW(int bw, int n){
      qDebug()<< "set filters WL :"<<bw<<"  channel: "<<n;
-  /*  if(filtersBWcurrentValue.size()<n+1)filtersBWcurrentValue.append(bw);
-    filtersBWcurrentValue[n]=bw;*/
+   if(filtersBWcurrentValue.size()<n+1)filtersBWcurrentValue.append(bw);
+    filtersBWcurrentValue[n]=bw;
 }
-
+*/

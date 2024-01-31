@@ -8,8 +8,9 @@
 #include <iostream>//entradas y salidas por consola
 #include <fstream>//archivos.txt
 #include <qlabel.h>
+#include "typedefs.h"
 
-#define MAX_LOGIC 25
+
 
 class DBControl : public QThread
 {
@@ -33,8 +34,8 @@ private:
     int NTA,NTB,NTC,NTD;
     int DB_numberOfLogicPlots = 0;
     int Noffilters = 0;
-    QVector<double> filtersWLcurrentValue;
-    QVector<int> filtersBWcurrentValue;
+    double filtersWLcurrentValue[MAX_N_FILTERS];
+    int filtersBWcurrentValue[MAX_N_FILTERS];
 signals:
 
 public slots:
@@ -42,8 +43,8 @@ public slots:
     void SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD , float hist_adqtime);
     void CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate,int filters, QLabel *lab);
     void CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD, QLabel *lab );
-    void setfiltersBW(int bw, int n);
-    void setfiltersWL(double wavel, int n);
+    void setfiltersBW(int bw, int n){filtersBWcurrentValue[n]=bw;}
+    void setfiltersWL(double wavel, int n){filtersWLcurrentValue[n]=wavel;}
 
 };
 #endif // DBCONTROL_H

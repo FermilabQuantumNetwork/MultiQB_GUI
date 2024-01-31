@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 6.4.0
+** Created by: Qt User Interface Compiler version 6.4.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -13,6 +13,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QFrame>
@@ -139,6 +140,10 @@ public:
     QPushButton *AddLogic;
     QPushButton *RemoveLogic;
     QPushButton *clean_tab2;
+    QCheckBox *tab2showcurrent;
+    QCheckBox *tab2showmin;
+    QCheckBox *tab2showmax;
+    QCheckBox *tab2showavr;
     QFormLayout *formLayout_3;
     QLabel *label_22;
     QDoubleSpinBox *adqtime_2;
@@ -943,6 +948,30 @@ public:
 
         verticalLayout_5->addWidget(clean_tab2);
 
+        tab2showcurrent = new QCheckBox(horizontalWidget);
+        tab2showcurrent->setObjectName("tab2showcurrent");
+        tab2showcurrent->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        verticalLayout_5->addWidget(tab2showcurrent);
+
+        tab2showmin = new QCheckBox(horizontalWidget);
+        tab2showmin->setObjectName("tab2showmin");
+        tab2showmin->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        verticalLayout_5->addWidget(tab2showmin);
+
+        tab2showmax = new QCheckBox(horizontalWidget);
+        tab2showmax->setObjectName("tab2showmax");
+        tab2showmax->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        verticalLayout_5->addWidget(tab2showmax);
+
+        tab2showavr = new QCheckBox(horizontalWidget);
+        tab2showavr->setObjectName("tab2showavr");
+        tab2showavr->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        verticalLayout_5->addWidget(tab2showavr);
+
         formLayout_3 = new QFormLayout();
         formLayout_3->setSpacing(6);
         formLayout_3->setObjectName("formLayout_3");
@@ -1159,6 +1188,7 @@ public:
         sizePolicy7.setVerticalStretch(0);
         sizePolicy7.setHeightForWidth(DBON->sizePolicy().hasHeightForWidth());
         DBON->setSizePolicy(sizePolicy7);
+        DBON->setMaximum(1);
         DBON->setOrientation(Qt::Horizontal);
 
         formLayout->setWidget(0, QFormLayout::FieldRole, DBON);
@@ -1504,6 +1534,10 @@ public:
         AddLogic->setText(QCoreApplication::translate("MainWindow", "Add Logic Element", nullptr));
         RemoveLogic->setText(QCoreApplication::translate("MainWindow", "Remove Logic Element", nullptr));
         clean_tab2->setText(QCoreApplication::translate("MainWindow", "Clean Plot", nullptr));
+        tab2showcurrent->setText(QCoreApplication::translate("MainWindow", "Show value", nullptr));
+        tab2showmin->setText(QCoreApplication::translate("MainWindow", "Show min", nullptr));
+        tab2showmax->setText(QCoreApplication::translate("MainWindow", "Show max", nullptr));
+        tab2showavr->setText(QCoreApplication::translate("MainWindow", "Show average", nullptr));
         label_22->setText(QCoreApplication::translate("MainWindow", "Adquisition time", nullptr));
         adqtime_2->setSuffix(QCoreApplication::translate("MainWindow", " [s]", nullptr));
         label_21->setText(QCoreApplication::translate("MainWindow", "X axis range", nullptr));

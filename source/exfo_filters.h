@@ -3,11 +3,11 @@
 
 #include <QtCore>
 #include <QtNetwork>
-
+#include "typedefs.h"
 
 #define EXFO_IP1    "192.168.0.105"
 #define EXFO_IP2    "192.168.0.156"
-#define MAX_N_FILTERS 10
+
 class EXFO_Filters : public QObject
 {
     Q_OBJECT

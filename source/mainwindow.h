@@ -201,6 +201,14 @@ private slots:
    void Chang_delayTTUMain(double delay, int channel){TTUdelays[channel]=delay;}
    void Chang_MW_TTUThresh(double threshold, int channel){TTUThresh[channel]=threshold;}
    void Chang_MWTTU_rof(QString rof, int channel){rofMW[channel] = rof;}
+
+   void BWfilterscanslot(int, int);
+   void WLfilterscanslot(int, int);
+
+   void WLscanstep(int);
+   void BWscanstep(int);
+
+
 private:
 
   Ui::MainWindow *ui;
@@ -363,6 +371,9 @@ private:
    QDoubleSpinBox *BWscanstepsize[MAX_N_FILTERS];
    QDoubleSpinBox *BWscanstepduration[MAX_N_FILTERS];
 
+   QTimer *BWscantimer[MAX_N_FILTERS];
+   QTimer *WLscantimer[MAX_N_FILTERS];
+
 signals:
 
     //void main_CreateTableTab1(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD );
@@ -386,6 +397,11 @@ signals:
     void MWFilterWLChange(double, int);
     void MWFilterBWChange(int, int);
     void MWfilteripRet(QString, int);
+
+    void WLscanONsignal(int, int);
+    void BWscanONsignal(int, int);
+
+
 };
 
 class Filtertype: public QWidget{

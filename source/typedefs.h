@@ -16,6 +16,7 @@ typedef QVector<int> vectorInt;
 #define MAX_LINES_OFFSET    100000
 #define MAX_INT_WIN 10000
 #define MAX_QUBIT_TIME  100000
-
+#define MAX_N_FILTERS 10
+#define MAX_LOGIC 25
 
 #endif // TYPEDEFS_H
