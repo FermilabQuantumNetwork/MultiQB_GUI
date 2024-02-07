@@ -187,7 +187,7 @@ public:
     QPushButton *CreateTables;
     QVBoxLayout *verticalLayout_25;
     QPushButton *dbofftimer;
-    QDateTimeEdit *dateTimeEdit;
+    QDateTimeEdit *dbcronometeroff;
     QSpacerItem *verticalSpacer_2;
     QVBoxLayout *verticalLayout_22;
     QLabel *label_10;
@@ -1224,12 +1224,12 @@ public:
 
         verticalLayout_25->addWidget(dbofftimer);
 
-        dateTimeEdit = new QDateTimeEdit(verticalWidget);
-        dateTimeEdit->setObjectName("dateTimeEdit");
-        dateTimeEdit->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-        dateTimeEdit->setDateTime(QDateTime(QDate(1999, 12, 31), QTime(16, 0, 0)));
+        dbcronometeroff = new QDateTimeEdit(verticalWidget);
+        dbcronometeroff->setObjectName("dbcronometeroff");
+        dbcronometeroff->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+        dbcronometeroff->setDateTime(QDateTime(QDate(1999, 12, 31), QTime(16, 0, 0)));
 
-        verticalLayout_25->addWidget(dateTimeEdit);
+        verticalLayout_25->addWidget(dbcronometeroff);
 
 
         verticalLayout_16->addLayout(verticalLayout_25);
@@ -1519,7 +1519,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        horizontalTabWidget->setCurrentIndex(1);
+        horizontalTabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);

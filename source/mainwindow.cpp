@@ -139,6 +139,8 @@ ui->logicgrid->addWidget(t2labmin,0,7);
 ui->logicgrid->addWidget(t2labmax,0,8);
 ui->logicgrid->addWidget(t2labavr,0,9);
 
+ui->dbcronometeroff->setDateTime(QDateTime::currentDateTime());
+
 }
 
 
@@ -702,6 +704,7 @@ void MainWindow::setupsignalslot(){
     QObject::connect(ui->tab2showmax, SIGNAL(stateChanged(int)), this, SLOT(t2showmax(int)));
     QObject::connect(ui->tab2showavr, SIGNAL(stateChanged(int)), this, SLOT(t2showavr(int)));
 
+    QObject::connect(ui->dbofftimer, SIGNAL(released()), this, SLOT(programDBoff()));
 
 }
 
@@ -2692,3 +2695,13 @@ void MainWindow::t2showavr(int a){
         }
     }
 }
+
+
+void MainWindow::programDBoff(){
+
+    int dboffinms = QDateTime::currentDateTime().msecsTo(ui->dbcronometeroff->dateTime());
+    std::cout<<"database will be off in "<<dboffinms/60000<<" minutes, miliseconds: "<<dboffinms<<std::endl;
+    ui->dbcronometeroff->setStyleSheet("color: rgb(238, 0, 0)");
+    QTimer::singleShot(dboffinms, this, SLOT(slideDBoff()));
+}
+void MainWindow::slideDBoff(){ui->DBON->setValue(0); ui->dbcronometeroff->setStyleSheet("color: rgb(238, 238, 236)");}

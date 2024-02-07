@@ -88,6 +88,8 @@ private slots:
   void Chang_adqtime_2(double val){in_adqtime_2=val;}
 
   void turnONDB(int val);
+  void slideDBoff();
+
   void createTablesDB();
   void SaveState(bool a);
   void LoadState(bool a);
@@ -213,7 +215,7 @@ private slots:
    void t2showmax(int a);
    void t2showavr(int a);
 
-
+   void programDBoff();
 
 private:
 
