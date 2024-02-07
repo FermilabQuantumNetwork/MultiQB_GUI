@@ -51,6 +51,7 @@ if(LoadPrevoiusSeason(1)){
     ui->Max_delayd->setValue(500);
     ui->homscan_timed->setValue(10);
     ui->stepduration->setValue(30);
+
 }
 
 lastPointKey_tab1 = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
@@ -91,6 +92,52 @@ filtersTabScroll->setGeometry( 10, 10, 200, 200 );
 
 filtersTabScroll->setWidget( ui->filterlayoutwidget );
 */
+t2lableftp=new QLabel("LeftP");
+t2lableftw=new QLabel("LeftW");
+t2lablogic=new QLabel("logic");
+t2labrightp=new QLabel("RightP");
+t2labrightw=new QLabel("RightW");
+t2labcur=new QLabel("Value");
+t2labmin=new QLabel("Min");
+t2labmax=new QLabel("Max");
+t2labavr=new QLabel("Avr");
+
+t2labcur->setVisible(false);
+t2labmin->setVisible(false);
+t2labmax->setVisible(false);
+t2labavr->setVisible(false);
+
+t2lableftp->setAlignment(Qt::AlignHCenter);
+t2lableftw->setAlignment(Qt::AlignHCenter);
+t2lablogic->setAlignment(Qt::AlignHCenter);
+t2labrightp->setAlignment(Qt::AlignHCenter);
+t2labrightw->setAlignment(Qt::AlignHCenter);
+t2labcur->setAlignment(Qt::AlignHCenter);
+t2labmin->setAlignment(Qt::AlignHCenter);
+t2labmax->setAlignment(Qt::AlignHCenter);
+t2labavr->setAlignment(Qt::AlignHCenter);
+
+t2lableftp->setStyleSheet("color: rgb(238, 238, 236)");
+t2lableftw->setStyleSheet("color: rgb(238, 238, 236)");
+t2lablogic->setStyleSheet("color: rgb(238, 238, 236)");
+t2labrightp->setStyleSheet("color: rgb(238, 238, 236)");
+t2labrightw->setStyleSheet("color: rgb(238, 238, 236)");
+t2labcur->setStyleSheet("color: rgb(238, 238, 236)");
+t2labmin->setStyleSheet("color: rgb(238, 238, 236)");
+t2labmax->setStyleSheet("color: rgb(238, 238, 236)");
+t2labavr->setStyleSheet("color: rgb(238, 238, 236)");
+
+ui->logicgrid->setHorizontalSpacing(5);
+
+ui->logicgrid->addWidget(t2lableftp,0,1);
+ui->logicgrid->addWidget(t2lableftw,0,2);
+ui->logicgrid->addWidget(t2lablogic,0,3);
+ui->logicgrid->addWidget(t2labrightp,0,4);
+ui->logicgrid->addWidget(t2labrightw,0,5);
+ui->logicgrid->addWidget(t2labcur,0,6);
+ui->logicgrid->addWidget(t2labmin,0,7);
+ui->logicgrid->addWidget(t2labmax,0,8);
+ui->logicgrid->addWidget(t2labavr,0,9);
 
 }
 
@@ -650,6 +697,11 @@ void MainWindow::setupsignalslot(){
     QObject::connect(this, SIGNAL( BWscanONsignal(int, int) ), this, SLOT( BWfilterscanslot(int, int) ) );
     QObject::connect(this, SIGNAL( WLscanONsignal(int, int) ), this, SLOT( WLfilterscanslot(int, int) ) );
 
+    QObject::connect(ui->tab2showcurrent, SIGNAL(stateChanged(int)), this, SLOT(t2showcurrent(int)));
+    QObject::connect(ui->tab2showmin, SIGNAL(stateChanged(int)), this, SLOT(t2showmin(int)));
+    QObject::connect(ui->tab2showmax, SIGNAL(stateChanged(int)), this, SLOT(t2showmax(int)));
+    QObject::connect(ui->tab2showavr, SIGNAL(stateChanged(int)), this, SLOT(t2showavr(int)));
+
 
 }
 
@@ -786,7 +838,13 @@ void MainWindow::plotRates_tab2(const vectorInt32 &counters, double key){
         std::cout<<counters[i]<<"\t";
     }
     std::cout<<std::endl;*/
+
+
     for (int i=0;i<numberOfLogicPlots;i++) {
+
+        LogicCurrent[i]->display(counters[i]);
+        tab2data[i].prepend(counters[i]);
+
         if(trackTab2[i]){
             ui->PlotTab2->graph(i)->addData(key-lastPointKey_tab2, counters[i]);
             //ui->PlotTab2->graph(i)->addToLegend();
@@ -794,8 +852,22 @@ void MainWindow::plotRates_tab2(const vectorInt32 &counters, double key){
                 ui->PlotTab2->graph(i)->data()->clear();
                 CombiChang=false;
             }
+
         }
+        tab2data[i].resize(xrange, 0);
+
+        for (int j = 0; j < xrange; j++) {
+            if(tab2data[i][j]<t2min[i])t2min[i] = tab2data[i][j];
+            if(tab2data[i][j]>t2max[i])t2max[i] = tab2data[i][j];
+            t2avr[i]+=tab2data[i][j];
+        }
+
+        t2avr[i]=t2avr[i]/xrange;
+        LogicMin[i]->display(t2min[i]);
+        LogicMax[i]->display(t2max[i]);
+        LogicAvr[i]->display(t2avr[i]);
     }
+
 
     if(dbrunning && dbc.connection_succesfull ){
         if(in_homscan && prev_homscan<=in_Max_delay){
@@ -817,19 +889,6 @@ void MainWindow::plotRates_tab2(const vectorInt32 &counters, double key){
   //ui->PlotTab2->yAxis->rescale();
    ui->PlotTab2->replot();
 
-  /*  if(CombiChang ){
-        ui->PlotTab2->graph(0)->data()->clear();
-        CombiChang=false;
-    }
-    if(CombiChang){
-        ui->PlotTab2->graph(1)->data()->clear();
-        CombiChang=false;
-    }
-    if(CombiChang){
-        ui->PlotTab2->graph(2)->data()->clear();
-        CombiChang=false;
-    }*/
-//lastPointKey_tab2 = key;
 
 }
 
@@ -1729,6 +1788,11 @@ void MainWindow::AddLogicSelectorElement(){
 
     int i = numberOfLogicPlots;
 
+   qDebug()<<"index for all this hs  "<<i;
+    if(i>MAX_LOGIC){
+        qDebug()<<"reached the maximum number of logic plots: "<<MAX_LOGIC;
+        return;
+   }
     Windowlogic[i]= new tab2win(i);
 
     LogicTrack[i] = new QRadioButton(QString(QString::number(i)));
@@ -1769,15 +1833,34 @@ void MainWindow::AddLogicSelectorElement(){
         }
     }
 
-    LogicBox[i] = new QHBoxLayout();
-    LogicBox[i]->addWidget(LogicTrack[i]);
-    LogicBox[i]->addWidget(LogicL[i]);
+   LogicCurrent[i]= new QLCDNumber();
+   LogicCurrent[i]->setVisible(false);
+   LogicMin[i] = new QLCDNumber();
+   LogicMin[i]->setVisible(false);
+   LogicMax[i] = new QLCDNumber();
+   LogicMax[i]->setVisible(false);
+   LogicAvr[i] = new QLCDNumber();
+   LogicAvr[i]->setVisible(false);
 
-    LogicBox[i]->addWidget(LogicG[i]);
-    LogicBox[i]->addWidget(LogicR[i]);
+   /*LogicBox[i] = new QHBoxLayout();
+   LogicBox[i]->addWidget(LogicTrack[i]);
+   LogicBox[i]->addWidget(LogicL[i]);
+   LogicBox[i]->addWidget(LogicG[i]);
+   LogicBox[i]->addWidget(LogicR[i]);
+   LogicBox[i]->addWidget(LogicCurrent[i]);
+   LogicBox[i]->addWidget(LogicMin[i]);
+   LogicBox[i]->addWidget(LogicMax[i]);
+   LogicBox[i]->addWidget(LogicAvr[i]);*/
+   //ui->LogicSelector->addLayout(LogicBox[i]);
 
-
-    ui->LogicSelector->addLayout(LogicBox[i]);
+   ui->logicgrid->addWidget(LogicTrack[i],i+1,0);
+   ui->logicgrid->addWidget(LogicL[i], i+1, 1);
+   ui->logicgrid->addWidget(LogicG[i], i+1, 3);
+   ui->logicgrid->addWidget(LogicR[i],i+1,4);
+   ui->logicgrid->addWidget(LogicCurrent[i],i+1,6);
+   ui->logicgrid->addWidget(LogicMin[i],i+1,7);
+   ui->logicgrid->addWidget(LogicMax[i],i+1,8);
+   ui->logicgrid->addWidget(LogicAvr[i],i+1,9);
 
     numberOfLogicPlots++;
     anl.numberOfLogicPlots=this->numberOfLogicPlots;
@@ -1790,7 +1873,8 @@ void MainWindow::AddLogicSelectorWindowsL(QString t, int index){
     if((t.compare("PlotA")==0 || t.compare("PlotB")==0 || t.compare("PlotC")==0 || t.compare("PlotD")==0) && LogicWinL[index]==nullptr){
         LogicWinL[index] = new QComboBox();
         LogicWinL[index]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
-        LogicBox[index]->insertWidget(2, LogicWinL[index]);
+        //LogicBox[index]->insertWidget(2, LogicWinL[index]);
+        ui->logicgrid->addWidget(LogicWinL[index],index+1,2);
         QObject::connect(LogicWinL[index], SIGNAL(currentTextChanged(QString)), Windowlogic[index], SLOT(chang_LogicWinLparser(QString)));
         QObject::connect(Windowlogic[index], SIGNAL(chang_LogicWinL(QString, int)), &anl, SLOT(chang_LogicWinL(QString, int)));
         QObject::connect(Windowlogic[index], SIGNAL(chang_LogicWinL(QString, int)), this, SLOT(chang_LogicWinL(QString, int)));
@@ -1813,7 +1897,8 @@ void MainWindow::AddLogicSelectorWindowsR(QString t, int index){
    if((t.compare("PlotA")==0 || t.compare("PlotB")==0 || t.compare("PlotC")==0 || t.compare("PlotD")==0) && LogicWinR[index]==nullptr){
         LogicWinR[index] = new QComboBox();
         LogicWinR[index]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
-        LogicBox[index]->insertWidget(position, LogicWinR[index]);
+        //LogicBox[index]->insertWidget(position, LogicWinR[index]);
+        ui->logicgrid->addWidget(LogicWinR[index],index+1,5);
         QObject::connect(LogicWinR[index], SIGNAL(currentTextChanged(QString)), Windowlogic[index], SLOT(chang_LogicWinRparser(QString)));
         QObject::connect(Windowlogic[index], SIGNAL(chang_LogicWinR(QString, int)), &anl, SLOT(chang_LogicWinR(QString, int)));
         QObject::connect(Windowlogic[index], SIGNAL(chang_LogicWinR(QString, int)), this, SLOT(chang_LogicWinR(QString, int)));
@@ -2539,5 +2624,71 @@ void MainWindow::WLscanstep(int i){
     }else{
         qDebug()<<"wl scan end";
         WLscantimer[i]->stop();
+    }
+}
+
+
+
+
+
+void MainWindow::t2showcurrent(int a){
+    if(a){
+        for (int i = 0; i < numberOfLogicPlots; i++) {
+            LogicCurrent[i]->setVisible(true);
+            t2labcur->setVisible(true);
+        }
+    }
+    else{
+        for (int i = 0; i < numberOfLogicPlots; i++) {
+            LogicCurrent[i]->setVisible(false);
+            t2labcur->setVisible(false);
+
+        }
+    }
+}
+
+void MainWindow::t2showmin(int a){
+    if(a){
+        for (int i = 0; i < numberOfLogicPlots; i++) {
+            LogicMin[i]->setVisible(true);
+            t2labmin->setVisible(true);
+        }
+    }
+    else{
+        for (int i = 0; i < numberOfLogicPlots; i++) {
+            LogicMin[i]->setVisible(false);
+            t2labmin->setVisible(false);
+
+        }
+    }
+}
+void MainWindow::t2showmax(int a){
+    if(a){
+        for (int i = 0; i < numberOfLogicPlots; i++) {
+            LogicMax[i]->setVisible(true);
+            t2labmax->setVisible(true);
+        }
+    }
+    else{
+        for (int i = 0; i < numberOfLogicPlots; i++) {
+            LogicMax[i]->setVisible(false);
+            t2labmax->setVisible(false);
+
+        }
+    }
+}
+void MainWindow::t2showavr(int a){
+    if(a){
+        for (int i = 0; i < numberOfLogicPlots; i++) {
+            LogicAvr[i]->setVisible(true);
+            t2labavr->setVisible(true);
+        }
+    }
+    else{
+        for (int i = 0; i < numberOfLogicPlots; i++) {
+            LogicAvr[i]->setVisible(false);
+            t2labavr->setVisible(false);
+
+        }
     }
 }

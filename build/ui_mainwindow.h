@@ -14,9 +14,11 @@
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QDateTimeEdit>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QFrame>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLCDNumber>
 #include <QtWidgets/QLabel>
@@ -160,6 +162,7 @@ public:
     QVBoxLayout *verticalLayout_6;
     QHBoxLayout *horizontalLayout_3;
     QVBoxLayout *LogicSelector;
+    QGridLayout *logicgrid;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout_15;
     QCustomPlot *PlotTab2;
@@ -182,6 +185,9 @@ public:
     QLabel *label;
     QSlider *DBON;
     QPushButton *CreateTables;
+    QVBoxLayout *verticalLayout_25;
+    QPushButton *dbofftimer;
+    QDateTimeEdit *dateTimeEdit;
     QSpacerItem *verticalSpacer_2;
     QVBoxLayout *verticalLayout_22;
     QLabel *label_10;
@@ -1080,6 +1086,12 @@ public:
         LogicSelector = new QVBoxLayout();
         LogicSelector->setSpacing(6);
         LogicSelector->setObjectName("LogicSelector");
+        logicgrid = new QGridLayout();
+        logicgrid->setSpacing(6);
+        logicgrid->setObjectName("logicgrid");
+
+        LogicSelector->addLayout(logicgrid);
+
 
         horizontalLayout_3->addLayout(LogicSelector);
 
@@ -1201,6 +1213,26 @@ public:
         CreateTables->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         verticalLayout_16->addWidget(CreateTables);
+
+        verticalLayout_25 = new QVBoxLayout();
+        verticalLayout_25->setSpacing(6);
+        verticalLayout_25->setObjectName("verticalLayout_25");
+        verticalLayout_25->setContentsMargins(-1, 12, -1, -1);
+        dbofftimer = new QPushButton(verticalWidget);
+        dbofftimer->setObjectName("dbofftimer");
+        dbofftimer->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        verticalLayout_25->addWidget(dbofftimer);
+
+        dateTimeEdit = new QDateTimeEdit(verticalWidget);
+        dateTimeEdit->setObjectName("dateTimeEdit");
+        dateTimeEdit->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+        dateTimeEdit->setDateTime(QDateTime(QDate(1999, 12, 31), QTime(16, 0, 0)));
+
+        verticalLayout_25->addWidget(dateTimeEdit);
+
+
+        verticalLayout_16->addLayout(verticalLayout_25);
 
         verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -1550,6 +1582,7 @@ public:
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(conf), QCoreApplication::translate("MainWindow", "Parameters", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Connect to DB", nullptr));
         CreateTables->setText(QCoreApplication::translate("MainWindow", "Create tables", nullptr));
+        dbofftimer->setText(QCoreApplication::translate("MainWindow", "Set DB off timer", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "Current tables:", nullptr));
         tabledisplay1->setText(QString());
         tabledisplay2->setText(QString());

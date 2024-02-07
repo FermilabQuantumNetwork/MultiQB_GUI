@@ -110,7 +110,7 @@ private slots:
   void Chang_homscan_time(double val){in_homscan_time=val;}
   void Chang_homscan(int val);
 
-  void chang_tab2range(int val){xrange=val;}
+  void chang_tab2range(int val){if(val<MAX_T2LOGIC_PLOT)xrange=val;}
 
 
    void resetdelay(){in_delayline=0;prev_homscan=0;}
@@ -208,6 +208,12 @@ private slots:
    void WLscanstep(int);
    void BWscanstep(int);
 
+   void t2showcurrent(int a);
+   void t2showmin(int a);
+   void t2showmax(int a);
+   void t2showavr(int a);
+
+
 
 private:
 
@@ -280,6 +286,13 @@ private:
  bool RoF[5];
  int logar[4];
 
+ QList<int> tab2data[MAX_LOGIC];
+
+ int t2min[MAX_LOGIC]={0};
+ //int t2minindex=0;
+ int t2max[MAX_LOGIC]={0};
+ //int t2maxindex=0;
+ float t2avr[MAX_LOGIC]={0};
  //////lines///////////////
 
    QCPItemStraightLine *LinesPlotA[MAX_WIN][MAX_QUBITS*2];
@@ -318,6 +331,10 @@ private:
    QButtonGroup tab2buttongroup;
    QComboBox *LogicWinR[MAX_LOGIC]={nullptr};
    QComboBox *LogicWinL[MAX_LOGIC]={nullptr};
+   QLCDNumber *LogicCurrent[MAX_LOGIC];
+   QLCDNumber *LogicMin[MAX_LOGIC];
+   QLCDNumber *LogicMax[MAX_LOGIC];
+   QLCDNumber *LogicAvr[MAX_LOGIC];
 
    tab2win *Windowlogic[MAX_LOGIC]={nullptr};
 
@@ -373,6 +390,16 @@ private:
 
    QTimer *BWscantimer[MAX_N_FILTERS];
    QTimer *WLscantimer[MAX_N_FILTERS];
+
+   QLabel* t2lableftp;
+   QLabel *t2lableftw;
+   QLabel *t2lablogic;
+   QLabel *t2labrightp;
+   QLabel *t2labrightw;
+   QLabel *t2labcur;
+   QLabel *t2labmin;
+   QLabel *t2labmax;
+   QLabel *t2labavr;
 
 signals:
 
