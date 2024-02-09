@@ -2395,6 +2395,7 @@ void MainWindow::addfilterMW(){
     filterWavel[i]->setSingleStep(0.5);
     filterWavel[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     QObject::connect(filterWavel[i], &QDoubleSpinBox::valueChanged,[this, i](double wavel) {emit MWFilterWLChange(wavel, i);});
+    filterWavel[i]->setValue(1536);
     FilterFormLayout->addWidget(filterWavel[i],1,1);
 
     ///BW label - BW set
@@ -2409,6 +2410,7 @@ void MainWindow::addfilterMW(){
     filterBandw[i]->setSingleStep(1);
     filterBandw[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     QObject::connect(filterBandw[i], &QSpinBox::valueChanged,[this, i](int bandw) {emit MWFilterBWChange(bandw, i);});
+    filterBandw[i]->setValue(100);
     FilterFormLayout->addWidget(filterBandw[i],1,2);
 
     /////second row, WL scan with 5 elements (+labels): scanSlider, min, max,step, step duration
