@@ -16,6 +16,16 @@ public:
     ~EXFO_Filters();
     int NofFilters = 0;
     QString filterips[MAX_N_FILTERS] = {""};
+    int filterBWDef[MAX_N_FILTERS] = {0};
+    double filterWLDef[MAX_N_FILTERS] = {0};
+    int filterBWScanMinDef[MAX_N_FILTERS] = {0};
+    double filterWLScanMinDef[MAX_N_FILTERS] = {0};
+    int filterBWScanMaxDef[MAX_N_FILTERS] = {0};
+    double filterWLScanMaxDef[MAX_N_FILTERS] = {0};
+    int filterBWScanStepSizeDef[MAX_N_FILTERS] = {0};
+    double filterWLScanStepSizeDef[MAX_N_FILTERS] = {0};
+    double filterBWScanStepDurDef[MAX_N_FILTERS] = {0};
+    double filterWLScanStepDurDef[MAX_N_FILTERS] = {0};
 
 private:
 

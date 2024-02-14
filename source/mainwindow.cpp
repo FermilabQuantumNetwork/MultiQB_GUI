@@ -859,16 +859,20 @@ void MainWindow::plotRates_tab2(const vectorInt32 &counters, double key){
         }
         tab2data[i].resize(xrange, 0);
 
-        for (int j = 0; j < xrange; j++) {
+    /*    for (int j = 0; j < xrange; j++) {
             if(tab2data[i][j]<t2min[i])t2min[i] = tab2data[i][j];
             if(tab2data[i][j]>t2max[i])t2max[i] = tab2data[i][j];
             t2avr[i]+=tab2data[i][j];
         }
+*/
+        double t2min = *std::min_element(tab2data[i].begin(),tab2data[i].end());
+        double t2max = *std::max_element(tab2data[i].begin(), tab2data[i].end());
+        double t2avr = std::accumulate(tab2data[i].begin(), tab2data[i].end(), 0.0) / tab2data[i].size();
 
-        t2avr[i]=t2avr[i]/xrange;
-        LogicMin[i]->display(t2min[i]);
-        LogicMax[i]->display(t2max[i]);
-        LogicAvr[i]->display(t2avr[i]);
+        //t2avr[i]=t2avr[i]/xrange;
+        LogicMin[i]->display(t2min);
+        LogicMax[i]->display(t2max);
+        LogicAvr[i]->display(t2avr);
     }
 
 
@@ -1195,18 +1199,19 @@ void MainWindow::SaveState(bool a){
 }
 
 bool MainWindow::LoadPrevoiusSeason(bool a){
-    std::cout<<"loading previous season parameters"<<std::endl;
+
+
     QString fileName = "LastSeasonVariables.conf";
     if (fileName.isEmpty())return 1;
 
     QFile file(fileName);
 
     if (!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::information(this, tr("Unable to open file"),
+        QMessageBox::information(this, tr("Unable to open file for the paremeters"),
         file.errorString());
         return 1;
     }
-
+    else  std::cout<<"loading previous season parameters"<<std::endl;
 
 
     QMap<QString, int> mapintout;
@@ -1271,7 +1276,11 @@ bool MainWindow::LoadPrevoiusSeason(bool a){
         if(mapstringout.contains(wordrofMW))rofMW[i]=mapstringout.value(wordrofMW);
     }
 
-     std::cout<<"parameters loaded"<<std::endl;
+    // std::cout<<"parameters loaded"<<std::endl;
+    file.close();
+
+
+
     return 0;
 }
 
@@ -1347,6 +1356,7 @@ void MainWindow::SaveSeason(bool a){
     out<<mapdouble;
     out<<mapstring;
 
+    file.close();
    // LoadState(1);
 }
 
@@ -2340,6 +2350,21 @@ void MainWindow::connectOVDLmw(){
 
 void MainWindow::addfilterMW(){
 
+
+    /*
+    double filterBWDef[MAX_N_FILTERS] = {0};
+    double filterWLDef[MAX_N_FILTERS] = {0};
+    double filterBWScanMinDef[MAX_N_FILTERS] = {0};
+    double filterWLScanMinDef[MAX_N_FILTERS] = {0};
+    double filterBWScanMaxDef[MAX_N_FILTERS] = {0};
+    double filterWLScanMaxDef[MAX_N_FILTERS] = {0};
+    double filterBWScanStepSizeDef[MAX_N_FILTERS] = {0};
+    double filterWLScanStepSizeDef[MAX_N_FILTERS] = {0};
+    double filterBWScanStepDurDef[MAX_N_FILTERS] = {0};
+    double filterWLScanStepDurDef[MAX_N_FILTERS] = {0};
+*/
+
+
     if(numberOfFilters<MAX_N_FILTERS)numberOfFilters++;
     else return;
     int i = numberOfFilters-1;
@@ -2395,7 +2420,7 @@ void MainWindow::addfilterMW(){
     filterWavel[i]->setSingleStep(0.5);
     filterWavel[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     QObject::connect(filterWavel[i], &QDoubleSpinBox::valueChanged,[this, i](double wavel) {emit MWFilterWLChange(wavel, i);});
-    filterWavel[i]->setValue(1536);
+    filterWavel[i]->setValue(EXFOfilters.filterWLDef[i]);
     FilterFormLayout->addWidget(filterWavel[i],1,1);
 
     ///BW label - BW set
@@ -2410,7 +2435,7 @@ void MainWindow::addfilterMW(){
     filterBandw[i]->setSingleStep(1);
     filterBandw[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     QObject::connect(filterBandw[i], &QSpinBox::valueChanged,[this, i](int bandw) {emit MWFilterBWChange(bandw, i);});
-    filterBandw[i]->setValue(100);
+    filterBandw[i]->setValue(EXFOfilters.filterBWDef[i]);
     FilterFormLayout->addWidget(filterBandw[i],1,2);
 
     /////second row, WL scan with 5 elements (+labels): scanSlider, min, max,step, step duration
@@ -2448,7 +2473,7 @@ void MainWindow::addfilterMW(){
     WLscanMin[i]->setSingleStep(1);
     WLscanMin[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     FilterWLGridLayout->addWidget(WLscanMin[i],1,1);
-
+    WLscanMin[i]->setValue(EXFOfilters.filterWLScanMinDef[i]);
     /////WL scan max
 
     WLscanMax[i] = new QDoubleSpinBox();
@@ -2459,7 +2484,7 @@ void MainWindow::addfilterMW(){
     WLscanMax[i]->setSingleStep(1);
     WLscanMax[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     FilterWLGridLayout->addWidget(WLscanMax[i],1,2);
-
+    WLscanMax[i]->setValue(EXFOfilters.filterWLScanMaxDef[i]);
     ////WL scan step size
 
     WLscanstepsize[i] = new QDoubleSpinBox();
@@ -2470,6 +2495,7 @@ void MainWindow::addfilterMW(){
     WLscanstepsize[i]->setSingleStep(1);
     WLscanstepsize[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     FilterWLGridLayout->addWidget(WLscanstepsize[i],1,3);
+    WLscanstepsize[i]->setValue(EXFOfilters.filterWLScanStepSizeDef[i]);
 
     ///WL scan step duration
 
@@ -2481,6 +2507,7 @@ void MainWindow::addfilterMW(){
     WLscanstepduration[i]->setSingleStep(1);
     WLscanstepduration[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     FilterWLGridLayout->addWidget(WLscanstepduration[i],1,4);
+    WLscanstepduration[i]->setValue(EXFOfilters.filterWLScanStepDurDef[i]);
 
     ///add the grid layout with the scan elements to the secon row layout
     filterWLscanLayout->addLayout(FilterWLGridLayout);
@@ -2524,6 +2551,7 @@ void MainWindow::addfilterMW(){
     BWscanMin[i]->setSingleStep(1);
     BWscanMin[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     FilterBWGridLayout->addWidget(BWscanMin[i],1,1);
+    BWscanMin[i]->setValue(EXFOfilters.filterBWScanMinDef[i]);
 
     /////BW scan max
 
@@ -2535,6 +2563,7 @@ void MainWindow::addfilterMW(){
     BWscanMax[i]->setSingleStep(1);
     BWscanMax[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     FilterBWGridLayout->addWidget(BWscanMax[i],1,2);
+    BWscanMax[i]->setValue(EXFOfilters.filterBWScanMaxDef[i]);
 
     ////BW scan step size
 
@@ -2546,6 +2575,8 @@ void MainWindow::addfilterMW(){
     BWscanstepsize[i]->setSingleStep(1);
     BWscanstepsize[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     FilterBWGridLayout->addWidget(BWscanstepsize[i],1,3);
+    BWscanstepsize[i]->setValue(EXFOfilters.filterBWScanStepSizeDef[i]);
+
 
     ///BW scan step duration
 
@@ -2557,9 +2588,12 @@ void MainWindow::addfilterMW(){
     BWscanstepduration[i]->setSingleStep(1);
     BWscanstepduration[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     FilterBWGridLayout->addWidget(BWscanstepduration[i],1,4);
+    BWscanstepduration[i]->setValue(EXFOfilters.filterBWScanStepDurDef[i]);
 
     ///add the grid layout with the scan elements to the secon row layout
     filterBWscanLayout->addLayout(FilterBWGridLayout);
+
+
 
 }
 
@@ -2584,7 +2618,6 @@ void MainWindow::BWfilterscanslot(int signal, int i){
     filterBandw[i]->setValue(BWscanMin[i]->value());
     if(BWscantimer[i]!=nullptr && signal==0){
         BWscantimer[i]->stop();
-        delete BWscantimer[i];
     }
     if(BWscantimer[i]==nullptr && signal){
         BWscantimer[i] = new QTimer(this);
@@ -2601,7 +2634,6 @@ void MainWindow::WLfilterscanslot(int signal, int i){
     filterWavel[i]->setValue(WLscanMin[i]->value());
     if(WLscantimer[i]!=nullptr && signal==0){
         WLscantimer[i]->stop();
-        delete WLscantimer[i];
     }
     if(WLscantimer[i]==nullptr && signal){
         WLscantimer[i] = new QTimer(this);

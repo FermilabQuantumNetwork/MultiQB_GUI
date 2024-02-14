@@ -98,7 +98,7 @@ void GUI_param::QKD_setDefault(){
 }
 
 bool GUI_param::LoadPrevoiusSeason(bool a){
-    std::cout<<"loading previous season parameters <<qubits>>"<<std::endl;
+
     QString fileName = "LastSeasonVariables.conf";
     if (fileName.isEmpty())return 1;
 
@@ -108,7 +108,7 @@ bool GUI_param::LoadPrevoiusSeason(bool a){
         std::cout<<"Unable to open file"<<std::endl;
         return 1;
     }
-
+    std::cout<<"loading previous season parameters <<qubits>>"<<std::endl;
     QMap<QString, int> mapintout;
     QMap<QString, double> mapdoubleout;
     QDataStream in(&file);
@@ -170,6 +170,7 @@ bool GUI_param::LoadPrevoiusSeason(bool a){
     if(mapintout.contains("QKD_zeroD"))ui->QKD_zeroD->setValue(mapintout.value("QKD_zeroD"));
     else ui->QKD_zeroD->setValue(0);
 
+    file.close();
     return 0;
 }
 

@@ -1,12 +1,92 @@
 #include "exfo_filters.h"
+#include <iostream>
 
 EXFO_Filters::EXFO_Filters()
 {
-    filterips[0] = EXFO_IP1;
-    filterips[1] = EXFO_IP2;
+    //filterips[0] = EXFO_IP1;
+    //filterips[1] = EXFO_IP2;
 
     readlambda = new QRegularExpression("^LAMBDA=(?<value>([0-9]*[.])?[0-9]+)\r\n$");
     readfwhm = new QRegularExpression("^FWHM=(?<value>([0-9]*[.])?[0-9]+)\r\n$");
+
+
+    QString val;
+    QFile file("exfofilters.json");
+
+    if(file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        val = file.readAll();
+        file.close();
+
+
+        QJsonParseError jsonError;
+        QJsonDocument jd = QJsonDocument::fromJson( val.toUtf8(), &jsonError );
+        if( jsonError.error != QJsonParseError::NoError )
+        {
+            std::cout << "fromJson failed: " << jsonError.errorString().toStdString() << std::endl;
+            return ;
+        }
+        if( jd.isObject() )
+        {
+            QJsonObject filterj = jd.object();
+            QJsonValue filterjv[MAX_N_FILTERS];
+            QJsonObject filterobj[MAX_N_FILTERS];
+            QJsonValue  filteripv[MAX_N_FILTERS];
+            QJsonValue  filterBWv[MAX_N_FILTERS];
+            QJsonValue  filterWLv[MAX_N_FILTERS];
+            QJsonValue  filterWLminv[MAX_N_FILTERS];
+            QJsonValue  filterWLmaxv[MAX_N_FILTERS];
+            QJsonValue  filterWLsdv[MAX_N_FILTERS];
+            QJsonValue  filterWLssv[MAX_N_FILTERS];
+            QJsonValue  filterBWminv[MAX_N_FILTERS];
+            QJsonValue  filterBWmaxv[MAX_N_FILTERS];
+            QJsonValue  filterBWsdv[MAX_N_FILTERS];
+            QJsonValue  filterBWssv[MAX_N_FILTERS];
+
+
+            for (int i = 0;  i < MAX_N_FILTERS; i++) {
+                filterjv[i] = filterj.value("filter"+QString::number(i+1));
+                filterobj[i] =  filterjv[i].toObject();
+
+                filteripv[i] = filterobj[i].value("ip");
+                filterips[i] = filteripv[i].toString();
+                //qDebug()<<filterips[i];
+
+                filterBWv[i] = filterobj[i].value("defaultBW");
+                filterBWDef[i]= filterBWv[i].toDouble();
+
+                filterWLv[i] = filterobj[i].value("defaultWL");
+                filterWLDef[i]= filterWLv[i].toDouble();
+
+                filterBWminv[i] = filterobj[i].value("defaultBWScanMin");
+                filterBWScanMinDef[i] = filterBWminv[i].toInt();
+                filterWLminv[i] = filterobj[i].value("defaultWLScanMin");
+                filterWLScanMinDef[i] = filterWLminv[i].toDouble();
+
+                filterBWmaxv[i] = filterobj[i].value("defaultBWScanMax");
+                filterBWScanMaxDef[i] = filterBWmaxv[i].toInt();
+                filterWLmaxv[i] = filterobj[i].value("defaultWLScanMax");
+                filterWLScanMaxDef[i] = filterWLmaxv[i].toDouble();
+
+                filterBWssv[i] = filterobj[i].value("defaultBWScanStepSize");
+                filterBWScanStepSizeDef[i] = filterBWssv[i].toInt();
+                filterWLssv[i] = filterobj[i].value("defaultWLScanStepSize");
+                filterWLScanStepSizeDef[i] = filterWLssv[i].toDouble();
+                //qDebug()<<filterWLssv[i].toString();
+                //qDebug()<<filterWLssv[i].toDouble();
+                filterBWsdv[i] = filterobj[i].value("defaultBWScanStepDur");
+                filterBWScanStepDurDef[i] = filterBWsdv[i].toDouble();
+                filterWLsdv[i] = filterobj[i].value("defaultWLScanStepDur");
+                filterWLScanStepDurDef[i] = filterWLsdv[i].toDouble();
+
+
+            }
+        }
+
+
+
+    }
+    else qDebug()<<"unable to read database json file";
+
 
 }
 

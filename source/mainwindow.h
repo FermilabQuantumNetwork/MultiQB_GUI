@@ -290,11 +290,11 @@ private:
 
  QList<int> tab2data[MAX_LOGIC];
 
- int t2min[MAX_LOGIC]={0};
+ //int t2min[MAX_LOGIC]={0};
  //int t2minindex=0;
- int t2max[MAX_LOGIC]={0};
+ //int t2max[MAX_LOGIC]={0};
  //int t2maxindex=0;
- float t2avr[MAX_LOGIC]={0};
+ //float t2avr[MAX_LOGIC]={0};
  //////lines///////////////
 
    QCPItemStraightLine *LinesPlotA[MAX_WIN][MAX_QUBITS*2];
