@@ -217,6 +217,10 @@ void timetaggerUltra::updateChannels(){
     //setHistograms();
 }
 
+void timetaggerUltra::Chang_delay(double d, int ch){
+    t->setInputDelay(TTUChannelsinuse[ch], d);
+}
+
 
 /*void timetaggerUltra::setHistogramsParam(){
     for(int i = 0; i<NTTUCHANNELS; i++){

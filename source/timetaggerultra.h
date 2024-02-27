@@ -54,7 +54,7 @@ public slots:
 
     void Chang_in_thch(double voltage, int channel){t->setTriggerLevel(TTUChannelsinuse[channel],voltage);thresholds[channel]=voltage;}
     void Chang_rof(QString text, int ch){if(text=="RISE")RoF[ch]=1;else RoF[ch]=-1;updateChannels();this->GoUpdateHisto=true;GoUpdateStream =true;}
-    void Chang_delay(double d, int ch){t->setInputDelay(TTUChannelsinuse[ch], d);}
+    void Chang_delay(double d, int ch);
 
 private:
     TimeTagger *t;

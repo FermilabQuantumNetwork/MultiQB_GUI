@@ -2320,7 +2320,7 @@ void MainWindow::TTU_paremetes_setup(){
         delLabTTU[i] = new QLabel(tr("Delay ch ")+QString::number(i));
         delLabTTU[i]->setStyleSheet("color: rgb(238, 238, 236)");
         delayTTU[i] = new QDoubleSpinBox();
-        delayTTU[i]->setMaximum(1000000);
+        delayTTU[i]->setMaximum(100000000);
         delayTTU[i]->setMinimum(-1000000);
         delayTTU[i]->setDecimals(0);
         delayTTU[i]->setSuffix(" [ps]");
@@ -2349,20 +2349,6 @@ void MainWindow::connectOVDLmw(){
 
 
 void MainWindow::addfilterMW(){
-
-
-    /*
-    double filterBWDef[MAX_N_FILTERS] = {0};
-    double filterWLDef[MAX_N_FILTERS] = {0};
-    double filterBWScanMinDef[MAX_N_FILTERS] = {0};
-    double filterWLScanMinDef[MAX_N_FILTERS] = {0};
-    double filterBWScanMaxDef[MAX_N_FILTERS] = {0};
-    double filterWLScanMaxDef[MAX_N_FILTERS] = {0};
-    double filterBWScanStepSizeDef[MAX_N_FILTERS] = {0};
-    double filterWLScanStepSizeDef[MAX_N_FILTERS] = {0};
-    double filterBWScanStepDurDef[MAX_N_FILTERS] = {0};
-    double filterWLScanStepDurDef[MAX_N_FILTERS] = {0};
-*/
 
 
     if(numberOfFilters<MAX_N_FILTERS)numberOfFilters++;
