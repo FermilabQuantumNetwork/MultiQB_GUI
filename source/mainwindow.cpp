@@ -678,6 +678,7 @@ void MainWindow::setupsignalslot(){
     QObject::connect(this, SIGNAL( MWChang_TTU_delay(double, int)), this, SLOT(Chang_delayTTUMain(double, int)));
 
     QObject::connect(ui->actioninit_TTU, SIGNAL(triggered(bool)), this, SLOT(runTTU(bool)));
+    QObject::connect(ui->actioninit_TTX, SIGNAL(triggered(bool)), this, SLOT(runTTX(bool)));
 
     QObject::connect(ui->connect_OVDL, SIGNAL(released()), this, SLOT(connectOVDLmw()));
 
@@ -2332,10 +2333,20 @@ void MainWindow::TTU_paremetes_setup(){
 }
 
 void MainWindow::runTTU(bool a){
+    TTU1.SetTTResStd();
     if(!TTU1.isRunning()){
         TTU1.start();
     }
 }
+
+
+void MainWindow::runTTX(bool a){
+    TTU1.SetTTResB();
+    if(!TTU1.isRunning()){
+        TTU1.start();
+    }
+}
+
 
 void MainWindow::connectOVDLmw(){
 

@@ -191,6 +191,7 @@ private slots:
 
    void runQutag(bool a);
    void runTTU(bool a);
+   void runTTX(bool a);
 
    void connectOVDLmw();
 

@@ -207,6 +207,8 @@ void timetaggerUltra::setHistograms(){
 void timetaggerUltra::updateChannels(){
 
     if(TTURes == Resolution::HighResA)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{1,3,5,7}
+    if(TTURes == Resolution::HighResB)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{1,5,10,14}
+    if(TTURes == Resolution::HighResC)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{5,14,"9,18"}
     if(TTURes == Resolution::Standard)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i+1);//{1,2,3,4}
     for(int i = 0; i< NTTUCHANNELS; i++)std::cout<<TTUChannelsinuse[i]<<std::endl;
 

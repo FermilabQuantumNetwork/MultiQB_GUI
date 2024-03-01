@@ -42,6 +42,10 @@ public:
 
 public slots:
 
+    void SetTTResStd(){this->TTURes = Resolution::Standard;}
+    void SetTTResA(){this->TTURes = Resolution::HighResA;}
+    void SetTTResB(){this->TTURes = Resolution::HighResB;}
+    void SetTTResC(){this->TTURes = Resolution::HighResC;}
     void Chang_in_binsinplot(int val){this->in_binsinplot=val;this->GoUpdateHisto=true;}
     void Chang_in_binWidth(int val){this->in_binWidth=val;this->GoUpdateHisto=true;}
     void Chang_in_histStart(int val){this->in_histStart=val;}

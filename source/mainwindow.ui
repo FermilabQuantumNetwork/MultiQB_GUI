@@ -2255,6 +2255,7 @@
     <addaction name="actioninit_Qutag"/>
     <addaction name="separator"/>
     <addaction name="actioninit_TTU"/>
+    <addaction name="actioninit_TTX"/>
     <addaction name="separator"/>
     <addaction name="actionLoad_state"/>
     <addaction name="actionSave_state"/>
@@ -2296,6 +2297,11 @@
   <action name="actioninit_TTU">
    <property name="text">
     <string>init TTU</string>
+   </property>
+  </action>
+  <action name="actioninit_TTX">
+   <property name="text">
+    <string>init TTX</string>
    </property>
   </action>
  </widget>
