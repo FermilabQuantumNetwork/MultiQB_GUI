@@ -677,8 +677,15 @@ void MainWindow::setupsignalslot(){
     QObject::connect(this, SIGNAL( MWChang_TTU_delay(double, int)), &TTU1, SLOT(Chang_delay(double, int)));
     QObject::connect(this, SIGNAL( MWChang_TTU_delay(double, int)), this, SLOT(Chang_delayTTUMain(double, int)));
 
-    QObject::connect(ui->actioninit_TTU, SIGNAL(triggered(bool)), this, SLOT(runTTU(bool)));
-    QObject::connect(ui->actioninit_TTX, SIGNAL(triggered(bool)), this, SLOT(runTTX(bool)));
+    QObject::connect(ui->actionTTURes_Std, SIGNAL(triggered(bool)), this, SLOT(TTURes_Std(bool)));
+    QObject::connect(ui->actionTTURes_A, SIGNAL(triggered(bool)), this, SLOT(TTURes_A(bool)));
+    QObject::connect(ui->actionTTURes_B, SIGNAL(triggered(bool)), this, SLOT(TTURes_B(bool)));
+    QObject::connect(ui->actionTTURes_C, SIGNAL(triggered(bool)), this, SLOT(TTURes_C(bool)));
+
+    QObject::connect(ui->actionTTXRes_Std, SIGNAL(triggered(bool)), this, SLOT(TTXRes_Std(bool)));
+    QObject::connect(ui->actionTTXRes_B, SIGNAL(triggered(bool)), this, SLOT(TTXRes_B(bool)));
+
+
 
     QObject::connect(ui->connect_OVDL, SIGNAL(released()), this, SLOT(connectOVDLmw()));
 
@@ -2332,15 +2339,39 @@ void MainWindow::TTU_paremetes_setup(){
     }
 }
 
-void MainWindow::runTTU(bool a){
+
+void MainWindow::TTURes_Std(bool a){
     TTU1.SetTTResStd();
     if(!TTU1.isRunning()){
         TTU1.start();
     }
 }
+void MainWindow::TTURes_A(bool a){
+    TTU1.SetTTResA();
+    if(!TTU1.isRunning()){
+        TTU1.start();
+    }
+}
+void MainWindow::TTURes_B(bool a){
+    TTU1.SetTTResB();
+    if(!TTU1.isRunning()){
+        TTU1.start();
+    }
+}
+void MainWindow::TTURes_C(bool a){
+    TTU1.SetTTResC();
+    if(!TTU1.isRunning()){
+        TTU1.start();
+    }
+}
 
-
-void MainWindow::runTTX(bool a){
+void MainWindow::TTXRes_Std(bool a){
+    TTU1.SetTTResStd();
+    if(!TTU1.isRunning()){
+        TTU1.start();
+    }
+}
+void MainWindow::TTXRes_B(bool a){
     TTU1.SetTTResB();
     if(!TTU1.isRunning()){
         TTU1.start();

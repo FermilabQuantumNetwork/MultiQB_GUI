@@ -43,7 +43,7 @@ without averaging. The number of channels available will be limited to the numbe
 
 
     try{
-        t = createTimeTagger("", TTURes);//{1,3,5,7}
+        t = createTimeTagger("", TTURes);
     }
     catch (std::invalid_argument const& ex){
         std::cout << "#1: " << ex.what() << '\n';
@@ -206,7 +206,13 @@ void timetaggerUltra::setHistograms(){
 
 void timetaggerUltra::updateChannels(){
 
-    if(TTURes == Resolution::HighResA)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{1,3,5,7}
+    //if(TTURes == Resolution::HighResA)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{1,3,5,7}
+    if(TTURes == Resolution::HighResA){
+        TTUChannelsinuse[0]=RoF[0]*1;
+        TTUChannelsinuse[1]=RoF[1]*3;
+        TTUChannelsinuse[2]=RoF[2]*7;
+        TTUChannelsinuse[3]=RoF[3]*10;
+    }
     if(TTURes == Resolution::HighResB)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{1,5,10,14}
     if(TTURes == Resolution::HighResC)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{5,14,"9,18"}
     if(TTURes == Resolution::Standard)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i+1);//{1,2,3,4}

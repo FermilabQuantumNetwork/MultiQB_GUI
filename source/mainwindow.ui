@@ -2251,11 +2251,27 @@
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuinit_TTU">
+     <property name="title">
+      <string>init TTU</string>
+     </property>
+     <addaction name="actionTTURes_Std"/>
+     <addaction name="actionTTURes_A"/>
+     <addaction name="actionTTURes_B"/>
+     <addaction name="actionTTURes_C"/>
+    </widget>
+    <widget class="QMenu" name="menuinit_TTX">
+     <property name="title">
+      <string>init TTX</string>
+     </property>
+     <addaction name="actionTTXRes_Std"/>
+     <addaction name="actionTTXRes_B"/>
+    </widget>
     <addaction name="separator"/>
     <addaction name="actioninit_Qutag"/>
     <addaction name="separator"/>
-    <addaction name="actioninit_TTU"/>
-    <addaction name="actioninit_TTX"/>
+    <addaction name="menuinit_TTU"/>
+    <addaction name="menuinit_TTX"/>
     <addaction name="separator"/>
     <addaction name="actionLoad_state"/>
     <addaction name="actionSave_state"/>
@@ -2294,14 +2310,34 @@
     <string>init Qutag</string>
    </property>
   </action>
-  <action name="actioninit_TTU">
+  <action name="actionTTURes_Std">
    <property name="text">
-    <string>init TTU</string>
+    <string>Res. Std</string>
    </property>
   </action>
-  <action name="actioninit_TTX">
+  <action name="actionTTURes_A">
    <property name="text">
-    <string>init TTX</string>
+    <string>Res. A</string>
+   </property>
+  </action>
+  <action name="actionTTURes_B">
+   <property name="text">
+    <string>Res. B</string>
+   </property>
+  </action>
+  <action name="actionTTURes_C">
+   <property name="text">
+    <string>Res. C</string>
+   </property>
+  </action>
+  <action name="actionTTXRes_Std">
+   <property name="text">
+    <string>Res. Std.</string>
+   </property>
+  </action>
+  <action name="actionTTXRes_B">
+   <property name="text">
+    <string>Res. B</string>
    </property>
   </action>
  </widget>

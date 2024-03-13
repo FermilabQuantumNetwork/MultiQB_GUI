@@ -44,7 +44,12 @@ public:
     QAction *actionQKD;
     QAction *action7;
     QAction *actioninit_Qutag;
-    QAction *actioninit_TTU;
+    QAction *actionTTURes_Std;
+    QAction *actionTTURes_A;
+    QAction *actionTTURes_B;
+    QAction *actionTTURes_C;
+    QAction *actionTTXRes_Std;
+    QAction *actionTTXRes_B;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QTabWidget *horizontalTabWidget;
@@ -233,6 +238,8 @@ public:
     QSpacerItem *horizontalSpacer_3;
     QMenuBar *menuBar;
     QMenu *menuconfig_n;
+    QMenu *menuinit_TTU;
+    QMenu *menuinit_TTX;
     QMenu *menuEdit;
 
     void setupUi(QMainWindow *MainWindow)
@@ -255,8 +262,18 @@ public:
         action7->setObjectName("action7");
         actioninit_Qutag = new QAction(MainWindow);
         actioninit_Qutag->setObjectName("actioninit_Qutag");
-        actioninit_TTU = new QAction(MainWindow);
-        actioninit_TTU->setObjectName("actioninit_TTU");
+        actionTTURes_Std = new QAction(MainWindow);
+        actionTTURes_Std->setObjectName("actionTTURes_Std");
+        actionTTURes_A = new QAction(MainWindow);
+        actionTTURes_A->setObjectName("actionTTURes_A");
+        actionTTURes_B = new QAction(MainWindow);
+        actionTTURes_B->setObjectName("actionTTURes_B");
+        actionTTURes_C = new QAction(MainWindow);
+        actionTTURes_C->setObjectName("actionTTURes_C");
+        actionTTXRes_Std = new QAction(MainWindow);
+        actionTTXRes_Std->setObjectName("actionTTXRes_Std");
+        actionTTXRes_B = new QAction(MainWindow);
+        actionTTXRes_B->setObjectName("actionTTXRes_B");
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName("centralWidget");
         centralWidget->setLayoutDirection(Qt::LeftToRight);
@@ -1502,6 +1519,10 @@ public:
         menuconfig_n = new QMenu(menuBar);
         menuconfig_n->setObjectName("menuconfig_n");
         menuconfig_n->setFont(font);
+        menuinit_TTU = new QMenu(menuconfig_n);
+        menuinit_TTU->setObjectName("menuinit_TTU");
+        menuinit_TTX = new QMenu(menuconfig_n);
+        menuinit_TTX->setObjectName("menuinit_TTX");
         menuEdit = new QMenu(menuBar);
         menuEdit->setObjectName("menuEdit");
         MainWindow->setMenuBar(menuBar);
@@ -1511,10 +1532,17 @@ public:
         menuconfig_n->addSeparator();
         menuconfig_n->addAction(actioninit_Qutag);
         menuconfig_n->addSeparator();
-        menuconfig_n->addAction(actioninit_TTU);
+        menuconfig_n->addAction(menuinit_TTU->menuAction());
+        menuconfig_n->addAction(menuinit_TTX->menuAction());
         menuconfig_n->addSeparator();
         menuconfig_n->addAction(actionLoad_state);
         menuconfig_n->addAction(actionSave_state);
+        menuinit_TTU->addAction(actionTTURes_Std);
+        menuinit_TTU->addAction(actionTTURes_A);
+        menuinit_TTU->addAction(actionTTURes_B);
+        menuinit_TTU->addAction(actionTTURes_C);
+        menuinit_TTX->addAction(actionTTXRes_Std);
+        menuinit_TTX->addAction(actionTTXRes_B);
         menuEdit->addAction(actionQKD);
 
         retranslateUi(MainWindow);
@@ -1533,7 +1561,12 @@ public:
         actionQKD->setText(QCoreApplication::translate("MainWindow", "Lines", nullptr));
         action7->setText(QCoreApplication::translate("MainWindow", "7", nullptr));
         actioninit_Qutag->setText(QCoreApplication::translate("MainWindow", "init Qutag", nullptr));
-        actioninit_TTU->setText(QCoreApplication::translate("MainWindow", "init TTU", nullptr));
+        actionTTURes_Std->setText(QCoreApplication::translate("MainWindow", "Res. Std", nullptr));
+        actionTTURes_A->setText(QCoreApplication::translate("MainWindow", "Res. A", nullptr));
+        actionTTURes_B->setText(QCoreApplication::translate("MainWindow", "Res. B", nullptr));
+        actionTTURes_C->setText(QCoreApplication::translate("MainWindow", "Res. C", nullptr));
+        actionTTXRes_Std->setText(QCoreApplication::translate("MainWindow", "Res. Std.", nullptr));
+        actionTTXRes_B->setText(QCoreApplication::translate("MainWindow", "Res. B", nullptr));
         label_8->setText(QString());
         label_2->setText(QCoreApplication::translate("MainWindow", "Histogram DisplayStart", nullptr));
         histStart->setSuffix(QCoreApplication::translate("MainWindow", "  [ps]", nullptr));
@@ -1605,6 +1638,8 @@ public:
         syncBWscan->setText(QCoreApplication::translate("MainWindow", "Sync Bandwidth Scan", nullptr));
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab_5), QCoreApplication::translate("MainWindow", "Filters", nullptr));
         menuconfig_n->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
+        menuinit_TTU->setTitle(QCoreApplication::translate("MainWindow", "init TTU", nullptr));
+        menuinit_TTX->setTitle(QCoreApplication::translate("MainWindow", "init TTX", nullptr));
         menuEdit->setTitle(QCoreApplication::translate("MainWindow", "Edit", nullptr));
     } // retranslateUi
 

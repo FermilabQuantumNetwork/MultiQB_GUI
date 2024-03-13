@@ -213,7 +213,7 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
                 j++;
                 if(j>=tsvalid)break;
                 StopIndex= abs(int(vectorChannels[j]));
-                diffh=vectorTimetags[j]-vectorTimetags[i];
+                diffh=vectorTimetags[j]-vectorTimetags[i]-in_QKD_zero[StopIndex-1];
                 if( (diffh>=(qq+1)*in_QKD_time+in_QKD_zero[StopIndex-1] || StopIndex==in_startChan) && qq+1<=in_QKD_numb){
                     qq++;
                     for (int k=0;k<numberOfLogicPlots;k++) {

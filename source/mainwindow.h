@@ -190,8 +190,15 @@ private slots:
    void chang_VDL_start(double v){in_VDL_start=v;}
 
    void runQutag(bool a);
-   void runTTU(bool a);
-   void runTTX(bool a);
+
+   void TTURes_Std(bool a);
+   void TTURes_A(bool a);
+   void TTURes_B(bool a);
+   void TTURes_C(bool a);
+
+   void TTXRes_Std(bool a);
+   void TTXRes_B(bool a);
+
 
    void connectOVDLmw();
 
