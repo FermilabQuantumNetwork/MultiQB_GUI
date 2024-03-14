@@ -714,6 +714,8 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(ui->dbofftimer, SIGNAL(released()), this, SLOT(programDBoff()));
 
+    QObject::connect(&TTU1, SIGNAL(errortt(QString)), this, SLOT(error1(QString)));
+
 }
 
 void MainWindow::setupsignalslot2(){
@@ -2342,24 +2344,28 @@ void MainWindow::TTU_paremetes_setup(){
 
 void MainWindow::TTURes_Std(bool a){
     TTU1.SetTTResStd();
+    TTU1.currentDevice = TTU;
     if(!TTU1.isRunning()){
         TTU1.start();
     }
 }
 void MainWindow::TTURes_A(bool a){
     TTU1.SetTTResA();
+    TTU1.currentDevice = TTU;
     if(!TTU1.isRunning()){
         TTU1.start();
     }
 }
 void MainWindow::TTURes_B(bool a){
     TTU1.SetTTResB();
+    TTU1.currentDevice = TTU;
     if(!TTU1.isRunning()){
         TTU1.start();
     }
 }
 void MainWindow::TTURes_C(bool a){
     TTU1.SetTTResC();
+    TTU1.currentDevice = TTU;
     if(!TTU1.isRunning()){
         TTU1.start();
     }
@@ -2367,12 +2373,14 @@ void MainWindow::TTURes_C(bool a){
 
 void MainWindow::TTXRes_Std(bool a){
     TTU1.SetTTResStd();
+    TTU1.currentDevice = TTX;
     if(!TTU1.isRunning()){
         TTU1.start();
     }
 }
 void MainWindow::TTXRes_B(bool a){
     TTU1.SetTTResB();
+    TTU1.currentDevice = TTX;
     if(!TTU1.isRunning()){
         TTU1.start();
     }

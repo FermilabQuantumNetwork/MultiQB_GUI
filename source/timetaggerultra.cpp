@@ -3,8 +3,7 @@
 timetaggerUltra::timetaggerUltra()
 {
 
-    //TTURes = Resolution::HighResA;
-    TTURes = Resolution::Standard;
+    TTRes = Resolution::Standard;
     break_=false;
     for(int i = 0; i<NTTUCHANNELS; i++)RoF[i] = 1;
     //timetags.reserve(EVENT_BUFFER_SIZE+1);
@@ -24,6 +23,7 @@ void timetaggerUltra::run(){
     std::vector<std::string> taggers = scanTimeTagger();
     if (taggers.empty()) {
         std::cout << std::endl << "No time tagger found." << std::endl << "Please attach a Time Tagger." << std::endl;
+        emit errortt("No time tagger found. Please attach a Time Tagger.");
         return;
     }
 
@@ -43,13 +43,19 @@ without averaging. The number of channels available will be limited to the numbe
 
 
     try{
-        t = createTimeTagger("", TTURes);
+        t = createTimeTagger("", TTRes);
     }
     catch (std::invalid_argument const& ex){
+        qDebug()<<"can't create TT";
         std::cout << "#1: " << ex.what() << '\n';
+        emit errortt(QString(ex.what()));
+        return;
     }
 
     updateChannels();
+    //for(int i = 0; i< NTTUCHANNELS; i++)qDebug()<<TTUChannelsinuse[i];
+    //for(int i = 0; i< NTTUCHANNELS; i++)qDebug()<<TTUChannels[i];
+
     updateStream();
 
     /*for(int i = 0; i< NTTUCHANNELS; i++){
@@ -63,8 +69,6 @@ without averaging. The number of channels available will be limited to the numbe
     }*/
 
     emit ttuinitdone();
-
-
     setHistograms();
 
     double previous_time = QDateTime::currentDateTime().toMSecsSinceEpoch();
@@ -184,7 +188,7 @@ void timetaggerUltra::setHistograms(){
     for(int i = 0; i<NTTUCHANNELS; i++){
         if(ttuhisto[i] != NULL)delete ttuhisto[i];
         try{
-            ttuhisto[i] = new Histogram(t, TTUChannelsinuse[i] , TTUSTARTCHANNEL, this->in_binWidth, this->in_binsinplot);
+            ttuhisto[i] = new Histogram(t, TTUChannelsinuse[i] , ttStartChanSelected, this->in_binWidth, this->in_binsinplot);
             qDebug()<<"create histogram "<<i<< " channel: "<<TTUChannelsinuse[i]<<" width: "<<in_binWidth<<" nbins: "<<this->in_binsinplot;
         }
         catch (std::invalid_argument const& ex){
@@ -207,16 +211,60 @@ void timetaggerUltra::setHistograms(){
 void timetaggerUltra::updateChannels(){
 
     //if(TTURes == Resolution::HighResA)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{1,3,5,7}
-    if(TTURes == Resolution::HighResA){
-        TTUChannelsinuse[0]=RoF[0]*1;
-        TTUChannelsinuse[1]=RoF[1]*3;
-        TTUChannelsinuse[2]=RoF[2]*7;
-        TTUChannelsinuse[3]=RoF[3]*10;
+    if(TTRes == Resolution::HighResA){
+        for(int i = 0; i< NTTUCHANNELS; i++){
+            if(i==0)TTUChannelsinuse[i]=RoF[i]*1;
+            if(i==1)TTUChannelsinuse[i]=RoF[i]*3;
+            if(i==2)TTUChannelsinuse[i]=RoF[i]*7;
+            if(i==3)TTUChannelsinuse[i]=RoF[i]*10;
+            if(i==4)TTUChannelsinuse[i]=RoF[i]*5;//clock
+            else TTUChannelsinuse[i]=1;
+        }
     }
-    if(TTURes == Resolution::HighResB)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{1,5,10,14}
-    if(TTURes == Resolution::HighResC)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i*2+1);//{5,14,"9,18"}
-    if(TTURes == Resolution::Standard)for(int i = 0; i< NTTUCHANNELS; i++)TTUChannelsinuse[i]=RoF[i]*(i+1);//{1,2,3,4}
-    for(int i = 0; i< NTTUCHANNELS; i++)std::cout<<TTUChannelsinuse[i]<<std::endl;
+    if(TTRes == Resolution::HighResB && currentDevice==TTU){
+        for(int i = 0; i< NTTUCHANNELS; i++){
+            if(i==0)TTUChannelsinuse[i]=RoF[i]*1;
+            if(i==1)TTUChannelsinuse[i]=RoF[i]*10;
+            if(i==2)TTUChannelsinuse[i]=RoF[i]*14;
+            if(i==3)TTUChannelsinuse[i]=RoF[i]*9;// std res, high res ch5 reserved for clock
+            if(i==4)TTUChannelsinuse[i]=RoF[i]*5;//clock
+            else TTUChannelsinuse[i]=1;
+        }
+    }
+    if(TTRes == Resolution::HighResB && currentDevice==TTX){
+        for(int i = 0; i< NTTUCHANNELS; i++){
+            if(i==0)TTUChannelsinuse[i]=RoF[i]*1;
+            if(i==1)TTUChannelsinuse[i]=RoF[i]*9;
+            if(i==2)TTUChannelsinuse[i]=RoF[i]*13;
+            if(i==3)TTUChannelsinuse[i]=RoF[i]*14;// std res, high res ch5 reserved for clock
+            if(i==4)TTUChannelsinuse[i]=RoF[i]*5;//clock
+            else TTUChannelsinuse[i]=1;
+        }
+
+    }
+    if(TTRes == Resolution::HighResC){
+        for(int i = 0; i< NTTUCHANNELS; i++){
+            if(i==0)TTUChannelsinuse[i]=RoF[i]*14;
+            if(i==1)TTUChannelsinuse[i]=RoF[i]*9;
+            if(i==2)TTUChannelsinuse[i]=RoF[i]*18;
+            if(i==3)TTUChannelsinuse[i]=RoF[i]*1;//non avilable, likely will trigger an error
+            if(i==4)TTUChannelsinuse[i]=RoF[i]*5;//clock
+            else TTUChannelsinuse[i]=1;
+        }
+
+    }
+    if(TTRes == Resolution::Standard){
+        for(int i = 0; i< NTTUCHANNELS; i++){
+            if(i==0)TTUChannelsinuse[i]=RoF[i]*1;
+            else if(i==1)TTUChannelsinuse[i]=RoF[i]*2;
+            else if(i==2)TTUChannelsinuse[i]=RoF[i]*3;
+            else if(i==3)TTUChannelsinuse[i]=RoF[i]*4;
+            else if(i==4)TTUChannelsinuse[i]=RoF[i]*5;//clock
+            else TTUChannelsinuse[i]=1;
+            //qDebug()<<"setValue: "<<RoF[i]*1<<"  assigned:  "<<TTUChannelsinuse[i];
+        }
+        //
+    }
 
     //copy the channels on a std vector
     int n = sizeof(TTUChannelsinuse) / sizeof(TTUChannelsinuse[0]);
