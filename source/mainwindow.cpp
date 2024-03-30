@@ -854,6 +854,11 @@ void MainWindow::plotRates_tab2(const vectorInt32 &counters, double key){
 
 
     for (int i=0;i<numberOfLogicPlots;i++) {
+        if(cleanTab2){
+                tab2data[i].clear();
+                ui->PlotTab2->graph(i)->data()->clear();
+                //ui->PlotTab2->graph(i)->setData({(double)counters[i]},{(double)counters[i]});
+        }
 
         LogicCurrent[i]->display(counters[i]);
         tab2data[i].prepend(counters[i]);
@@ -867,7 +872,7 @@ void MainWindow::plotRates_tab2(const vectorInt32 &counters, double key){
             }
 
         }
-        tab2data[i].resize(xrange, 0);
+        if(tab2data[i].size()>xrange)tab2data[i].resize(xrange);
 
     /*    for (int j = 0; j < xrange; j++) {
             if(tab2data[i][j]<t2min[i])t2min[i] = tab2data[i][j];
@@ -883,7 +888,9 @@ void MainWindow::plotRates_tab2(const vectorInt32 &counters, double key){
         LogicMin[i]->display(t2min);
         LogicMax[i]->display(t2max);
         LogicAvr[i]->display(t2avr);
+
     }
+    if(cleanTab2)cleanTab2=false;
 
 
     if(dbrunning && dbc.connection_succesfull ){
@@ -1255,8 +1262,9 @@ bool MainWindow::LoadPrevoiusSeason(bool a){
     if(mapdoubleout.contains("in_adqtime"))ui->adqtime->setValue(mapdoubleout.value("in_adqtime"));
     else ui->adqtime->setValue(1);
 
-    if(mapdoubleout.contains("in_adqtime_2"))ui->adqtime_2->setValue(mapdoubleout.value("in_adqtime_2"));
-    else ui->adqtime_2->setValue(1);
+    //if(mapdoubleout.contains("in_adqtime_2"))ui->adqtime_2->setValue(mapdoubleout.value("in_adqtime_2"));
+    //else
+    ui->adqtime_2->setValue(1);
     if(mapdoubleout.contains("Max_delay"))ui->Max_delayd->setValue(mapdoubleout.value("Max_delay"));
     else ui->Max_delayd->setValue(500);
     if(mapintout.contains("stepduration"))ui->stepduration->setValue(mapintout.value("stepduration"));
@@ -1535,10 +1543,11 @@ void MainWindow::saveLogicS(){
 }
 
 void MainWindow::clean_tab2(){
-
-    QMessageBox msgBox;
+       cleanTab2=true;
+/*    QMessageBox msgBox;
     msgBox.setText("Still to do :P");
     msgBox.exec();
+*/
 }
 
 void MainWindow::Chang_homscan(int val){

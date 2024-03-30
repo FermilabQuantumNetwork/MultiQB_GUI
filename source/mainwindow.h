@@ -296,6 +296,8 @@ private:
  bool RoF[5];
  int logar[4];
 
+ bool cleanTab2 = false;
+
  QList<int> tab2data[MAX_LOGIC];
 
  //int t2min[MAX_LOGIC]={0};
