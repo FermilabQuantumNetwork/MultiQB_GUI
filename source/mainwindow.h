@@ -176,6 +176,7 @@ private slots:
    void setup_histolines_QKD();
 
    void AddLogicSelectorElement();
+   void AddLogicSelectorElements();
    void AddLogicSelectorWindowsL(QString t, int index);
    void AddLogicSelectorWindowsR(QString t, int index);
 
@@ -224,6 +225,8 @@ private slots:
    void t2showavr(int a);
 
    void programDBoff();
+
+   void RemoveLogic();
 
 private:
 
@@ -348,7 +351,7 @@ private:
    QLCDNumber *LogicMax[MAX_LOGIC];
    QLCDNumber *LogicAvr[MAX_LOGIC];
 
-   tab2win *Windowlogic[MAX_LOGIC]={nullptr};
+   //tab2win *Windowlogic[MAX_LOGIC]={nullptr};
 
    QStringList plotslist, logicrelations;
    QStringList WindowAlist, WindowBlist, WindowClist, WindowDlist;

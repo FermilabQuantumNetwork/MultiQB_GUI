@@ -141,6 +141,8 @@ ui->logicgrid->addWidget(t2labavr,0,9);
 
 ui->dbcronometeroff->setDateTime(QDateTime::currentDateTime());
 
+AddLogicSelectorElements();
+
 }
 
 
@@ -685,8 +687,6 @@ void MainWindow::setupsignalslot(){
     QObject::connect(ui->actionTTXRes_Std, SIGNAL(triggered(bool)), this, SLOT(TTXRes_Std(bool)));
     QObject::connect(ui->actionTTXRes_B, SIGNAL(triggered(bool)), this, SLOT(TTXRes_B(bool)));
 
-
-
     QObject::connect(ui->connect_OVDL, SIGNAL(released()), this, SLOT(connectOVDLmw()));
 
     QObject::connect(ui->addfilter, SIGNAL(released()), this, SLOT(addfilterMW()));
@@ -715,6 +715,8 @@ void MainWindow::setupsignalslot(){
     QObject::connect(ui->dbofftimer, SIGNAL(released()), this, SLOT(programDBoff()));
 
     QObject::connect(&TTU1, SIGNAL(errortt(QString)), this, SLOT(error1(QString)));
+
+    QObject::connect(ui->RemoveLogic,  SIGNAL(released()), this, SLOT(RemoveLogic()));
 
 }
 
@@ -1453,7 +1455,6 @@ void MainWindow::loadLogicS(){
         QMap<QString, QString> mapstringout;
 
         QDataStream in(&file);
-        //in.setVersion(QDataStream::Qt_4_5);
         in>>mapintout;
         in>>mapstringout;
 
@@ -1463,32 +1464,32 @@ void MainWindow::loadLogicS(){
             for(int i = 0; i<logicnumberloaded; i++){
                 QString LeftSourceMap = QString("SourceLeft%1").arg(i);
                 if(mapintout.contains(LeftSourceMap)){
-                int LeftSourceMapValue = mapintout.value(LeftSourceMap);
-                //qDebug()<<mapintout.value(QString("SourceLeft%1").arg(i));
-                if(LeftSourceMapValue<0){
-                    LogicL[i]->setCurrentIndex(-1*LeftSourceMapValue);
-                    QString WinLeftMap = QString("WindowLeft%1").arg(i);
-                    if(mapintout.contains(WinLeftMap)){
-                        int WinLeftMapValue = mapintout.value(WinLeftMap);
-                        LogicWinL[i]->setCurrentIndex(WinLeftMapValue+1);
+                    int LeftSourceMapValue = mapintout.value(LeftSourceMap);
+                    //qDebug()<<mapintout.value(QString("SourceLeft%1").arg(i));
+                    if(LeftSourceMapValue<0){
+                        LogicL[i]->setCurrentIndex(-1*LeftSourceMapValue);
+                        QString WinLeftMap = QString("WindowLeft%1").arg(i);
+                        if(mapintout.contains(WinLeftMap)){
+                            int WinLeftMapValue = mapintout.value(WinLeftMap);
+                            LogicWinL[i]->setCurrentIndex(WinLeftMapValue+1);
 
+                        }
                     }
-                }
-                if(LeftSourceMapValue>=0)LogicL[i]->setCurrentText(QString::number(LeftSourceMapValue));
+                    if(LeftSourceMapValue>=0)LogicL[i]->setCurrentText(QString::number(LeftSourceMapValue));
                 }
                 QString RightSourceMap = QString("SourceRight%1").arg(i);
                 if(mapintout.contains(RightSourceMap)){
-                int RightSourceMapValue = mapintout.value(RightSourceMap);
-                if(RightSourceMapValue<0){
-                    LogicR[i]->setCurrentIndex(-1*RightSourceMapValue);
-                    QString WinRightMap = QString("WindowRight%1").arg(i);
-                    if(mapintout.contains(WinRightMap)){
-                        int WinLeftMapValue = mapintout.value(WinRightMap);
-                        //qDebug()<<"winlef"<<WinLeftMapValue;
-                        LogicWinR[i]->setCurrentIndex(WinLeftMapValue+1);
+                    int RightSourceMapValue = mapintout.value(RightSourceMap);
+                    if(RightSourceMapValue<0){
+                        LogicR[i]->setCurrentIndex(-1*RightSourceMapValue);
+                        QString WinRightMap = QString("WindowRight%1").arg(i);
+                        if(mapintout.contains(WinRightMap)){
+                            int WinLeftMapValue = mapintout.value(WinRightMap);
+                            //qDebug()<<"winlef"<<WinLeftMapValue;
+                            LogicWinR[i]->setCurrentIndex(WinLeftMapValue+1);
+                        }
                     }
-                }
-                if(RightSourceMapValue>=0)LogicR[i]->setCurrentText(QString::number(RightSourceMapValue));
+                    if(RightSourceMapValue>=0)LogicR[i]->setCurrentText(QString::number(RightSourceMapValue));
                 }
                 QString LogicOperatorMap = QString("LogicOperator%1").arg(i);
                 //qDebug()<<"LogicOperatorMap: "<<LogicOperatorMap<<"\t value: "<<mapstringout.value(LogicOperatorMap);
@@ -1816,15 +1817,89 @@ void MainWindow::hidelinesW_D(int win){
         }
     }
 }
+
+void MainWindow::AddLogicSelectorElements(){
+    for(int i=0; i< MAX_LOGIC; i++){
+        LogicTrack[i] = new QRadioButton(QString(QString::number(i)));
+        LogicTrack[i]->setStyleSheet("background-color: rgb(238, 238, 236)");
+        tab2buttongroup.addButton(LogicTrack[i]);
+        QObject::connect(LogicTrack[i], &QRadioButton::toggled, [this, i](bool tog){tracktab2_change(tog, i);});
+
+
+        LogicL[i] = new QComboBox();
+        LogicL[i]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
+        LogicL[i]->addItems(plotslist);
+        QObject::connect(LogicL[i], &QComboBox::currentTextChanged, [this, i](QString logicl){AddLogicSelectorWindowsL(logicl, i);});
+
+        if(i>0){
+            for (int j=i-1;j>=0;j--) {
+               LogicL[i]->addItem(QString::number(j));
+            }
+        }
+
+        LogicG[i] = new QComboBox();
+        LogicG[i]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
+        LogicG[i]->addItems(logicrelations);
+        QObject::connect(LogicG[i], &QComboBox::currentTextChanged, [this, i](QString logicg){this->chang_LogicOP(logicg, i); anl.chang_LogicOP(logicg, i);});
+
+
+        LogicR[i] = new QComboBox();
+        LogicR[i]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
+        LogicR[i]->addItems(plotslist);
+
+        QObject::connect(LogicR[i], &QComboBox::currentTextChanged, [this, i](QString logicr){AddLogicSelectorWindowsR(logicr, i);});
+
+        if(i>0){
+            for (int j=i-1;j>=0;j--) {
+               LogicR[i]->addItem(QString::number(j));
+            }
+        }
+        LogicCurrent[i]= new QLCDNumber();
+        LogicCurrent[i]->setVisible(false);
+        LogicMin[i] = new QLCDNumber();
+        LogicMin[i]->setVisible(false);
+        LogicMax[i] = new QLCDNumber();
+        LogicMax[i]->setVisible(false);
+        LogicAvr[i] = new QLCDNumber();
+        LogicAvr[i]->setVisible(false);
+
+        LogicTrack[i]->setVisible(false);
+        LogicL[i]->setVisible(false);
+        LogicG[i]->setVisible(false);
+        LogicR[i]->setVisible(false);
+
+        ui->logicgrid->addWidget(LogicTrack[i],i+1,0);
+        ui->logicgrid->addWidget(LogicL[i], i+1, 1);
+        ui->logicgrid->addWidget(LogicG[i], i+1, 3);
+        ui->logicgrid->addWidget(LogicR[i],i+1,4);
+        ui->logicgrid->addWidget(LogicCurrent[i],i+1,6);
+        ui->logicgrid->addWidget(LogicMin[i],i+1,7);
+        ui->logicgrid->addWidget(LogicMax[i],i+1,8);
+        ui->logicgrid->addWidget(LogicAvr[i],i+1,9);
+    }
+
+}
+
 void MainWindow::AddLogicSelectorElement(){
 
     int i = numberOfLogicPlots;
 
-   qDebug()<<"index for all this hs  "<<i;
     if(i>MAX_LOGIC){
         qDebug()<<"reached the maximum number of logic plots: "<<MAX_LOGIC;
         return;
    }
+    LogicTrack[i]->setVisible(true);
+    LogicL[i]->setVisible(true);
+    LogicG[i]->setVisible(true);
+    LogicR[i]->setVisible(true);
+
+    if(ui->tab2showcurrent->isChecked() )LogicCurrent[i]->setVisible(true);
+    if(ui->tab2showmin->isChecked() )LogicMin[i]->setVisible(true);
+    if(ui->tab2showmax->isChecked() )LogicMax[i]->setVisible(true);
+    if(ui->tab2showavr->isChecked() )LogicAvr[i]->setVisible(true);
+
+
+   /*
     Windowlogic[i]= new tab2win(i);
 
     LogicTrack[i] = new QRadioButton(QString(QString::number(i)));
@@ -1874,17 +1949,6 @@ void MainWindow::AddLogicSelectorElement(){
    LogicAvr[i] = new QLCDNumber();
    LogicAvr[i]->setVisible(false);
 
-   /*LogicBox[i] = new QHBoxLayout();
-   LogicBox[i]->addWidget(LogicTrack[i]);
-   LogicBox[i]->addWidget(LogicL[i]);
-   LogicBox[i]->addWidget(LogicG[i]);
-   LogicBox[i]->addWidget(LogicR[i]);
-   LogicBox[i]->addWidget(LogicCurrent[i]);
-   LogicBox[i]->addWidget(LogicMin[i]);
-   LogicBox[i]->addWidget(LogicMax[i]);
-   LogicBox[i]->addWidget(LogicAvr[i]);*/
-   //ui->LogicSelector->addLayout(LogicBox[i]);
-
    ui->logicgrid->addWidget(LogicTrack[i],i+1,0);
    ui->logicgrid->addWidget(LogicL[i], i+1, 1);
    ui->logicgrid->addWidget(LogicG[i], i+1, 3);
@@ -1893,53 +1957,79 @@ void MainWindow::AddLogicSelectorElement(){
    ui->logicgrid->addWidget(LogicMin[i],i+1,7);
    ui->logicgrid->addWidget(LogicMax[i],i+1,8);
    ui->logicgrid->addWidget(LogicAvr[i],i+1,9);
+*/
 
     numberOfLogicPlots++;
+    qDebug()<<"number of logics plots: "<<numberOfLogicPlots;
     anl.numberOfLogicPlots=this->numberOfLogicPlots;
     //dbc.numberOfLogicPlots=this->numberOfLogicPlots;
+
 }
 
-void MainWindow::AddLogicSelectorWindowsL(QString t, int index){
+void MainWindow::RemoveLogic(){
+
+    int i = numberOfLogicPlots;
+
+    LogicTrack[i]->setVisible(false);
+    LogicL[i]->setVisible(false);
+    LogicG[i]->setVisible(false);
+    LogicR[i]->setVisible(false);
+
+    LogicCurrent[i]->setVisible(false);
+    LogicMin[i]->setVisible(false);
+    LogicMax[i]->setVisible(false);
+    LogicAvr[i]->setVisible(false);
+    if(LogicTrack[i]->isChecked())LogicTrack[i]->toggle();
+    if(i<1){
+        qDebug()<<"nothing to delete here";
+        return;
+    }else numberOfLogicPlots--;
+    qDebug()<<"number of logics plots: "<<numberOfLogicPlots;
+    anl.numberOfLogicPlots=this->numberOfLogicPlots;
+}
+void MainWindow::AddLogicSelectorWindowsL(QString t, int i){
 //std::cout<<"outside plot add   text:"<<t.toStdString()<<" index:  "<<index<<std::endl;
 
-    if((t.compare("PlotA")==0 || t.compare("PlotB")==0 || t.compare("PlotC")==0 || t.compare("PlotD")==0) && LogicWinL[index]==nullptr){
-        LogicWinL[index] = new QComboBox();
-        LogicWinL[index]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
+    if((t.compare("PlotA")==0 || t.compare("PlotB")==0 || t.compare("PlotC")==0 || t.compare("PlotD")==0) && LogicWinL[i]==nullptr){
+        LogicWinL[i] = new QComboBox();
+        LogicWinL[i]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
         //LogicBox[index]->insertWidget(2, LogicWinL[index]);
-        ui->logicgrid->addWidget(LogicWinL[index],index+1,2);
-        QObject::connect(LogicWinL[index], SIGNAL(currentTextChanged(QString)), Windowlogic[index], SLOT(chang_LogicWinLparser(QString)));
+        ui->logicgrid->addWidget(LogicWinL[i],i+1,2);
+        /*QObject::connect(LogicWinL[index], SIGNAL(currentTextChanged(QString)), Windowlogic[index], SLOT(chang_LogicWinLparser(QString)));
         QObject::connect(Windowlogic[index], SIGNAL(chang_LogicWinL(QString, int)), &anl, SLOT(chang_LogicWinL(QString, int)));
-        QObject::connect(Windowlogic[index], SIGNAL(chang_LogicWinL(QString, int)), this, SLOT(chang_LogicWinL(QString, int)));
-        leftexpanded[index]=true;
+        QObject::connect(Windowlogic[index], SIGNAL(chang_LogicWinL(QString, int)), this, SLOT(chang_LogicWinL(QString, int)));*/
+        QObject::connect(LogicWinL[i], &QComboBox::currentTextChanged, [this, i](QString logicwinl){this->chang_LogicWinL(logicwinl, i); anl.chang_LogicWinL(logicwinl, i);});
+        leftexpanded[i]=true;
         //std::cout<<"inside plot add  text:"<<t.toStdString()<<" index:  "<<index<<std::endl;
     }
     else {
-        anl.LSource[index]=t.toInt();
-        this->LSource[index]=t.toInt();
+        anl.LSource[i]=t.toInt();
+        this->LSource[i]=t.toInt();
     }
 
-    updateTab2Windows(t,index);
+    updateTab2Windows(t,i);
 
 }
 
-void MainWindow::AddLogicSelectorWindowsR(QString t, int index){
-    int position;
-    if(leftexpanded[index])position=5;
-    else position=6;
-   if((t.compare("PlotA")==0 || t.compare("PlotB")==0 || t.compare("PlotC")==0 || t.compare("PlotD")==0) && LogicWinR[index]==nullptr){
-        LogicWinR[index] = new QComboBox();
-        LogicWinR[index]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
+void MainWindow::AddLogicSelectorWindowsR(QString t, int i){
+    /*int position;
+    if(leftexpanded[i])position=5;
+    else position=6;*/
+   if((t.compare("PlotA")==0 || t.compare("PlotB")==0 || t.compare("PlotC")==0 || t.compare("PlotD")==0) && LogicWinR[i]==nullptr){
+        LogicWinR[i] = new QComboBox();
+        LogicWinR[i]->setStyleSheet("QComboBox { background-color: darkGray }" "QListView { color: white; }");
         //LogicBox[index]->insertWidget(position, LogicWinR[index]);
-        ui->logicgrid->addWidget(LogicWinR[index],index+1,5);
-        QObject::connect(LogicWinR[index], SIGNAL(currentTextChanged(QString)), Windowlogic[index], SLOT(chang_LogicWinRparser(QString)));
+        ui->logicgrid->addWidget(LogicWinR[i],i+1,5);
+        /*QObject::connect(LogicWinR[index], SIGNAL(currentTextChanged(QString)), Windowlogic[index], SLOT(chang_LogicWinRparser(QString)));
         QObject::connect(Windowlogic[index], SIGNAL(chang_LogicWinR(QString, int)), &anl, SLOT(chang_LogicWinR(QString, int)));
-        QObject::connect(Windowlogic[index], SIGNAL(chang_LogicWinR(QString, int)), this, SLOT(chang_LogicWinR(QString, int)));
+        QObject::connect(Windowlogic[index], SIGNAL(chang_LogicWinR(QString, int)), this, SLOT(chang_LogicWinR(QString, int)));*/
+        QObject::connect(LogicWinR[i], &QComboBox::currentTextChanged, [this, i](QString logicwinr){this->chang_LogicWinR(logicwinr, i); anl.chang_LogicWinR(logicwinr, i);});
     }
    else {
-       anl.RSource[index]=t.toInt();
-       this->RSource[index]=t.toInt();
+       anl.RSource[i]=t.toInt();
+       this->RSource[i]=t.toInt();
    }
-   updateTab2Windows(t,index);
+   updateTab2Windows(t,i);
 }
 
 void MainWindow::updateTab2Windows(QString t, int index){
@@ -2708,10 +2798,6 @@ void MainWindow::WLscanstep(int i){
         WLscantimer[i]->stop();
     }
 }
-
-
-
-
 
 void MainWindow::t2showcurrent(int a){
     if(a){

@@ -192,7 +192,7 @@ private:
   */
 };
 
-class tab2win: public QThread{
+/*class tab2win: public QThread{
 
 Q_OBJECT
 
@@ -218,7 +218,7 @@ signals:
     void trackTab2_change(bool c, int index);
 
 };
-
+*/
 class timestampProcess : public QObject
 {
     Q_OBJECT
