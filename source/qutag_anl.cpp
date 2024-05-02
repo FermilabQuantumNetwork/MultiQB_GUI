@@ -146,6 +146,7 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
     int j;  //current element of the vector index
     int qq;// current qubit within clk signals
     double diffh=0;
+    double futurediffh=0;
     //if(outputCounter.isEmpty()) outputCounter.resize(numberOfLogicPlots);
     //for(int i = 0 ; i<10; i++)std::cout<<"chan: "<< vectorChannels[i]<<"\t tts: "<<vectorTimetags[i]<<"\n";
     vectorInt32 threadCounter(numberOfLogicPlots,0);
@@ -172,14 +173,20 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
             //if(diffh<0)break;
             //if(diffh<0)std::cout<<"relative TS is negative!!!   clk:"<<ChannelIndex<<"      stop:"<<StopIndex<<std::endl;
             // unless we found again the clk channel (5), calculate the relative TS (diffh) TS-TSclk and substract the corresponding offset from the lines
-            while(StopIndex!=in_startChan){ // unless we found again the clk channel (5), keep iterating
+            //while(StopIndex!=in_startChan){ // unless we found again the clk channel (5), keep iterating
+            for(;StopIndex!=in_startChan;j++){
                 diffh = vectorTimetags[j]-vectorTimetags[i]-in_QKD_zero[StopIndex-1];
-                if(diffh<=0)break;
+                //if(diffh<=0)break;
+                if(diffh<=0){
+                    if(j+1 >=tsvalid)break;
+                    StopIndex = abs(int(vectorChannels[j]));
+                    continue;
+                }
                 while(diffh>=(qq+1)*in_QKD_time && qq<in_QKD_numb)qq++;//increase the counter for the qubit counter as long the relativeTS is not bigger than the next-qubitTS...
                 if(qq>=in_QKD_numb)break;
-                clkdiffT=diffh-qq*in_QKD_time;//TS relative to the beggining of the current qubit is calculated (clkdiffT)
-                if(clkdiffT<0)break;
-                //if(clkdiffT<0)std::cout<<"internal TS is negative!!!!!!!!!!!!!       qq: "<<qq<<std::endl;
+                clkdiffT=diffh - qq*in_QKD_time;//TS relative to the beggining of the current qubit is calculated (clkdiffT)
+                //if(clkdiffT<0)break;
+                if(clkdiffT<0)std::cout<<"internal TS is negative!!!!!!!!!!!!!       qq: "<<qq<<std::endl;
                 //if(qq>0)std::cout<<"    qq: "<<qq<<std::endl;
                 for (int ii=0;ii<numberOfLogicPlots;ii++) {// go thru all the logic on second tab
                     for (int pp=0;pp<4;pp++) {//go thru the 4 histograms
@@ -210,12 +217,14 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
                     }
                 }//all relations on tab2
 
-                j++;
-                if(j>=tsvalid)break;
-                StopIndex= abs(int(vectorChannels[j]));
-                diffh=vectorTimetags[j]-vectorTimetags[i]-in_QKD_zero[StopIndex-1];
-                if( (diffh>=(qq+1)*in_QKD_time+in_QKD_zero[StopIndex-1] || StopIndex==in_startChan) && qq+1<=in_QKD_numb){
-                    qq++;
+                //j++;
+                if(j+1 >= tsvalid)break;
+                StopIndex= abs(int(vectorChannels[j+1]));
+
+                futurediffh = vectorTimetags[j+1] - vectorTimetags[i]-in_QKD_zero[StopIndex-1];
+
+                if( (futurediffh>=(qq+1)*in_QKD_time || StopIndex==in_startChan) && qq+1<=in_QKD_numb){
+                    //qq++;
                     for (int k=0;k<numberOfLogicPlots;k++) {
                         if(logicOP[k] && (flagL[k] && flagR[k])){
 
@@ -284,7 +293,7 @@ void qutaganl::TScumulator(const vectorInt32 &counter){
         this->outputCounter.fill(0);
 
     }
-    emit(Chang_anlAvilable(true));
+    emit Chang_anlAvilable(true);
 }
 
 

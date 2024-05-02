@@ -181,6 +181,7 @@ void timetaggerUltra::getHisto(){
     dataB.clear();
     dataC.clear();
     dataD.clear();*/
+
 }
 
 void timetaggerUltra::setHistograms(){
