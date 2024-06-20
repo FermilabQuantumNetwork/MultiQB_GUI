@@ -36,6 +36,7 @@ private:
     int Noffilters = 0;
     double filtersWLcurrentValue[MAX_N_FILTERS];
     int filtersBWcurrentValue[MAX_N_FILTERS];
+    QVector<int> _channels;
 signals:
 
 public slots:
