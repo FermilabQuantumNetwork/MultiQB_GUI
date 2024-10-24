@@ -110,9 +110,11 @@ void EXFO_Filters::setBandwidth(int bw, int n){
 }
 
 void EXFO_Filters::setWavelength(double wavel, int n){
+    qDebug()<<QString::number(wavel,'f',3);
     if(n<NofFilters){
         if(socket[n]->state() == QAbstractSocket::ConnectedState){
-            QString dataqs = "LAMBDA="+QString::number(wavel)+"\r\n";
+            QString dataqs = "LAMBDA="+QString::number(wavel,'f',3)+"\r\n";
+
             socket[n]->write(dataqs.toUtf8());
         }
     }

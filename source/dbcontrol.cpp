@@ -77,7 +77,7 @@ void DBControl::SaveTab2Values(QVector<int> datatab2, float andTime, double dela
     }*/
     for (int i=0;i<_channels.size();i++) s+=QString::number(datatab2[_channels[i]])+",";
     for(int i = 0 ; i<Noffilters; i++){
-       s+=QString::number(filtersWLcurrentValue[i])+","+QString::number(filtersBWcurrentValue[i])+",";
+       s+="1"+QString::number(filtersWLcurrentValue[i])+","+QString::number(filtersBWcurrentValue[i])+",";
     }
     s+=QString::number(double(andTime))+","+QString::number(delayline)+","+"now());";
     std::cout<<s.toStdString()<<std::endl;

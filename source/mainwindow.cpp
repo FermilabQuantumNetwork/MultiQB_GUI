@@ -2548,9 +2548,10 @@ void MainWindow::addfilterMW(){
     filterWLlabel->setStyleSheet("color: rgb(238, 238, 236)");
     FilterFormLayout->addWidget(filterWLlabel,0,1);
     filterWavel[i] = new QDoubleSpinBox();
-    filterWavel[i]->setMaximum(1620);
-    filterWavel[i]->setMinimum(1480);
-    filterWavel[i]->setDecimals(3);
+    filterWavel[i]->setMaximum(620);
+    filterWavel[i]->setMinimum(480);
+    filterWavel[i]->setDecimals(4);
+    filterWavel[i]->setPrefix("1");
     filterWavel[i]->setSuffix(" [nm]");
     filterWavel[i]->setSingleStep(0.5);
     filterWavel[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
@@ -2628,6 +2629,7 @@ void MainWindow::addfilterMW(){
     WLscanstepsize[i]->setMinimum(0.001);
     WLscanstepsize[i]->setSuffix(" [nm]");
     WLscanstepsize[i]->setSingleStep(1);
+    WLscanstepsize[i]->setDecimals(3);
     WLscanstepsize[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 255), stop:1 rgba(50, 50, 50, 255)); color: rgb(238, 238, 236)");
     FilterWLGridLayout->addWidget(WLscanstepsize[i],1,3);
     WLscanstepsize[i]->setValue(EXFOfilters.filterWLScanStepSizeDef[i]);
@@ -2791,8 +2793,14 @@ void MainWindow::BWscanstep(int i){
 
 void MainWindow::WLscanstep(int i){
     if(filterWavel[i]->value() < WLscanMax[i]->value()){
-        qDebug()<<"wlstep";
-        filterWavel[i]->setValue(filterWavel[i]->value()+WLscanstepsize[i]->value());
+        //qDebug()<<"wlstep";
+        QString current = QString::number(filterWavel[i]->value(),'f',filterWavel[i]->decimals()) ;
+        qDebug()<<current;
+        //qDebug()<<WLscanstepsize[i]->value();
+        double newval = current.toDouble() + WLscanstepsize[i]->value();
+        qDebug()<<"newval"<<newval;
+        filterWavel[i]->setValue(newval);
+        qDebug()<<filterWavel[i]->value();
     }else{
         qDebug()<<"wl scan end";
         WLscantimer[i]->stop();
