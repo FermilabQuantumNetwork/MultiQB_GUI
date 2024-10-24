@@ -2680,7 +2680,8 @@ void MainWindow::addfilterMW(){
     FilterBWGridLayout->addWidget(BWscanON[i],1,0);
 
     ///BW scan min
-    BWscanMin[i] = new QDoubleSpinBox();
+
+    BWscanMin[i] = new QSpinBox();
     BWscanMin[i]->setStyleSheet("color: rgb(238, 238, 236)");
     BWscanMin[i]->setMaximum(650);
     BWscanMin[i]->setMinimum(32);
@@ -2692,7 +2693,7 @@ void MainWindow::addfilterMW(){
 
     /////BW scan max
 
-    BWscanMax[i] = new QDoubleSpinBox();
+    BWscanMax[i] = new QSpinBox();
     BWscanMax[i]->setStyleSheet("color: rgb(238, 238, 236)");
     BWscanMax[i]->setMaximum(650);
     BWscanMax[i]->setMinimum(32);
@@ -2704,7 +2705,7 @@ void MainWindow::addfilterMW(){
 
     ////BW scan step size
 
-    BWscanstepsize[i] = new QDoubleSpinBox();
+    BWscanstepsize[i] = new QSpinBox();
     BWscanstepsize[i]->setStyleSheet("color: rgb(238, 238, 236)");
     BWscanstepsize[i]->setMaximum(618);
     BWscanstepsize[i]->setMinimum(1);
@@ -2783,26 +2784,27 @@ void MainWindow::WLfilterscanslot(int signal, int i){
 
 void MainWindow::BWscanstep(int i){
     if(filterBandw[i]->value() < BWscanMax[i]->value()){
-        qDebug()<<"bwstep";
-        filterBandw[i]->setValue(filterBandw[i]->value()+BWscanstepsize[i]->value());
+
+        //filterBandw[i]->setValue(filterBandw[i]->value()+BWscanstepsize[i]->value());
+        QString current = QString::number(filterBandw[i]->value()) ;
+        int newval = current.toInt() + BWscanstepsize[i]->value();
+        filterBandw[i]->setValue(newval);
+
     }else{
-        qDebug()<<"bw scan end";
+
         BWscantimer[i]->stop();
     }
 }
 
 void MainWindow::WLscanstep(int i){
     if(filterWavel[i]->value() < WLscanMax[i]->value()){
-        //qDebug()<<"wlstep";
-        QString current = QString::number(filterWavel[i]->value(),'f',filterWavel[i]->decimals()) ;
-        qDebug()<<current;
-        //qDebug()<<WLscanstepsize[i]->value();
+
+        QString current = QString::number(filterWavel[i]->value(),'f',filterWavel[i]->decimals()) ;    
         double newval = current.toDouble() + WLscanstepsize[i]->value();
-        qDebug()<<"newval"<<newval;
         filterWavel[i]->setValue(newval);
-        qDebug()<<filterWavel[i]->value();
+
     }else{
-        qDebug()<<"wl scan end";
+
         WLscantimer[i]->stop();
     }
 }

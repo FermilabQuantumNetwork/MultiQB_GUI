@@ -398,9 +398,9 @@ private:
    QDoubleSpinBox *WLscanstepduration[MAX_N_FILTERS];
 
    QSlider *BWscanON[MAX_N_FILTERS];
-   QDoubleSpinBox *BWscanMin[MAX_N_FILTERS];
-   QDoubleSpinBox *BWscanMax[MAX_N_FILTERS];
-   QDoubleSpinBox *BWscanstepsize[MAX_N_FILTERS];
+   QSpinBox *BWscanMin[MAX_N_FILTERS];
+   QSpinBox *BWscanMax[MAX_N_FILTERS];
+   QSpinBox *BWscanstepsize[MAX_N_FILTERS];
    QDoubleSpinBox *BWscanstepduration[MAX_N_FILTERS];
 
    QTimer *BWscantimer[MAX_N_FILTERS];
