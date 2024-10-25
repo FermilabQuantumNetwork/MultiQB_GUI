@@ -45,7 +45,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="tab1">
        <attribute name="title">
@@ -2176,6 +2176,20 @@
                       </property>
                       <property name="text">
                        <string>Sync Bandwidth Scan</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_13">
+                    <item>
+                     <widget class="QCheckBox" name="loopfilterscan">
+                      <property name="styleSheet">
+                       <string notr="true">color: rgb(255, 255, 255);</string>
+                      </property>
+                      <property name="text">
+                       <string>Loop Scan</string>
                       </property>
                      </widget>
                     </item>

@@ -232,6 +232,8 @@ public:
     QPushButton *addfilter;
     QPushButton *syncWLscan;
     QPushButton *syncBWscan;
+    QHBoxLayout *horizontalLayout_13;
+    QCheckBox *loopfilterscan;
     QWidget *filterlayoutwidget;
     QVBoxLayout *filtersLayout;
     QSpacerItem *verticalSpacer_5;
@@ -1476,6 +1478,18 @@ public:
 
         filtersLayoutgh->addLayout(horizontalLayout_12);
 
+        horizontalLayout_13 = new QHBoxLayout();
+        horizontalLayout_13->setSpacing(6);
+        horizontalLayout_13->setObjectName("horizontalLayout_13");
+        loopfilterscan = new QCheckBox(layoutab5);
+        loopfilterscan->setObjectName("loopfilterscan");
+        loopfilterscan->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+
+        horizontalLayout_13->addWidget(loopfilterscan);
+
+
+        filtersLayoutgh->addLayout(horizontalLayout_13);
+
 
         verticalLayout_24->addWidget(layoutab5);
 
@@ -1547,7 +1561,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        horizontalTabWidget->setCurrentIndex(1);
+        horizontalTabWidget->setCurrentIndex(5);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1636,6 +1650,7 @@ public:
         addfilter->setText(QCoreApplication::translate("MainWindow", "Add Filter", nullptr));
         syncWLscan->setText(QCoreApplication::translate("MainWindow", "Sync Wavelenght Scan", nullptr));
         syncBWscan->setText(QCoreApplication::translate("MainWindow", "Sync Bandwidth Scan", nullptr));
+        loopfilterscan->setText(QCoreApplication::translate("MainWindow", "Loop Scan", nullptr));
         horizontalTabWidget->setTabText(horizontalTabWidget->indexOf(tab_5), QCoreApplication::translate("MainWindow", "Filters", nullptr));
         menuconfig_n->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
         menuinit_TTU->setTitle(QCoreApplication::translate("MainWindow", "init TTU", nullptr));

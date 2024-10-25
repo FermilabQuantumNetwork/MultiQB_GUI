@@ -228,6 +228,8 @@ private slots:
 
    void RemoveLogic();
 
+   void loopfilterscanch(int a){loopfilterscanvar= a;}
+
 private:
 
   Ui::MainWindow *ui;
@@ -415,6 +417,8 @@ private:
    QLabel *t2labmin;
    QLabel *t2labmax;
    QLabel *t2labavr;
+
+   int loopfilterscanvar= 0;
 
 signals:
 

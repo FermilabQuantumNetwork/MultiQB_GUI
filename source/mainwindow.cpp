@@ -718,6 +718,8 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(ui->RemoveLogic,  SIGNAL(released()), this, SLOT(RemoveLogic()));
 
+    QObject::connect(ui->loopfilterscan,  SIGNAL(stateChanged(int)), this, SLOT(loopfilterscanch(int)));
+
 }
 
 void MainWindow::setupsignalslot2(){
@@ -2769,7 +2771,7 @@ void MainWindow::BWfilterscanslot(int signal, int i){
 
 void MainWindow::WLfilterscanslot(int signal, int i){
 
-    filterWavel[i]->setValue(WLscanMin[i]->value());
+    filterWavel[i]->setValue(WLscanMin[i]->value()-1000);
     if(WLscantimer[i]!=nullptr && signal==0){
         WLscantimer[i]->stop();
     }
@@ -2791,21 +2793,21 @@ void MainWindow::BWscanstep(int i){
         filterBandw[i]->setValue(newval);
 
     }else{
-
-        BWscantimer[i]->stop();
+        if(loopfilterscanvar)filterBandw[i]->setValue(BWscanMin[i]->value());
+        else BWscantimer[i]->stop();
     }
 }
 
 void MainWindow::WLscanstep(int i){
-    if(filterWavel[i]->value() < WLscanMax[i]->value()){
+    if(filterWavel[i]->value() < WLscanMax[i]->value()-1000){
 
         QString current = QString::number(filterWavel[i]->value(),'f',filterWavel[i]->decimals()) ;    
         double newval = current.toDouble() + WLscanstepsize[i]->value();
         filterWavel[i]->setValue(newval);
 
     }else{
-
-        WLscantimer[i]->stop();
+        if(loopfilterscanvar)filterWavel[i]->setValue(WLscanMin[i]->value()-1000);
+        else WLscantimer[i]->stop();
     }
 }
 
