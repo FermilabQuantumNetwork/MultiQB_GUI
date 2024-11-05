@@ -1306,7 +1306,7 @@ bool MainWindow::LoadPrevoiusSeason(bool a){
     return 0;
 }
 
-void MainWindow::SaveSeason(bool a){
+ void MainWindow::SaveSeason(bool a){
 
     QString CurrentSeason = "LastSeasonVariables.conf";
 
