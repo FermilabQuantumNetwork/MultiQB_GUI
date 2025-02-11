@@ -45,7 +45,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab1">
        <attribute name="title">
@@ -1678,6 +1678,9 @@
                    </size>
                   </property>
                  </spacer>
+                </item>
+                <item>
+                 <layout class="QGridLayout" name="tab2math"/>
                 </item>
                </layout>
               </item>

@@ -64,7 +64,7 @@ private slots:
     void TTUinitdone();
 
     void plotRates(int AoB, int event, double key);
-    void plotRates_tab2(const vectorInt32 &dat, double key);
+    void plotRates_tab2(const vectorDouble &dat, double key);
     void changeStartchan(int starchan){this->in_startChan=starchan;}
 
     void histoplot(const vectorDouble &dat1, const vectorDouble &dat2, const vectorDouble &dat3, const vectorDouble &dat4, int count1,int count2 ,int count3 ,int count4 );
@@ -229,6 +229,8 @@ private slots:
    void RemoveLogic();
 
    void loopfilterscanch(int a){loopfilterscanvar= a;}
+
+   //void addMath();
 
 private:
 
@@ -420,12 +422,14 @@ private:
 
    int loopfilterscanvar= 0;
 
+
+
 signals:
 
     //void main_CreateTableTab1(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD );
    void main_CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD , QLabel *lab );
     void main_CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate, int filters, QLabel *lab2);
-    void main_SaveTab2Values(QVector<int> datatab2, float andTime, double delayline);
+    void main_SaveTab2Values(vectorDouble datatab2, float andTime, double delayline);
     void main_SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD, float hist_adqtime);
     //QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD
     void setOVDL(float timeps);

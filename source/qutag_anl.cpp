@@ -9,11 +9,11 @@ qutaganl::qutaganl(){
 
 
     previouskey = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
-    cumulative = QVector<int>(5,0);
+    cumulative = vectorDouble(5,0);
     flagaux = QVector<int>(3);
     flag = QVector<QVector<int>>(6,flagaux);
     counterplot = QVector<int>(6,0);
-    outputCounter = QVector<int>(MAX_LOGIC, 0);
+    outputCounter = vectorDouble(MAX_LOGIC, 0);
 
     /*in_QKD_ph= QVector<int8_t>(4,0);
     in_QKD_iw= QVector<int8_t>(4,0);
@@ -33,7 +33,7 @@ qutaganl::qutaganl(){
     RSource= QVector<int>(MAX_LOGIC,0);
     LWin= QVector<int>(MAX_LOGIC,0);
     RWin= QVector<int>(MAX_LOGIC,0);
-    logicOP= QVector<bool>(MAX_LOGIC,0);
+    logicOP= QVector<int>(MAX_LOGIC,0);
     //flagL= QVector<bool>(MAX_LOGIC,0);
     //flagR= QVector<bool>(MAX_LOGIC,0);
 
@@ -63,18 +63,18 @@ qutaganl::qutaganl(){
                                           vectorInt , vectorInt ,
                                           vectorInt ,vectorInt ,
                                           vectorInt , vectorInt , vectorInt ,
-                                          vectorBool, bool )),
+                                          vectorInt, bool )),
             analisis, SLOT(timestampANL(vectorInt64 , vectorInt , int ,
                                            int , int,
                                            int , double , double ,
                                            vectorInt , vectorInt ,
                                            vectorInt ,vectorInt ,
                                            vectorInt , vectorInt , vectorInt ,
-                                           vectorBool, bool)),
+                                           vectorInt, bool)),
             Qt::QueuedConnection);
 
-    connect(analisis, SIGNAL(TScumulator_fromThread(vectorInt32)),
-            this, SLOT(TScumulator(vectorInt32)), Qt::QueuedConnection);
+    connect(analisis, SIGNAL(TScumulator_fromThread(vectorDouble)),
+            this, SLOT(TScumulator(vectorDouble)), Qt::QueuedConnection);
     connect(analisis, SIGNAL(saveTTondisk_(long, long)), this, SLOT(saveTTondisk(long, long)));
     anlWorker1.start();
 
@@ -140,7 +140,7 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
                                     const vectorInt &LSource, const vectorInt &RSource,
                                     const vectorInt &LWin,const vectorInt &RWin,
                                     const vectorInt &in_QKD_ph, const vectorInt &in_QKD_zero, const vectorInt &in_QKD_iw,
-                                    const vectorBool &logicOP, bool saveTSon_){
+                                    const vectorInt &logicOP, bool saveTSon_){
     //std::cout<<"tsvalid on thread: "<<tsvalid<<std::endl;
     //cumulativeTS+=tsvalid;
     int j;  //current element of the vector index
@@ -149,7 +149,7 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
     double futurediffh=0;
     //if(outputCounter.isEmpty()) outputCounter.resize(numberOfLogicPlots);
     //for(int i = 0 ; i<10; i++)std::cout<<"chan: "<< vectorChannels[i]<<"\t tts: "<<vectorTimetags[i]<<"\n";
-    vectorInt32 threadCounter(numberOfLogicPlots,0);
+    vectorDouble threadCounter(numberOfLogicPlots,0);
     int ChannelIndex;
     int StopIndex;
     QVector<bool> flagL(logicOP.size(),0);
@@ -208,12 +208,12 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
                     }//4 channels
 
                    if(LSource[ii]>=0){//if the left logic is calling a previous result
-                        if(logicOP[LSource[ii]]) if( flagL[LSource[ii]] && flagR[LSource[ii]] ) flagL[ii]=true;//and
-                        if(!logicOP[LSource[ii]]) if( flagL[LSource[ii]] || flagR[LSource[ii]] ) flagL[ii]=true;//or
+                        if(logicOP[LSource[ii]]==1) if( flagL[LSource[ii]] && flagR[LSource[ii]] ) flagL[ii]=true;//and
+                        if(logicOP[LSource[ii]]==0) if( flagL[LSource[ii]] || flagR[LSource[ii]] ) flagL[ii]=true;//or
                     }
                     if(RSource[ii]>=0){//if the Right logic is calling a previous result
-                        if(logicOP[RSource[ii]]) if( flagL[RSource[ii]] && flagR[RSource[ii]] ) flagR[ii]=true;//and
-                        if(!logicOP[RSource[ii]]) if( flagL[RSource[ii]] || flagR[RSource[ii]] ) flagR[ii]=true;//or
+                        if(logicOP[RSource[ii]]==1) if( flagL[RSource[ii]] && flagR[RSource[ii]] ) flagR[ii]=true;//and
+                        if(logicOP[RSource[ii]]==0) if( flagL[RSource[ii]] || flagR[RSource[ii]] ) flagR[ii]=true;//or
                     }
                 }//all relations on tab2
 
@@ -226,12 +226,11 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
                 if( (futurediffh>=(qq+1)*in_QKD_time || StopIndex==in_startChan) && qq+1<=in_QKD_numb){
                     //qq++;
                     for (int k=0;k<numberOfLogicPlots;k++) {
-                        if(logicOP[k] && (flagL[k] && flagR[k])){
-
+                        if(logicOP[k] == 1 && (flagL[k] && flagR[k])){
                             if(saveTSon_)emit saveTTondisk_(vectorTimetags[i], vectorTimetags[j-1]);
                             threadCounter[k]++;
                         }
-                        if(!logicOP[k] && (flagL[k] || flagR[k])) threadCounter[k]++;
+                        if(logicOP[k] == 0 && (flagL[k] || flagR[k])) threadCounter[k]++;
                         flagL[k]=false;
                         flagR[k]=false;
                        // if(i<10)std::cout<<"enter flags --- counter: "<<outputCounter[k]<<std::endl;
@@ -269,12 +268,20 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
    /* std::cout<<"inside:  ";
     for(int i=0; i<threadCounter.size(); i++) std::cout<<"\t"<<threadCounter[i];
     std::cout<<std::endl;*/
+    for(int i = 0 ; i<threadCounter.size(); i++){
+        if(LSource[i]>=0 && RSource[i]>=0){
+            if(logicOP[i] == 2)threadCounter[i]=threadCounter[LSource[i]]+threadCounter[RSource[i]];
+            if(logicOP[i] == 3)threadCounter[i]=threadCounter[LSource[i]]-threadCounter[RSource[i]];
+            if(logicOP[i] == 4)threadCounter[i]=threadCounter[LSource[i]]*threadCounter[RSource[i]];
+            if(logicOP[i] == 5 && threadCounter[RSource[i]] != 0)threadCounter[i]=threadCounter[LSource[i]]/threadCounter[RSource[i]];
+        }
+    }
     emit TScumulator_fromThread(threadCounter);
     threadCounter.clear();
 
 }
 
-void qutaganl::TScumulator(const vectorInt32 &counter){
+void qutaganl::TScumulator(const vectorDouble &counter){
 
     key = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
     for (int i=0;i<counter.size();i++) {
@@ -312,8 +319,13 @@ void qutaganl::chang_LogicWinR(QString t, int i){
 }
 
 void qutaganl::chang_LogicOP(QString t, int index){
-    if(t.compare("AND")==0)logicOP[index]=true;
-    if(t.compare("OR")==0)logicOP[index]=false;
+
+    if(t.compare("OR")==0)logicOP[index]=0;
+    if(t.compare("AND")==0)logicOP[index]=1;
+    if(t.compare("+")==0)logicOP[index]=2;
+    if(t.compare("-")==0)logicOP[index]=3;
+    if(t.compare("*")==0)logicOP[index]=4;
+    if(t.compare("/")==0)logicOP[index]=5;
 }
 timestampProcess::timestampProcess(){
 

@@ -40,7 +40,7 @@ private:
 signals:
 
 public slots:
-    void SaveTab2Values(QVector<int> datatab2, float andTime, double delayline);
+    void SaveTab2Values(vectorDouble datatab2, float andTime, double delayline);
     void SaveTab1Values(QVector<int> PlotA, QVector<int> PlotB, QVector<int> PlotC , QVector<int> PlotD , float hist_adqtime);
     void CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVector<int> logicR,QVector<int> WinL,QVector<int> WinR, QVector<bool> gate,int filters, QLabel *lab);
     void CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD, QLabel *lab );

@@ -30,7 +30,7 @@ setupHistoPlot(ui->PlotC);
 setupHistoPlot(ui->PlotD);
 
 plotslist<<QString("")<<QString("PlotA")<<QString("PlotB")<< QString("PlotC")<< QString("PlotD");
-logicrelations<<QString("")<<QString("OR")<<QString("AND");
+logicrelations<<QString("")<<QString("OR")<<QString("AND")<<QString("+")<<QString("-")<<QString("*")<<QString("/");
 
 setupratePlot(ui->PlotTrack);
 setupratePlot_tab2(ui->PlotTab2);
@@ -556,7 +556,7 @@ void MainWindow::setupsignalslot(){
     QObject::connect(&TTU1, SIGNAL(TTUhist(vectorDouble, vectorDouble, vectorDouble, vectorDouble, int, int , int ,int )), this, SLOT(histoplot(vectorDouble, vectorDouble, vectorDouble, vectorDouble, int, int , int ,int )),Qt::QueuedConnection);
 
 
-    QObject::connect(&anl, SIGNAL(rates_tab2(vectorInt32, double)), this, SLOT(plotRates_tab2(vectorInt32, double)));
+    QObject::connect(&anl, SIGNAL(rates_tab2(vectorDouble, double)), this, SLOT(plotRates_tab2(vectorDouble, double)));
 
 
     QObject::connect(ui->DBON, SIGNAL(valueChanged(int)), this, SLOT(turnONDB(int)));
@@ -575,7 +575,7 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(this, SIGNAL(main_CreateTableTab1(int ,int ,int ,int , QLabel *)), &dbc, SLOT(CreateTableTab1(int ,int ,int ,int, QLabel *)));
     QObject::connect(this, SIGNAL( main_CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool, int, QLabel*)), &dbc, SLOT(CreateTableTab2(vectorInt32,vectorInt32,vectorInt32,vectorInt32,vectorInt32, vectorBool, int, QLabel*)),Qt::QueuedConnection);
-    QObject::connect(this, SIGNAL(main_SaveTab2Values(vectorInt32, float, double)), &dbc, SLOT(SaveTab2Values(vectorInt32, float, double)),Qt::QueuedConnection);
+    QObject::connect(this, SIGNAL(main_SaveTab2Values(vectorDouble, float, double)), &dbc, SLOT(SaveTab2Values(vectorDouble, float, double)),Qt::QueuedConnection);
     QObject::connect(this, SIGNAL(main_SaveTab1Values(vectorInt32,vectorInt32,vectorInt32,vectorInt32,float)), &dbc, SLOT(SaveTab1Values(vectorInt32,vectorInt32,vectorInt32,vectorInt32,float)),Qt::QueuedConnection);
 
 
@@ -720,6 +720,8 @@ void MainWindow::setupsignalslot(){
 
     QObject::connect(ui->loopfilterscan,  SIGNAL(stateChanged(int)), this, SLOT(loopfilterscanch(int)));
 
+    //QObject::connect(ui->addmath, SIGNAL(released()), this, SLOT(addMath()));
+
 }
 
 void MainWindow::setupsignalslot2(){
@@ -850,7 +852,7 @@ void MainWindow::plotRates(int plot, int event, double key){
 
 }
 
-void MainWindow::plotRates_tab2(const vectorInt32 &counters, double key){
+void MainWindow::plotRates_tab2(const vectorDouble &counters, double key){
     /*for (int i=0;i<counters.size();i++) {
         std::cout<<counters[i]<<"\t";
     }
@@ -2882,3 +2884,7 @@ void MainWindow::programDBoff(){
     QTimer::singleShot(dboffinms, this, SLOT(slideDBoff()));
 }
 void MainWindow::slideDBoff(){ui->DBON->setValue(0); ui->dbcronometeroff->setStyleSheet("color: rgb(238, 238, 236)");}
+
+//void MainWindow::addMath(){
+
+

@@ -55,7 +55,7 @@ public:
    vectorInt LWin;
    vectorInt RWin;
     int numberOfLogicPlots=0;
-    QVector<bool> logicOP;
+    QVector<int> logicOP;
     //QVector<bool> flagL;
     //QVector<bool> flagR;
 
@@ -137,7 +137,7 @@ public slots:
 
     void Break(){break_= true;}
 
-    void TScumulator(const vectorInt32 &counter);
+    void TScumulator(const vectorDouble &counter);
     void saveRawTSon(int a);
 
     void saveTTondisk(long clk, long tt);
@@ -148,14 +148,14 @@ signals:
     void anlongoing(bool ong);                          //analysis program still working
     void Chang_anlAvilable(bool val);
     void CombinationChange(bool val);
-    void rates_tab2(const vectorInt32 &counters ,double);
+    void rates_tab2(const vectorDouble &counters ,double);
     void timestampANL(const vectorInt64 &vectorTimetags, const vectorInt &vectorChannels, int tsvalid,
                                         int numberOfLogicPlots, int in_startChan,
                                         int in_QKD_numb, double in_QKD_time, double clkdiffT,
                                         const vectorInt &LSource, const vectorInt &RSource,
                                         const vectorInt &LWin,const vectorInt &RWin,
                                         const vectorInt &in_QKD_ph, const vectorInt &in_QKD_zero, const vectorInt &in_QKD_iw,
-                                        const vectorBool &logicOP, bool saveTSon);
+                                        const vectorInt &logicOP, bool saveTSon);
 private:
  QFile *rawTT;
  QTextStream *outTSstream;
@@ -173,9 +173,9 @@ private:
   double key;
   bool anlbusy =false;
   //bool borrame =false;double firstkey;
-  QVector<int> outputCounter;
+  vectorDouble outputCounter;
   //int cumulativeTS=0;
-  QVector<int> cumulative;
+  vectorDouble cumulative;
   int aux1=0, aux2=0;
 
   vectorInt64 vectorTimetags;
@@ -233,10 +233,10 @@ public slots:
                                         const vectorInt &LSource, const vectorInt &RSource,
                                         const vectorInt &LWin,const vectorInt &RWin,
                                         const vectorInt &in_QKD_ph, const vectorInt &in_QKD_zero, const vectorInt &in_QKD_iw,
-                                        const vectorBool &logicOP, bool saveTSon);
+                                        const vectorInt &logicOP, bool saveTSon);
 
 signals:
-    void TScumulator_fromThread(const vectorInt32 &counter);
+    void TScumulator_fromThread(const vectorDouble &counter);
     void saveTTondisk_(long clk, long tt);
 };
 

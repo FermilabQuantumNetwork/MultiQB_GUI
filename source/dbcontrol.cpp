@@ -68,7 +68,7 @@ void DBControl::DBConnect(QString server, int port, QString database, QString lo
 }
 
 
-void DBControl::SaveTab2Values(QVector<int> datatab2, float andTime, double delayline){
+void DBControl::SaveTab2Values(vectorDouble datatab2, float andTime, double delayline){
     //QString s= "insert into inqnet_gui_tab2gates_V3(and1,and2, and3, orgate, bsm1, bsm2, and_adqtime, delayline, datetime) values("+QString::number(and1)+","+QString::number(and2)+","+QString::number(and3)+","+QString::number(orgate)+","+QString::number(bsm1)+","+QString::number(bsm2)+","+QString::number(andTime)+","+QString::number(delayline)+","+"now());";
     QString s ="insert into "+currentTableTab2+"("+currentColumnstab2+"and_adqtime, delayline, datetime) values(";
     //for (int i=0;i<datatab2.size();i++) {
@@ -117,7 +117,7 @@ void DBControl::CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVect
     currentColumnstab2.clear();
     for (int i=0;i<DB_numberOfLogicPlots;i++) {
         currentColumnstab2+="ch"+QString::number(channels[i])+",";
-        columnstocreate+="ch"+QString::number(channels[i])+" int,";
+        columnstocreate+="ch"+QString::number(channels[i])+" float,";
     }
     for(int i = 0 ; i<Noffilters; i++){
         currentColumnstab2+="filter"+QString::number(i)+"WL,";
@@ -165,6 +165,7 @@ void DBControl::CreateTableTab2(QVector<int> channels, QVector<int> logicL,QVect
 
 void DBControl::CreateTableTab1(int PlotA, int PlotB, int PlotC , int PlotD , QLabel *lab){
     QString columnstocreate;
+    currentColumnstab1.clear();
     NTA=0;NTB=0;NTC=0;NTD=0;
     for (int i=0;i<PlotA;i++) {
         currentColumnstab1+="A"+QString::number(i)+",";

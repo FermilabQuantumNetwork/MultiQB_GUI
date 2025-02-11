@@ -169,6 +169,7 @@ public:
     QVBoxLayout *LogicSelector;
     QGridLayout *logicgrid;
     QSpacerItem *verticalSpacer;
+    QGridLayout *tab2math;
     QVBoxLayout *verticalLayout_15;
     QCustomPlot *PlotTab2;
     QVBoxLayout *verticalLayout_19;
@@ -1121,6 +1122,12 @@ public:
 
         verticalLayout_6->addItem(verticalSpacer);
 
+        tab2math = new QGridLayout();
+        tab2math->setSpacing(6);
+        tab2math->setObjectName("tab2math");
+
+        verticalLayout_6->addLayout(tab2math);
+
 
         horizontalLayout_27->addLayout(verticalLayout_6);
 
@@ -1561,7 +1568,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        horizontalTabWidget->setCurrentIndex(5);
+        horizontalTabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
