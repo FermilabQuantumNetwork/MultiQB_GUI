@@ -1859,12 +1859,16 @@ void MainWindow::AddLogicSelectorElements(){
             }
         }
         LogicCurrent[i]= new QLCDNumber();
+        LogicCurrent[i]->setDigitCount(8);
         LogicCurrent[i]->setVisible(false);
         LogicMin[i] = new QLCDNumber();
+        LogicMin[i]->setDigitCount(8);
         LogicMin[i]->setVisible(false);
         LogicMax[i] = new QLCDNumber();
+        LogicMax[i]->setDigitCount(8);
         LogicMax[i]->setVisible(false);
         LogicAvr[i] = new QLCDNumber();
+        LogicAvr[i]->setDigitCount(8);
         LogicAvr[i]->setVisible(false);
 
         LogicTrack[i]->setVisible(false);

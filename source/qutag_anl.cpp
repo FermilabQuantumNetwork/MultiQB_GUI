@@ -268,14 +268,7 @@ void timestampProcess::timestampANL(const vectorInt64 &vectorTimetags, const vec
    /* std::cout<<"inside:  ";
     for(int i=0; i<threadCounter.size(); i++) std::cout<<"\t"<<threadCounter[i];
     std::cout<<std::endl;*/
-    for(int i = 0 ; i<threadCounter.size(); i++){
-        if(LSource[i]>=0 && RSource[i]>=0){
-            if(logicOP[i] == 2)threadCounter[i]=threadCounter[LSource[i]]+threadCounter[RSource[i]];
-            if(logicOP[i] == 3)threadCounter[i]=threadCounter[LSource[i]]-threadCounter[RSource[i]];
-            if(logicOP[i] == 4)threadCounter[i]=threadCounter[LSource[i]]*threadCounter[RSource[i]];
-            if(logicOP[i] == 5 && threadCounter[RSource[i]] != 0)threadCounter[i]=threadCounter[LSource[i]]/threadCounter[RSource[i]];
-        }
-    }
+
     emit TScumulator_fromThread(threadCounter);
     threadCounter.clear();
 
@@ -292,6 +285,14 @@ void qutaganl::TScumulator(const vectorDouble &counter){
     std::cout<<std::endl;*/
 
     if(key-previouskey>adqtime_2){
+        for(int i = 0 ; i<outputCounter.size(); i++){
+            if(LSource[i]>=0 && RSource[i]>=0){
+                if(logicOP[i] == 2)outputCounter[i]=outputCounter[LSource[i]]+outputCounter[RSource[i]];
+                if(logicOP[i] == 3)outputCounter[i]=outputCounter[LSource[i]]-outputCounter[RSource[i]];
+                if(logicOP[i] == 4)outputCounter[i]=outputCounter[LSource[i]]*outputCounter[RSource[i]];
+                if(logicOP[i] == 5 && outputCounter[RSource[i]] != 0)outputCounter[i]=outputCounter[LSource[i]]/outputCounter[RSource[i]];
+            }
+        }
       /*  std::cout<<"++++++++to plot:  ";
         for(int i=0; i<outputCounter.size(); i++) std::cout<<"\t"<<outputCounter[i];
         std::cout<<std::endl;*/
